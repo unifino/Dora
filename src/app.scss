@@ -1,0 +1,40 @@
+// Global SCSS styling
+// @see https://docs.nativescript.org/ui/styling
+
+// .. GSS: Global Solid Settings
+Frame { 
+    action-bar-visibility: never; 
+    background-color: transparent;
+}
+Page { background-color: transparent; }
+
+.centeredText {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.fas {
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+    font-weight: 900;
+}
+
+.far {
+    font-family: "Font Awesome 5 Free", "fa-regular-400";
+    font-weight: 400;
+}
+
+.fab {
+    font-family: "Font Awesome 5 Free", "fa-brands-400";
+    font-weight: 400;
+}
+
+// .. default value for color based of Themes
+.light {
+    color: #757575;
+}
+
+.dark {
+    // color: #374f62;
+    // color: #26a7b1;
+    color: #989a9c;
+}
