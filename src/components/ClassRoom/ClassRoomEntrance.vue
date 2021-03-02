@@ -1,11 +1,11 @@
 <template>
 <GridLayout ref="entrance" rows="16*,180,30*,10*,110">
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <Image row=1 class="avatar" ref="avatar" :src="avatar" stretch="aspectFill" />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <Label row=3 class="loading centeredText">
         <FormattedString>
@@ -14,17 +14,17 @@
         </FormattedString>
     </Label>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <Label row=4 class="title centeredText" :text="title" textWrap="true" />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <GridLayout row=2 class="rendering" :visibility="percent > -1 ? 'visible':'hidden'">
         <StackLayout class="renderBar" horizontalAlignment="left" :width="percent+'%'" />
     </GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </template>

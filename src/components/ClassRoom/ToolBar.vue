@@ -1,7 +1,7 @@
 <template>
 <AbsoluteLayout ref="rail" visibility="hidden">
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <ScrollView ref="extra_barBox" class="barBox" orientation="horizontal" >
         
@@ -23,7 +23,7 @@
     
     </ScrollView>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <ScrollView ref="more_barBox" class="barBox" orientation="horizontal" >
         
@@ -45,7 +45,7 @@
     
     </ScrollView>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <ScrollView ref="barBox" class="barBox" orientation="horizontal" @tap="fadeMe()" >
         
@@ -68,7 +68,7 @@
     
     </ScrollView>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </AbsoluteLayout>
 </template>

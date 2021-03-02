@@ -2,7 +2,7 @@
 <Page>
 <GridLayout ref="panelCotton" id="cotton" columns="*,auto,*" rows="*,50,auto,50,*" >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <Label class="fas endPoint" col=1 row=1 :text="String.fromCharCode( '0x' + 'f0c2' )" />
 
@@ -28,7 +28,7 @@
         :text="String.fromCharCode( '0x' + errIcon )" 
     />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </page>

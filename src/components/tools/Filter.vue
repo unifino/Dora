@@ -1,7 +1,7 @@
 <template>
 <GridLayout :visibility="isItemVisible ? 'visible' : 'collapsed'" >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <ScrollView margin="15 0" orientation="horizontal" width="100%">
 
@@ -18,7 +18,7 @@
       
     </ScrollView>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </template>

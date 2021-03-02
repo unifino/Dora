@@ -2,25 +2,25 @@
 <Page isPassThroughParentEnabled=false >
 <GridLayout ref="mainBox" class="curtain" rows="40,auto,auto,*" visibility="hidden" >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
     <ImageDisplay   ref="imageDisplay"  row=1               />
     <AudioPlayer    ref="audioPlayer"   row=1               />
     <VideoPlayer    ref="videoPlayer"   row=1               />
     <YouTubePlayer  ref="youTubePlayer" row=1               />
     <VideoControl   ref="videoControl"  row=2   rowSpan=2   />
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
     <Book           ref="book"          row=2               />
     <AnkiVue        ref="ankiVue"       row=2   rowSpan=4   />
     <Subtitle       ref="subtitle"      row=2               />
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
     <SideBar        ref="sideBar"       row=1   rowSpan=3   />
     <MiniMenu       ref="miniMenu"              rowSpan=4   />
     <ToolBar        ref="toolBar"               rowSpan=4   />
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
     <Tafel          ref="tafel"         row=2               />
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
     <CEntrance      ref="CEntrance"             rowSpan=4   />
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </Page>

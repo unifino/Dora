@@ -1,7 +1,7 @@
 <template>
 <GridLayout class="battery" :visibility="isVisible ? 'visible' : 'collapsed'" >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <nButton
         :myClass="'battery fas ' + batteryStatus.iconColor"
@@ -14,7 +14,7 @@
         :class="'percent ' + batteryStatus.textColor" 
     />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </template>

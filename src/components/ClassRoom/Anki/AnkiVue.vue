@@ -7,7 +7,7 @@
     @swipe="swipeControl"
 >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1 col=1 class="pagesBox" >
         <WrapLayout 
@@ -20,20 +20,20 @@
 
             <WrapLayout orientation="vertical" v-for="(c,y) in slide" :key=y >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
                 <Image v-if="c[1].isURL" :src="c[0]+''" class="pic" />
                 <StackLayout v-else-if="c[1].isBreakLine" class="divider" />
                 <Label v-else :text="c[0]" textWrap="true" />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
             </WrapLayout>
 
         </WrapLayout>
     </GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </template>

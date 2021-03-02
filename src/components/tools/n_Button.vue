@@ -7,13 +7,13 @@
     ref="button" 
 >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <GridLayout v-if="!myHint" rows="*,auto,*" columns="*,auto,*" >
         <Label row=1 col=1 :class="specialClass" :text="' ' + myLabel + ' '" />
     </GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <GridLayout v-if="myHint" rows="*,auto,*,15" columns="*,auto,*" >
         <Label row=1 col=1 :class="specialClass" :text="' ' + myLabel + ' '" />
@@ -23,7 +23,7 @@
        <Label row=2 col=1 :text="myHint" class="hint" />
     </GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </template>

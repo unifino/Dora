@@ -9,7 +9,7 @@
     @swipe="swipeControl"
 >
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1 colSpan=3 rows="auto" class="pagesBox" >
         <WrapLayout 
@@ -36,12 +36,12 @@
         </WrapLayout>
     </GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <PageMargin ref="pageMarginLeft"  rowSpan=3 col=0 :hover="false" location="left"  />
     <PageMargin ref="pageMarginRight" rowSpan=3 col=2 :hover="false" location="right" />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <Indicator ref="indicator" colSpan=3 row=2 :dots=dots :currentIndex="inx +1" />
 

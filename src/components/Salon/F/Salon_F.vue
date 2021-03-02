@@ -2,7 +2,7 @@
 <Page @swipe="swipeControl" @navigatedTo="$store.state.here='Salon_F'">
 <GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <Label 
      :visibility="isWaiting ? 'visible' : 'collapsed'"
@@ -10,17 +10,17 @@
      text="Calculating ..."
     />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <FlashCardMenu @sort-toggler="sortToggler" :sortPhase="sortPhase" ref="myMenu" />
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
     <GridLayout :visibility="!isWaiting ? 'visible' : 'hidden'" rows="*,auto,*">
         <Frame row=1 id="flashcardsRail" ><Page /></Frame>
     </GridLayout>
 
-<!--                                                                                    -->
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </Page>
