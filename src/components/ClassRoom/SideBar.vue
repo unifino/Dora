@@ -105,7 +105,7 @@ get myButtons () {
     for( let i of store.state.preserve.selected ) 
         if( store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ).content[i][1].phrased ) 
             this.buttons[0].class = 'marked'
-    
+
     return this.buttons;
 
 }
@@ -125,7 +125,7 @@ phrasedToggler () {
     if ( !store.state.preserve.selected.length ) return 0;
 
     let subtitle = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ).content;
-    
+
     for ( let i of store.state.preserve.selected ) {
         if ( subtitle[i][1].phrased ) delete subtitle[i][1].phrased;
         else subtitle[i][1].phrased = "blue";
@@ -143,7 +143,7 @@ translate () {
     if ( !store.state.preserve.selected.length ) return 0;
 
     this.playerModule.pause();
-    
+
     this.mySlots = {};
     this.mySlots[ "fa" ] = {
         text: "Translating ...",

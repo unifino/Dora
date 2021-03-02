@@ -555,7 +555,7 @@ export function deepSearch ( needle: string , strawStock: TS.Glossar ): string|n
 // -- =====================================================================================
 
 export function wordStating ( 
-    
+
     word: string,
     institute: string,
     newState?: TS.WordState,
@@ -568,12 +568,12 @@ export function wordStating (
 
     // .. nothing
     if ( !neatWord ) return "L";
-    
+
     // .. dealing with a real NaN word
     else if ( isNaN( pureDigit( neatWord ) ) ) {
-        
+
         let uon = deepSearch ( word , glossar );
-        
+
         // .. old row
         if ( uon ) {
             // .. performing new State
@@ -594,7 +594,7 @@ export function wordStating (
         return glossar[ uon || neatWord ].state;
 
     }
-    
+
     // .. all Numbers reported as Learned Without Registration!
     else return "L";
 

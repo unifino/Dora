@@ -60,13 +60,10 @@ import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import nWord                            from "@/components/tools/n_Word.vue"
 import * as tools                       from "@/mixins/tools"
-import * as storage                     from "@/mixins/storageHandler"
 import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
-import ToolBar                          from "@/components/ClassRoom/Book/ToolBar.vue"
 import Indicator                        from "@/components/ClassRoom/Book/Indicator.vue"
 import PageMargin                       from "@/components/ClassRoom/Book/PageMargin.vue"
 import Bus                              from "@/mixins/bus"
-import Scope                            from "@/components/Scope/Scope.vue"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
@@ -102,7 +99,7 @@ mounted () {
         state => state.mode, 
         newVal => this.bookCoverPainter( newVal )
     );
-    
+
 }
 
 // -- =====================================================================================

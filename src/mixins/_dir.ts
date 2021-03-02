@@ -23,6 +23,7 @@ _category ( ins: string, type: TS.LessonType ): TS.FolderProperty {
         case "video": icon = "f008"; label = "Video";       break;
         case "comic": icon = "f03e"; label = "Comics";      break;
         case "plain": icon = "f06c"; label = "Lilliputy";   break;
+        case "slide": icon = "f06d"; label = "AnkiVue";     break;
     }
 
     return { 

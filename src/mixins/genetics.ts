@@ -109,8 +109,14 @@ function mutator ( cell: TS.cell ) {
     if ( cell.chromosome.model.includes( "dVideo" ) ) context = mutate_video( cell );
     // .. Handel new Image-Text Lesson
     if ( cell.chromosome.model.includes( "dImage" ) ) context = mutate_image( cell );
-    
-    // .. update glssDBU
+    // ! bad practice
+    // .. Handel new SLIDE Lesson
+    if ( cell.chromosome.model[0] === "rawText" && cell.chromosome.model[1] === "rawText" ) {
+        context = mutate_slide( cell );
+        return context.length ? Promise.resolve() : Promise.reject();
+    }
+
+    // .. update glssDB
     for ( let row of context ) tools.wordStating( row[0], cell.chromosome.institute );
     tools.glssDBUpdater( cell.chromosome.institute );
 
@@ -120,18 +126,37 @@ function mutator ( cell: TS.cell ) {
 
 // -- =====================================================================================
 
+function mutate_slide ( cell: TS.cell ) {
+
+    let dRawText = cell.protoplasm[1],
+        context = sCB( dRawText.text );
+
+    if ( context.length ) {
+        dRawText.type = "dText";
+        dRawText.content = context;
+        delete dRawText.text;
+        cell.chromosome.model[0] = null;
+        cell.chromosome.model[1] = "dText";
+    }
+
+    return context;
+
+}
+
+// -- =====================================================================================
+
 function mutate_audio ( cell: TS.cell ) {
-    
+
     let dRawText = cell.protoplasm.find( x => x.type === "rawText" ),
         context = aCB( dRawText.text, dRawText.initSnaps );
-    
+
     if ( context.length ) {
         dRawText.type = "dText";
         dRawText.content = context;
         delete dRawText.text;
         cell.chromosome.model[1] = "dText";
     }
-    
+
     return context;
 
 }
@@ -139,17 +164,17 @@ function mutate_audio ( cell: TS.cell ) {
 // -- =====================================================================================
 
 function mutate_video ( cell: TS.cell ) {
-    
+
     let dSubtitle = cell.protoplasm.find( x => x.type === "subtitle" ),
         context = vCB( dSubtitle.text );
-    
+
     if ( context.length ) {
         dSubtitle.type = "dText";
         dSubtitle.content = context;
         delete dSubtitle.text;
         cell.chromosome.model[1] = "dText";
     }
-    
+
     return context;
 
 }
@@ -208,7 +233,7 @@ function aCB ( text: string, initSnaps: [number,number][] ) {
             if ( word ) context.push( [ word, {} ] );
             else context.push( [ null, { isBreakLine: true } ] );
         }
-        
+
         // .. paragraph separator
         if ( i < paragraphs.length -1 ) context.push( [ null, { isBreakLine: true } ] );
 
@@ -231,7 +256,7 @@ function vCB ( subtitle: string ) {
     let context: TS.UniText[],
         sub = /<p begin=\".*. end=\".*.\">.*.<\/p>/g,
         srt = /[0-9]*:*[0-9]*:*[0-9,]* --> [0-9]*:*[0-9]*:*[0-9,]*/g;
-    
+
     // .. sub Mode
     if ( subtitle.match( sub ) ) context = tools.subParser( subtitle );
     // .. srt Mode
@@ -255,6 +280,44 @@ function cCB ( text: string ) {
     // }
 
     // return bubbles;
+
+}
+
+// -- =====================================================================================
+
+function sCB ( rawText: string ) {
+
+    interface card {
+        type: "Text" | "Image",
+        value: string
+    };
+
+    let context: TS.UniText[] = [],
+        crd: { a: card[], b: card[] }[] = [];
+
+    // .. try to read Data
+    try { crd = JSON.parse( rawText ) } catch {};
+
+    // .. convert Data to UniText
+    for ( let i=0; i < crd.length; i++ ) {
+
+        // .. card A
+        for ( let a = 0; a < crd[i].a.length; a++ )
+            context.push( [ crd[i].a[a].value, { isURL: crd[i].a[a].type === "Image" } ] );
+
+        // .. divider
+        context.push( [ null, { isBreakLine: true } ] );
+
+        // .. card B
+        for ( let b = 0; b < crd[i].b.length; b++ )
+            context.push( [ crd[i].b[b].value, { isURL: crd[i].b[b].type === "Image" } ] );
+
+        // .. end of page
+        context.push( [ null, { standoff: "block" } ] );
+
+    }
+
+    return context;
 
 }
 

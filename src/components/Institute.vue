@@ -157,7 +157,7 @@ folderListCalculator () {
 
     // .. do in Home Page
     if ( !path.length ) {
-        
+
         if ( list.length ) this.dir.push( _._divider() )
 
         let myRibosomes = store.state.rbssDB[ this.ins ];
@@ -219,7 +219,7 @@ shopListCalculator ( filter: string[] = [] ) {
         this.dir = [];
 
         // .. sort list
-        let order = [ "audio", "video", "comic", "plain" ] as TS.LessonType[];
+        let order: TS.LessonType[] = [ "audio", "video", "comic", "plain", "slide" ];
         for ( let x of order )
             if ( list.includes(x) ) 
                 this.dir.push ( _._category( this.ins, x ) );

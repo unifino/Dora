@@ -204,6 +204,7 @@ export interface UniTextFlags {
     snap?           : number                        ,
     standoff?       : "block"|"bridge"|"depart"     ,
     isBreakLine?    : boolean                       ,
+    isURL?          : boolean                       ,
 }
 
 // -- =====================================================================================
@@ -272,8 +273,8 @@ export type OrganelleType =
     | "dImage"
     | "dText"
     | "dAvatar"
-    | "rawText"
     | "subtitle"
+    | "rawText"
     ;
 
 export type LessonStatus = 'reading' | 'read';

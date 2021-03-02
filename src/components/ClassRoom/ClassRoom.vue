@@ -10,6 +10,7 @@
     <VideoControl   ref="videoControl"  row=2   rowSpan=2   />
 <!--                                                                                    -->
     <Book           ref="book"          row=2               />
+    <AnkiVue        ref="ankiVue"       row=2   rowSpan=4   />
     <Subtitle       ref="subtitle"      row=2               />
 <!--                                                                                    -->
     <SideBar        ref="sideBar"       row=1   rowSpan=3   />
@@ -33,18 +34,17 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import NSVue                            from "nativescript-vue";
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
-import Scope                            from "@/components/Scope/Scope.vue"
 import AudioPlayer                      from "@/components/ClassRoom/AudioPlayer.vue"
 import Book                             from "@/components/ClassRoom/Book/Book.vue"
+import AnkiVue                          from "@/components/ClassRoom/Anki/AnkiVue.vue"
 import CEntrance                        from "@/components/ClassRoom/ClassRoomEntrance.vue"
-import ImageDisplay                      from "@/components/ClassRoom/ImageDisplay.vue"
+import ImageDisplay                     from "@/components/ClassRoom/ImageDisplay.vue"
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
 import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
 import Tafel                            from "@/components/ClassRoom/Tafel.vue"
@@ -63,6 +63,7 @@ NSVue.registerElement( "VNSPlayer", () => require( "nativescript-videoplayer" ).
         MiniMenu,
         Tafel,
         Book,
+        AnkiVue,
         ToolBar,
         ImageDisplay,
         AudioPlayer,
@@ -106,7 +107,7 @@ backOrExit () {
 // -- =====================================================================================
 
 async doorControl ( act: 'open' | 'close' ) {
-    
+
     if ( act === "close" ) ( this.$refs.mainBox as any ).nativeView.visibility = "hidden";
     if ( act === "open"  ) ( this.$refs.CEntrance as CEntrance ).init();
 
@@ -131,9 +132,9 @@ async doorControl ( act: 'open' | 'close' ) {
                 store.state.inHand.avatarPath = null;
             }
         }
-    
+
     }
-    
+
     tools.doorRemote( "Class", this.$root.$children[0].$refs.room, act, myCallBack );
 
 }
@@ -152,7 +153,7 @@ seeking ( direction ) {
     this.playerModule = this.$refs.playerModule as YouTubePlayer|VideoPlayer;
 
     this.playerModule.seekTo( factor *3 );
-   
+
 }
 
 // -- =====================================================================================

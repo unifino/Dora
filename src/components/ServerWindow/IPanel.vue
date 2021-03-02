@@ -89,6 +89,7 @@ result ( err: string|false ) {
         let delay = 4000;
 
         let ex = err.toString();
+
         if ( ex.includes( "No address associated with hostname" ) ) err = "no conn.";
         if ( ex.includes( "Unknown Lesson's Pre-Model" ) ) err = "Not Compatible";
         if ( ex.includes( "context is not iterable" ) ) err = "Not Compatible";

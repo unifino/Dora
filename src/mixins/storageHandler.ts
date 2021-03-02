@@ -405,13 +405,16 @@ export function organellesLoader ( lesson: TS.Lesson ): Promise<void> {
 
     // ! check availability of file in internet
     return new Promise ( async (rs, rx) => {
-        
+
         // .. essential organelles
         // TODO just designed for up to organs (one of them should be text)
         let media = lesson.chromosome.model.filter( x => x !== "dText" );
         // .. searching for organelle
         let organelle = lesson.protoplasm.find( x => x.type === media[0] );
-        // .. NOT TXT organelles has been Found
+        // ! bad practice
+        // .. slide patch
+        if ( media[0] === null ) organelle = lesson.protoplasm[2];
+        // .. NOT-TXT organelles has been Found
         if ( organelle ) await orgHandler( organelle, "mediaPath" );
         // .. it has been NOT found!
         else return rx( media[0] + ": is missed!" );
@@ -419,7 +422,7 @@ export function organellesLoader ( lesson: TS.Lesson ): Promise<void> {
         // .. decorative organelles
         let avatar = lesson.protoplasm.find( x => x.type === "dAvatar" );
         if ( avatar ) orgHandler( avatar, "avatarPath" );
-        
+
         // .. register and resolve a void answer
         store.state.inHand.lesson = lesson;
         rs();
