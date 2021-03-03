@@ -4,7 +4,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout rows="50,*" col=1 row=1 class="buttonsBox" ref="buttonsBox" >
-        
+
         <nButton 
             ref="luncherButton" 
             :myLabel="String.fromCharCode( '0x' + u.label )" 
@@ -23,7 +23,7 @@
             />
 
         </StackLayout>
-    
+
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -126,7 +126,6 @@ controlButtons ( mode: TS.mediaState, omit?: string[] ): number {
     if ( mode === "playing" ) delete this.controlBtn[ 'Play' ];
     else delete this.controlBtn[ 'Pause' ];
 
-    
     return Object.keys( this.controlBtn ).length * 40;
 
 }
@@ -140,7 +139,7 @@ async init (): Promise<void> {
         let exp = this.controlButtons( "stopped" );
 
         await new Promise( _ => setTimeout( _, 0 ) );
-        
+
         let buttonsBox = ( this.$refs.buttonsBox as any ).nativeView;
 
         if ( buttonsBox.getActualSize().height < exp ) rs ( this.init() );
@@ -148,7 +147,7 @@ async init (): Promise<void> {
         else {
 
             let bgColor = store.state.darkMode ? '#00043a3a' : '#002eacc9';
-            
+
             buttonsBox.translateY = buttonsBox.getActualSize().height -50;
             buttonsBox.backgroundColor = bgColor;
 

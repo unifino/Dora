@@ -1,6 +1,6 @@
 <template>
 <GridLayout row=1 rows="auto,*,auto,7*,auto,auto,20" columns="*" >
-    
+
     <Label
         text="Which languages do you want to study?"
         row=0 
@@ -9,8 +9,8 @@
     />
 
     <ScrollView row=1 rowSpan=3 >
-        <StackLayout >
-            
+        <StackLayout>
+
             <GridLayout 
                 columns="45,*,55" 
                 class="institutesOfferBox" 
@@ -28,9 +28,9 @@
                 />
                 <Label col=0 colSpan=2 class="format_3 centeredText" :text="item.name" />
                 <Image col=2 :src="'res://flag_' + item.code" stretch="aspectFill" />
-            
+
             </GridLayout>
-        
+
         </StackLayout>
     </ScrollView>
 

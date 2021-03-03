@@ -4,13 +4,13 @@
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView ref="extra_barBox" class="barBox" orientation="horizontal" >
-        
+
         <StackLayout 
             class="buttonBox"
             orientation="horizontal" 
             horizontalAlignment="center" 
         >
-        
+
             <nButton 
                 v-for="(button,i) in buttons[ 'phrase' ]" 
                 :key="$store.state.mode+'x'+i"
@@ -18,21 +18,21 @@
                 :myLabel="String.fromCharCode( '0x' + button.icon )"
                 @tap=button.fnc
             />
-         
+
         </StackLayout>
-    
+
     </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView ref="more_barBox" class="barBox" orientation="horizontal" >
-        
+
         <StackLayout 
             class="buttonBox"
             orientation="horizontal" 
             horizontalAlignment="center" 
         >
-        
+
             <nButton 
                 v-for="(button,i) in buttons[ 'more' ]" 
                 :key="$store.state.mode+'x'+i"
@@ -40,22 +40,22 @@
                 :myLabel="String.fromCharCode( '0x' + button.icon )"
                 @tap=button.fnc
             />
-         
+
         </StackLayout>
-    
+
     </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView ref="barBox" class="barBox" orientation="horizontal" @tap="fadeMe()" >
-        
+
         <StackLayout 
             ref="buttonBox"
             class="buttonBox"
             orientation="horizontal" 
             horizontalAlignment="center"
         >
-        
+
             <nButton 
                 v-for="(button,i) in buttons[ $store.state.mode ]" 
                 :key="$store.state.mode+'x'+i"
@@ -63,9 +63,9 @@
                 :myLabel="String.fromCharCode( '0x' + button.icon )"
                 @tap="tapHandled=true;button.fnc();"
             />
-         
+
         </StackLayout>
-    
+
     </ScrollView>
 
 <!---------------------------------------------------------------------------------------->

@@ -89,15 +89,8 @@ export interface appConfig {
     minNumberLength     : number        ,
     email               : string        ,
     dictionaries        : [ Lng, Lng ]  ,
-    beautyBGs           : beautyBGs     ,
+    beautyBGs           : string[]      ,
 
-}
-
-export interface beautyBGs { 
-    [key: string]       : { 
-        height          : string, 
-        translateY      : number 
-    } 
 }
 
 // -- =====================================================================================

@@ -268,7 +268,7 @@ async setup_SL () {
     }
     // .. preparing AnkiVue
     this.ankiVue.init( dText, etikett, dText.pinnedPoint || 0 );
-    this.miniMenu.controlButtons( "stopped", [ "Speed", "Play", "Pause" ] );
+    this.miniMenu.controlButtons( "stopped", [ "Speed", "Play", "Pause", "Font", "Confirm" ] );
     await this.miniMenu.init();
     // .. setting environment properties 
     store.state.here = "ClassRoom";

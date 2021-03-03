@@ -17,9 +17,7 @@ store.state.appConfig = {
 	minNumberLength     : 3                     ,
     email               : ""                    ,
     dictionaries        : [ "en", "fa" ]        ,
-    beautyBGs           : {                      
-        tree: { height: "45%", translateY: 0 }   
-    }                                           ,
+    beautyBGs           : [ "tree" ]            ,
 }
 // TODO select default dic
 

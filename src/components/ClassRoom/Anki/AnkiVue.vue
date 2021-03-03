@@ -1,36 +1,47 @@
 <template>
 <GridLayout 
-    ref="bookCover" 
-    class="bookCover" 
-    rows="*,auto,*" 
-    columns="50,*,50" 
+    ref="ankiCover"
+    class="ankiCover"
+    rows="*,auto,3*"
+    columns="20,*,20"
+    visibility="collapsed"
     @swipe="swipeControl"
 >
 
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1 col=1 class="pagesBox" >
-        <WrapLayout 
-            ref="page" 
+        <GridLayout
+            ref="page"
             orientation="vertical"
-            v-for="(slide,x) in slideBox" 
+            v-for="(slide,x) in slideBox"
             :key="x"
             :translateX="x===inx ? 0 : $store.state.windowSize.width"
         >
 
-            <WrapLayout orientation="vertical" v-for="(c,y) in slide" :key=y >
+<!---------------------------------------------------------------------------------------->
+
+            <ScrollView orientation="vertical">
+                <StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-                <Image v-if="c[1].isURL" :src="c[0]+''" class="pic" />
-                <StackLayout v-else-if="c[1].isBreakLine" class="divider" />
-                <Label v-else :text="c[0]" textWrap="true" />
+                    <GridLayout orientation="vertical" v-for="(c,y) in slide" :key=y >
+
+                        <Image v-if="c[1].isURL" :src="c[0]+''" class="pic" />
+                        <StackLayout v-else-if="c[1].isBreakLine" class="divider" />
+                        <Label v-else :text="c[0]" textWrap="true" fontSize=14.5 />
+
+                    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-            </WrapLayout>
+                </StackLayout>
+            </ScrollView>
 
-        </WrapLayout>
+<!---------------------------------------------------------------------------------------->
+
+        </GridLayout>
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -96,12 +107,14 @@ mounted () {
 
 init ( dText: TS.Organelle, etikett: number[], bookmark: number ) {
 
-    ( this.$refs.bookCover as any ).nativeView.visibility = "visible";
+    ( this.$refs.ankiCover as any ).nativeView.visibility = "visible";
     this.dText = dText;
     this.etikett = etikett;
     // this.dots = ( this.etikett ).length;
 
     this.slidesGenerator();
+
+    this.inx = bookmark;
 
 }
 
@@ -123,8 +136,6 @@ async slidesGenerator () {
     }
 
     this.etikett.shift();
-
-    this.inx = 0;
 
 }
 
@@ -187,7 +198,7 @@ blattern ( direction: "previous"|"next" ) {
     if ( wasOnX !== this.inx ) {
 
         let directionFactor = direction == "next" ? 1 : -1;
-        let travel = ( this.$refs.bookCover as any ).nativeView.getActualSize().width;
+        let travel = ( this.$refs.ankiCover as any ).nativeView.getActualSize().width;
 
         this.$refs.page[ wasOnX ].nativeView.animate( { 
             translate: { x: -1* travel *directionFactor, y: 0 } ,
@@ -256,10 +267,10 @@ bookCover_Animation;
 bookCoverPainter ( mode: TS.AppMode ) {
 
     // .. bug resolver
-    if ( !this.$refs.bookCover ) return 0;
+    if ( !this.$refs.ankiCover ) return 0;
 
     let theColor = { light: "#00000000", dark: "#00000000" } ;
-    let bookCover = ( this.$refs.bookCover as any ).nativeView;
+    let bookCover = ( this.$refs.ankiCover as any ).nativeView;
 
     // TODO colors should be defined upon themes
     switch ( mode ) {
@@ -268,7 +279,7 @@ bookCoverPainter ( mode: TS.AppMode ) {
         case "editing"  : theColor = { light: "#a6aced", dark: "#38393d" }; break;
         case "snapping" : theColor = { light: "#cae6e6", dark: "#0c4553" }; break;
     }
-    
+
     if ( this.bookCover_Animation ) this.bookCover_Animation.cancel();
 
     let isDark = store.state.darkMode,
@@ -276,7 +287,7 @@ bookCoverPainter ( mode: TS.AppMode ) {
         newClass = "bookCover " + mode,
         duration = mode === "reading" ? 500 : 300,
         x_def: NS.AnimationDefinition = {};
-    
+
     bookCover.className = newClass;
 
     x_def.target = bookCover;
@@ -291,11 +302,11 @@ bookCoverPainter ( mode: TS.AppMode ) {
 
 // -- =====================================================================================
 
-as
-// -- =====================================================================================
 
 beforeDestroy() {
     store.state.preserve.selected = [];
+    // ! I don't know why it work here but ont work on jump!!
+    this.dText.pinnedPoint = this.inx;
 }
 
 // -- =====================================================================================
@@ -318,15 +329,22 @@ destroyed () {
 <style scoped>
 
 /*                                          */
-    .bookCover {
+    .ankiCover {
         background-color: transparent;
         width: auto;
+    }
+
+    .light .ankiCover {
         color: #38393d;
     }
 
+    .dark .ankiCover {
+        color: #ffffff;
+    }
+
     .pagesBox {
-        width: 95%;
-        height: 95%;
+        width: 100%;
+        height: 75%;
     }
 
     .divider {

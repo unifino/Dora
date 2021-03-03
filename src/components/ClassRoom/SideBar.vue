@@ -12,8 +12,8 @@
 
         <ScrollView orientation="vertical" >
 
-            <StackLayout horizontalAlignment="center" >    
-                
+            <StackLayout horizontalAlignment="center" >
+
                 <nButton 
                     v-for="(button,i) in myButtons" 
                     :key="i+button.class"
@@ -31,7 +31,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <StackLayout col=2 row=1 >
-        
+
         <Label 
             v-for="slot in mySlots"
             :key="slot.text"

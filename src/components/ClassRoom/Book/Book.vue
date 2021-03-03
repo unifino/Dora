@@ -146,7 +146,7 @@ bookmarkValidator( bookmark: number ) {
         for ( let i = a; i <= b; i++ ) if ( i > -1 ) this.pagesInHand.push(i);
 
         this.inx = bookmark;
-    
+
     }
     // .. no valid Bookmark! First Page will be shown
     else {
@@ -185,9 +185,9 @@ bookTypist ( etikett ) {
 
         a = a > -1 ? etikett[a] : -1;
         z = etikett[z];
-        
+
         entwurf = context.slice(a+1, z+1);
-        
+
         c++;
 
         for ( let i in entwurf ) {
@@ -199,7 +199,7 @@ bookTypist ( etikett ) {
             // .. initial breakLine(s) on each Page will be omitted!
             if ( entwurf[i][1].isBreakLine ) 
                 className = Number(i) === 0 ? "hidden" : "breakLine";
-            
+
             else {
 
                 let ins = store.state.inHand.lesson.chromosome.institute;
@@ -218,7 +218,7 @@ bookTypist ( etikett ) {
             }
 
             book[c][i] = { data: entwurf[i], class: className, refId: refId };
-            
+
             refId++;
 
         }
@@ -235,7 +235,7 @@ async bookPublisher () {
 
     this.book = [];
     this.binds = []; // TODO what is this?
-    
+
     // .. type the book
     let myBook = this.bookTypist( this.etikett );
 
@@ -264,13 +264,13 @@ async swipeControl ( args: NS.SwipeGestureEventData ) {
 
     // TODO animation cause problem in Editing Mode
     if ( store.state.mode === "editing" ) return 0;
-    
+
     Bus.$emit( "ToolBar_Fade", 0, false, false, 150 )
 
     if ( store.state.mode === "snapping" ) Bus.$emit( "ToolBar_Snap", false );
 
     await new Promise( _ => setTimeout( _ , 0 ) );
-    
+
     let d = args.direction;
     if ( d === NS.SwipeDirection.left ) this.blattern( "next" );
     if ( d === NS.SwipeDirection.right ) this.blattern( "previous" );
@@ -284,13 +284,13 @@ blattern ( direction: "previous"|"next" ) {
 
     // .. exit checking
     if ( this.exitCtl( direction ) ) return 0;
-    
+
     let wasOnX = this.inx,
         lesson = store.state.inHand.lesson;
 
     // .. blattern data
     switch ( direction ) {
-        
+
         case 'next':
             if ( this.inx < this.etikett.length -1 ) this.inx++;
             else {
@@ -303,19 +303,19 @@ blattern ( direction: "previous"|"next" ) {
                 tools.toaster( msg );
             };
             break;
-        
+
         case 'previous':
             if ( this.inx > 0 ) this.inx--;
             else tools.toaster( '❖  ' + lesson.chromosome.title + '  ❖' );
             break;
-        
+
     }
 
     this.jumpTo( this.inx );
 
     // .. blattern animation
     if ( wasOnX !== this.inx ) {
-        
+
         let directionFactor = direction == "next" ? 1 : -1;
         let travel = ( this.$refs.bookCover as any ).nativeView.getActualSize().width;
 
@@ -329,7 +329,7 @@ blattern ( direction: "previous"|"next" ) {
         this.$refs.page[ this.inx ].nativeView.animate( { 
             translate: { x: 0, y: 0 } ,
         } );
-        
+
     }
 
 }
@@ -339,10 +339,10 @@ blattern ( direction: "previous"|"next" ) {
 jumpTo ( idx ) {
 
     this.inx = idx;
-    
+
     this.pagesInHand = [ ...this.pagesInHand, this.inx ];
     this.pagesInHand = [ ...new Set( this.pagesInHand ) ];
-    
+
     ( this.$refs.indicator as any ).currentIndex = this.inx +1;
 
     // .. page caching
@@ -369,8 +369,8 @@ exitCtl ( direction ) {
             this.exitPermission = true;
             this.exit_TO = setTimeout ( () => this.exitPermission = false , 1400 );
         }
-    
-    } 
+
+    }
     else if ( this.inx !== 0 ) {
         clearTimeout ( this.exit_TO );
         this.exitPermission = false;
@@ -402,7 +402,7 @@ nWordTapped ( args ) {
         case "binding"  : this.binding( args.object.refId, false ); break;
         case "editing"  : this.editing( -2, false );                break;
         case "snapping" : this.focus( args.object.refId );          break;
-        
+
     }
 
 }
@@ -426,9 +426,9 @@ notWordHandling ( args ) {
 
         // .. Tapped on a breakLine
         if ( args.object.className.includes( 'breakLine' ) ) this.spotMission( args );
-        
+
         return true;
-    
+
     }
 
     return false;
@@ -442,15 +442,15 @@ async shouldISeek ( args ) {
     if ( store.state.mode === "reading" && store.state.mediaState === "playing" ) {
 
         await tnsPLY.getDuration().then( secs => {
-        
+
             if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
-            
+
             let lesson = store.state.inHand.lesson,
                 start = tools.snapFinder( args.object.refId, this.dText.content, secs );
 
             tnsPLY.seekTo( start );
             tnsPLY.resume();
-        
+
         } )
 
     }
@@ -467,7 +467,7 @@ reading ( refId: number ) {
     }
 
     let y: number;
-    
+
     // .. doubleTap simulation
     if ( store.state.preserve.selected[0] === refId ) {
         this.wordMarker( refId );
@@ -525,13 +525,13 @@ flightDestination ( a: number ,b: number ) {
 
     let aBelongsTo = this.$refs[ "word_" + a ][0].nativeView.onPage;
     let bBelongsTo = this.$refs[ "word_" + b ][0].nativeView.onPage;
-    
+
     if      ( aBelongsTo > bBelongsTo && this.inx === aBelongsTo ) destination = b;
     else if ( aBelongsTo < bBelongsTo && this.inx === bBelongsTo ) destination = b;
     else    destination = a;
 
     return destination;
-    
+
 }
 
 // -- =====================================================================================
@@ -554,7 +554,7 @@ nDeletedWordTapped ( args ) {
 
     let n = args.object.refId,
         y = this.$refs[ "word_" + n ][0].nativeView.getLocationInWindow().y;
-        
+
     store.state.preserve.selected = [n];
     Bus.$emit( "ToolBar_Flight", y );
 
@@ -607,7 +607,7 @@ bookCoverPainter ( mode: TS.AppMode ) {
         case "editing"  : theColor = { light: "#a6aced", dark: "#38393d" }; break;
         case "snapping" : theColor = { light: "#cae6e6", dark: "#0c4553" }; break;
     }
-    
+
     if ( this.bookCover_Animation ) this.bookCover_Animation.cancel();
 
     let isDark = store.state.darkMode,
@@ -615,7 +615,7 @@ bookCoverPainter ( mode: TS.AppMode ) {
         newClass = "bookCover " + mode,
         duration = mode === "reading" ? 500 : 300,
         x_def: NS.AnimationDefinition = {};
-    
+
     bookCover.className = newClass;
 
     x_def.target = bookCover;
@@ -651,7 +651,7 @@ bindingAssistant () {
         tools.toaster( 'Error!' );
         return 0;
     }
-    
+
     let a = store.state.preserve.selected[0],
         b = store.state.preserve.selected[1],
         r: [number,number];
@@ -660,18 +660,18 @@ bindingAssistant () {
     for ( let x of [a,b] ) {
 
         let i = this.binds.indexOf(x);
-        
+
         if ( i > -1 ) {
-            
+
             if ( i%2 ) r = this.binds.splice( i-1, 2 ) as [number,number];
             else r = this.binds.splice( i, 2 ) as [number,number];
-            
+
             for ( let y of r ) delete this.dText.content[y][1].bind;
-        
-        } 
+
+        }
 
     }
-    
+
     // .. clear mode
     if ( a === b ) delete this.dText.content[a][1].bind;
     // .. add new bind Data
@@ -709,7 +709,7 @@ async editing ( refId: number, init: boolean ) {
 // -- =====================================================================================
 
 focus ( refId: number ) {
-    
+
     let y: number;
 
     store.state.preserve.selected = [ refId ];
@@ -729,7 +729,7 @@ editingAnimation ( end: boolean ) {
         y = ( this.$refs.page[ this.inx ] as any ).nativeView.getLocationInWindow().y,
         o = end ? 0 : this.$refs[ "word_" + i ][0].nativeView.getLocationInWindow().y,
         h = end ? 0 : this.$refs[ "word_" + i ][0].nativeView.getActualSize().height;
-        
+
     let x_def: NS.AnimationDefinition = {};
 
     x_def.target = ( this.$refs.page[ this.inx ] as any ).nativeView;
@@ -764,7 +764,7 @@ editor ( refId: number, text: string ) {
     // .. last row inherits some data
     if ( context[ refId ][1].standoff ) 
         newData[ newData.length -1 ][1].standoff = context[ refId ][1].standoff;
-    
+
     // TODO remove corresponded BindDATA:  if ( newData[0][ WRS.BindToId ] )
     // TODO update Further BinsDATA
 
@@ -782,10 +782,10 @@ editor ( refId: number, text: string ) {
 addLineBreakAfter ( refId: number ) {
 
     let breakLine: TS.UniText = [ null, { isBreakLine: true } ];
-    
+
     this.dText.content.splice( refId +1, 0, breakLine );
     delete this.dText.etikett;
-    
+
     this.rePub();
 
 }
@@ -811,9 +811,9 @@ blockToggler ( refId: number ) {
     let row = this.dText.content[ refId ],
         max = this.dText.content.length,
         isBlock = tools.isBlock( row, max, refId );
-    
+
     row[1].standoff = isBlock ? "bridge" : "block";
-    
+
     this.rePub();
 
 }
@@ -859,13 +859,13 @@ bookCleaner () {
 // -- =====================================================================================
 
 restore () {
-    
+
     let lesson = store.state.inHand.lesson,
         max = this.dText.content.length,
         m = store.state.preserve.selected[0],
         a: number,
         b: number;
-    
+
     a = m;
     while ( a >= 0 && this.dText.content[a][1].isDeleted ) a--;
 
