@@ -1,5 +1,5 @@
 <template>
-<GridLayout class="fx" rows="*,auto" :visibility="isVisible ? 'visible' : 'collapsed'">
+<GridLayout class="fx" rows="*,auto">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -57,14 +57,6 @@ import store                            from "@/mixins/store"
 // -- =====================================================================================
 
 export default class OptionBar extends Vue {
-
-// -- =====================================================================================
-
-get isVisible () {
-    if ( store.state.here === 'Institute' && store.state.mode === "idle" ) return true;
-    if ( store.state.mode === "setting" ) return true;
-    return false;
-}
 
 // -- =====================================================================================
 
