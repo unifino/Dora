@@ -104,7 +104,29 @@ collector () {
     this.rbssCodes = [];
 
     // .. convert ribosomes to List
-    for ( let x of Object.values( store.state.rbssDB[ this.ins ] ) ) codes.push( x.code );
+    for ( const x of Object.values( store.state.rbssDB[ this.ins ] ) ) {
+
+        let pok = false;
+
+        // .. it will be presented due to the infinity lessons that contains
+        if ( x.contains === "∞" ) pok = true;
+        else {
+
+            const massDB = Object.values( store.state.massDB[ this.ins ] ),
+                lessons = massDB.filter( z => z.chromosome.code.ribosome === x.code );
+
+            // .. it will be presented because all the lessons haven't been downloaded yet
+            if ( lessons.length < x.contains ) pok = true;
+            // .. it will be presented because some lessons haven't been read yet
+            else if ( lessons.some( z => z.chromosome.status === "reading" ) ) pok = true;
+
+        }
+
+        // ! remove it
+        if ( x.type !== "slide" || x.institute !== "de" )
+        if ( pok ) codes.push( x.code );
+
+    }
 
     // .. remove Duplicates
     codes = [ ...new Set( codes ) ];

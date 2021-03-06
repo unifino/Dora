@@ -1,9 +1,19 @@
 <template>
-<GridLayout ref="lessonBox" @tap="lessonTapped()">
+<GridLayout ref="lessonBox" @tap="lessonTapped()" @longPress="lessonLongPressed">
 
 <!---------------------------------------------------------------------------------------->
 
-    <Image col=1 row=1 rowSpan=2 class="avatar" :src="avatar"  />
+    <Image class="avatar" :src="avatar" />
+
+<!---------------------------------------------------------------------------------------->
+
+    <GridLayout class="managingBox" ref="managingBox">
+        <nButton 
+            myClass="fas deleteButton"
+            :myLabel="String.fromCharCode( '0x' + 'f2ed' )"
+            @tap="deleteMe"
+        />
+    </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -25,16 +35,21 @@ import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storageHandler"
 import ClassRoom                        from "@/components/ClassRoom/ClassRoom.vue"
 import Bus                              from "@/mixins/bus"
+import nButton                          from "@/components/tools/n_Button.vue"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
+@Component ( {
+    components: { nButton }
 } )
 
 // -- =====================================================================================
 
 export default class template extends Vue {
+
+// -- =====================================================================================
+
+actPermission = true;
 
 // -- =====================================================================================
 
@@ -61,6 +76,9 @@ get avatar () {
 // -- =====================================================================================
 
 lessonTapped () {
+    // .. do nothing
+    if ( !this.actPermission ) return;
+    // .. perform Animation and then Open the Lesson
     this.tapAnimator().then( () => this.openLesson() );
 }
 
@@ -84,6 +102,113 @@ tapAnimator (): Promise<void> {
             this.tapAnimation = new NS.Animation( [ x_def ], false );
             this.tapAnimation.play().then( () => rs() );
         } );
+    } );
+
+}
+
+
+// -- =====================================================================================
+
+managingBox_animation: NS.Animation;
+lessonLongPressed () {
+
+    if ( this.managingBox_animation ) this.managingBox_animation.cancel();
+    if ( !this.$refs.managingBox ) return 0;
+
+    // .. lock actPermission
+    this.actPermission = false;
+
+    let x_def: NS.AnimationDefinition = {},
+        managingBox = ( this.$refs.managingBox as any ).nativeView;
+
+    managingBox.visibility = "visible";
+
+    x_def.target   = managingBox;
+    x_def.duration = 200;
+    x_def.scale    = { x: 1, y: 1 };
+    x_def.delay    = 0;
+
+    this.managingBox_animation = new NS.Animation( [ x_def ], false );
+    this.managingBox_animation.play().then( () => { 
+        x_def.scale = { x: 0, y: 0 };
+        x_def.delay = 3000;
+        this.managingBox_animation = new NS.Animation( [ x_def ], false );
+        this.managingBox_animation.play().then( () => {
+            managingBox.visibility = "hidden";
+            this.actPermission = true;
+        } );
+    } );
+
+}
+
+// -- =====================================================================================
+
+deleteMe () {
+
+    if ( !this.lesson ) return 0;
+
+    // .. perform Animation
+    this.folderOut().then( () => { 
+
+        let ins = store.state.inHand.institute,
+            lessonId: number;
+
+        // ! may I determine it before?
+        lessonId = store.state.massDB[ ins ].findIndex( x => 
+            ( x.chromosome.code.ribosome === this.lesson.chromosome.code.ribosome ) && 
+            ( x.chromosome.code.idx === this.lesson.chromosome.code.idx )
+        )
+
+        // .. try to remove Materials
+        try {
+            this.lesson.protoplasm.forEach( org => {
+                if ( org.address ) {
+                    let path = NS.path.join( storage.baseFolder.path, org.address )
+                    NS.File.fromPath( path ).removeSync();
+                }
+            } );
+        } catch {}
+
+        // .. purge the Lesson
+        store.state.massDB[ ins ].splice( lessonId, 1 );
+
+        // .. recalculate Brain
+        tools.dAO( store.state.inHand.institute );
+
+    } );
+
+}
+
+
+// -- =====================================================================================
+
+folder_animation: NS.Animation;
+folderOut (): Promise<void> {
+
+    return new Promise ( rs => { 
+
+        this.actPermission = false;
+
+        if ( this.folder_animation ) this.folder_animation.cancel();
+
+        let x_def: NS.AnimationDefinition = {};
+
+        x_def.target   = ( this.$refs.lessonBox as any ).nativeView;
+        x_def.duration = 100;
+        x_def.scale    = { x: 1.1, y: 1.1 };
+
+        this.folder_animation = new NS.Animation( [ x_def ], false );
+        this.folder_animation.play().then( () => { 
+            x_def.scale = { x: 0, y: 0 };
+            x_def.duration = 200;
+            this.folder_animation = new NS.Animation( [ x_def ], false );
+            this.folder_animation.play().then( () => {
+                x_def.width = 1;
+                this.folder_animation = new NS.Animation( [ x_def ], false );
+                this.folder_animation.play().then( () => rs() );
+            } );
+        } );
+
     } );
 
 }
@@ -163,6 +288,21 @@ destroyed () {}
         margin-right: 3;
         horizontal-align: left;
         stretch: aspectFill
+    }
+
+    .managingBox {
+        background-color: rgba(26, 27, 27, .9);
+        border-radius: 5;
+        transform: scale(0,0);
+        height: 100%;
+        width: 56;
+        visibility: hidden;
+        vertical-align: middle;
+    }
+
+    .deleteButton {
+        font-size: 30;
+        color: red;
     }
 
 </style>

@@ -55,6 +55,7 @@ export interface state {
         numberBox           : { [key: string]: TS.VIPSentence[] }   ,
 
         inHand              : {                                      
+            // !!!! remove it
             institute       : string                                ,
             lesson          : TS.Lesson                             ,
             mediaPath       : string                                ,
