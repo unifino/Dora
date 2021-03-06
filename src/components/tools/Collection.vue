@@ -10,7 +10,7 @@
 
     <StackLayout col=3 row=1 orientation="horizontal" >
         <Label class="title" :text="ribosome.title" />
-        <Label :class="badged.class" :text="String.fromCharCode( '0x' + badged.icon )" />
+        <Label :class="badge.class" :text="String.fromCharCode( '0x' + badge.icon )" />
     </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -76,10 +76,10 @@ get ribosome () {
 
 // -- =====================================================================================
 
-get badged () {
+get badge () {
 
     let icon = null,
-        className = "badged fas ";
+        className = "badge fas ";
 
     if ( this.ribosome.type === "audio" ) { icon = "f58f"; className += "audio"; }
     if ( this.ribosome.type === "video" ) { icon = "f008"; className += "video"; }
@@ -183,7 +183,7 @@ tapAnimator (): Promise<void> {
         stretch: aspectFill
     }
 
-    .badged {
+    .badge {
         font-size: 14;
         height: 25;
         width: 20;

@@ -1,5 +1,10 @@
 <template>
-<GridLayout class="opt-item">
+<GridLayout
+    class="opt-item"
+    :visibility="badgeActiveData.color !== 'off' ? 'visible' : 'collapsed'"
+>
+
+<!---------------------------------------------------------------------------------------->
 
     <nButton
         ref="luncher"
@@ -8,7 +13,13 @@
         @tap="headToSalon_F()"
     />
 
-    <Label :text="badgeActiveData.count" class="count" />
+    <Label
+        class="count"
+        :text="badgeActiveData.count"
+        :visibility="badgeActiveData.count !== null ? 'visible' : 'hidden'"
+    />
+
+<!---------------------------------------------------------------------------------------->
 
 </GridLayout>
 </template>
@@ -21,8 +32,6 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import nButton                          from "@/components/tools/n_Button.vue"
 import Salon_F                          from "@/components/Salon/F/Salon_F.vue"
@@ -43,7 +52,7 @@ badgeActiveData: {
     icon: 'f5dc'|'f141',
     color: "init"|"blue"|"orange"|"green"|"red"|"off" , 
     count: number 
-} = { icon: "f141", color: "init", count: 0 };
+} = { icon: "f141", color: "init", count: null };
 
 // -- =====================================================================================
 
@@ -53,7 +62,7 @@ mounted () {
         state => state.needCalculation, 
         newVal => { try { this.badgeActiveDataSetter( newVal ) } catch {} }
     );
-    
+
 }
 
 // -- =====================================================================================
@@ -62,12 +71,12 @@ badgeActiveDataSetter ( noNeedToCalculation ) {
 
     let color: "init"|"blue"|"orange"|"green"|"red"|"off",
         count: number,
-        icon:   'f5dc'|'f141' = "f5dc",
+        icon: 'f5dc'|'f141' = "f5dc",
         ins = store.state.inHand.institute;
 
     if ( noNeedToCalculation ) {
         color = "init";
-        count = 0;
+        count = null;
         icon = "f141";
     }
     else {
