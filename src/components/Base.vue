@@ -13,10 +13,10 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <TopBar />
+    <OptionBar />
 
 <!---------------------------------------------------------------------------------------->
-    
+
     <Downloading />
 
 <!---------------------------------------------------------------------------------------->
@@ -64,11 +64,10 @@ import Institute                        from "@/components/Institute.vue"
 import Menu                             from "@/components/Menu/Menu.vue"
 import Downloading                      from "@/components/tools/Downloading.vue"
 import ServerWindow                     from "@/components/ServerWindow/IPanel.vue"
-import Salon_F                          from "@/components/Salon/F/Salon_F.vue"
 import Welcome                          from "@/components/Welcome.vue"
 import Bus                              from "@/mixins/bus"
 import BeautyBG                         from "@/components/tools/BeautyBG.vue"
-import TopBar                           from "@/components/tools/TopBar.vue"
+import OptionBar                        from "@/components/Menu/Panel.vue"
 import { myPurchasedItems }             from "@/mixins/user"
 import Scope                            from "@/components/Scope/Scope.vue"
 import * as shopping                    from "@/mixins/shopping"
@@ -84,7 +83,7 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
         Welcome,
         Downloading,
         BeautyBG,
-        TopBar,
+        OptionBar,
         Scope
     }
 } )

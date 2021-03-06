@@ -14,6 +14,7 @@
         row=1
         :src=bg
         height="40%"
+        translateY="-60"
     />
 
     <StackLayout

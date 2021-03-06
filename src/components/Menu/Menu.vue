@@ -1,5 +1,5 @@
 <template>
-<AbsoluteLayout width="100%" height="100%" ref="cotton" >
+<AbsoluteLayout width="100%" height="100%" ref="cotton">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -22,7 +22,7 @@ import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import Bus                              from "@/mixins/bus"
 import Gear                             from "@/components/Menu/Gear.vue"
-import Panel                            from "@/components/Menu/Panel.vue"
+import Panel                            from "@/components/Menu/Panelx.vue"
 
 // -- =====================================================================================
 

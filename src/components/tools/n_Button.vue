@@ -35,9 +35,6 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
-import store                            from "@/mixins/store"
 
 // -- =====================================================================================
 
@@ -144,7 +141,7 @@ buttonTouched ( args ) {
         background-color: transparent;
     }
 
-/*                                          */                 
+/*                                          */
     .dotButton {
         font-size: 23px;
         margin: 0 4;
@@ -219,7 +216,7 @@ buttonTouched ( args ) {
 
 /*                                          */
     .lineThrough { text-decoration: line-through }
-    
+
 </style>
 
 

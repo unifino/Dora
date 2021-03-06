@@ -17,7 +17,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
-import * as tools                       from '@/mixins/tools'
+import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 

@@ -17,7 +17,7 @@
         :text="String.fromCharCode( '0x' + myIcon.icon )" 
         :fontSize="myIcon.size"
     />
-    
+
 <!---------------------------------------------------------------------------------------->
 
     <Label 
@@ -53,7 +53,7 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import * as storage                     from "@/mixins/storageHandler"
-import * as tools                       from '@/mixins/tools'
+import * as tools                       from "@/mixins/tools"
 import * as genetics                    from "@/mixins/genetics"
 import * as shopping                    from "@/mixins/shopping"
 import ClassRoom                        from "@/components/ClassRoom/ClassRoom.vue"
@@ -89,7 +89,7 @@ get myIcon () {
         size: 44, 
         class: "fas icon" 
     };
-    
+
     if ( this.myProp.icon === 'f167' ) icon.class = "fab icon";
     if ( this.myProp.icon === 'f06c' ) icon.size = 36;
     if ( this.myProp.title === ".." ) icon.size = 38;
@@ -97,7 +97,7 @@ get myIcon () {
         icon.icon = "f064"; 
         icon.size = 20
     };
-    
+
     return icon;
 
 }
@@ -159,7 +159,7 @@ tapAction () {
     if ( this.myProp.type === "divider" ) return;
     if ( store.state.mode === "traveling" ) return;
     if ( store.state.mode !== "idle" && store.state.mode !== "shopping" ) return;
-    
+
     // .. lock tap permission
     this.actPermission = false;
 
@@ -197,12 +197,12 @@ onRibosome () {
         // .. mark as added!
         if ( !box.hasOwnProperty( this.myProp.ribosome.code ) ) {
             this.myProp.icon = "f02e";
-            genetics.copyingRibosome( this.myProp.ribosome );
+            // genetics.copyingRibosome( this.myProp.ribosome );
         }
         // .. mark as not Added
         else {
             this.myProp.icon = "";
-            genetics.removeRibosome( this.myProp.ribosome );
+            // genetics.removeRibosome( this.myProp.ribosome );
         }
     }
 
@@ -212,16 +212,16 @@ onRibosome () {
 
 tapAnimation: NS.Animation;
 tapAnimator (): Promise<void> {
-    
+
     return new Promise ( (rs, rx) => { 
         let x_def: NS.AnimationDefinition = {};
-    
+
         x_def.scale = { x: 1.04, y: 1.04 };
         x_def.curve = NS.Enums.AnimationCurve.ease;
         x_def.duration = 80;
-        
+
         x_def.target = ( this.$refs.myFolder as any ).nativeView;
-    
+
         this.tapAnimation = new NS.Animation( [ x_def ], false );
         this.tapAnimation.play().then( () => { 
             x_def.scale = { x: 1, y: 1 };
@@ -240,15 +240,15 @@ longPressAction () {
     if ( this.managingBox_animation ) this.managingBox_animation.cancel();
 
     if ( store.state.mode === "idle" ) {
-        
+
         if ( this.myProp.type === "ordinary" || this.myProp.type === "shopItem" ) {
-        
+
             if ( this.myProp.lesson || this.myProp.ribosome ) {
-            
+
                 this.actPermission = false;
 
                 if ( !this.$refs.managingBox ) return 0;
-                
+
                 let x_def: NS.AnimationDefinition = {},
                     managingBox = ( this.$refs.managingBox as any ).nativeView;
 
@@ -273,7 +273,7 @@ longPressAction () {
             }
 
         }
-    
+
     }
 
 }
@@ -281,8 +281,9 @@ longPressAction () {
 // -- =====================================================================================
 
 openFolder () {
-    
-    let path = store.state.inHand.path[ this.myProp.institute ];
+
+    let path;
+    // let path = store.state.inHand.path[ this.myProp.institute ];
     // .. back-Folder has been Tapped
     if ( this.myProp.title === ".." ) path.pop();
     // .. register current path
@@ -291,13 +292,13 @@ openFolder () {
     // .. Generate new Folder-List ()
     if ( store.state.mode === "shopping" ) {
         if ( path.length ) {
-            Bus.$emit( "Institute_ShopListCalculator" );
+            // Bus.$emit( "Institute_ShopListCalculator" );
             return;
         }
         else store.state.mode = "idle";
     }
     // .. Generate new Folder-List
-    Bus.$emit( "Institute_FolderListCalculator" );
+    // Bus.$emit( "Institute_FolderListCalculator" );
 
 }
 
@@ -328,11 +329,11 @@ deleteMe () {
     if ( store.state.mode !== "idle" ) return 0;
 
     this.folderOut();
-    
+
     let ins = store.state.inHand.institute;
-    
+
     if ( this.myProp.lesson ) {
-        
+
         try {
             this.myProp.lesson.protoplasm.forEach( org => {
                 if ( org.address ) {
@@ -345,11 +346,11 @@ deleteMe () {
         store.state.massDB[ ins ].splice( this.myProp.lessonId, 1 );
 
         tools.dAO( store.state.inHand.institute );
-    
+
     }
 
-    if ( this.myProp.ribosome ) genetics.removeRibosome( this.myProp.ribosome );
-    
+    // if ( this.myProp.ribosome ) genetics.removeRibosome( this.myProp.ribosome );
+
 }
 
 // -- =====================================================================================
@@ -376,7 +377,7 @@ folderOut () {
             x_def.height = 1;
             this.folder_animation = new NS.Animation( [ x_def ], false );
             this.folder_animation.play()
-            .then( () => Bus.$emit( "Institute_FolderListCalculator" ) );
+            // .then( () => Bus.$emit( "Institute_FolderListCalculator" ) );
         } );
     } );
 
@@ -456,13 +457,13 @@ headToClassRoom ( ClassRoom ) {
     .miniFolder .folder{
         height: 95;
         width: 170;
-        margin: 0 5 10 5;
+        margin: 10;
         font-size: 12px;
     }
 
 /*                                          */
-    
-    .specialFolder { font-weight: bold }
+
+.specialFolder { font-weight: bold }
     .light .specialFolder { background-color: #10b3ff }
     .dark  .specialFolder { background-color: #031f2c }
 
@@ -506,7 +507,7 @@ headToClassRoom ( ClassRoom ) {
         padding: 15% 10% 0% 5%;
         border-radius: 0 7 7 0;
     }
-    
+
     .light .middle_label { 
         color: #242424;
         background-color: rgba(188, 220, 224, 0.9);
@@ -528,7 +529,7 @@ headToClassRoom ( ClassRoom ) {
         padding-right: 19%;
         padding-top: 3%;
     }
-    
+
     .light .big_label { color: #242424 }
     .dark  .big_label { color: #a09e9b }
 

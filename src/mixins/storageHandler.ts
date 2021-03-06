@@ -36,9 +36,9 @@ export function readAppConfig (): Promise<TS.appConfig> {
         appConfigFile = NS.knownFolders.documents().getFile( appConfigPath );
 
         if ( !NS.File.exists( appConfigFile.path ) ) return rx( 'noConfigFile' );
-        
+
         let cfg = NS.File.fromPath( appConfigFile.path ).readTextSync();
-        
+
         if ( TNS_ENV !== 'production' ) {
             try { 
                 cfg = JSON.parse( cfg );
@@ -239,7 +239,7 @@ export function putLessonsInBox () {
 export function putGlossariesInBox () {
 
     let gDB: TS.GlssDB = {};
-    
+
     try { gDB = JSON.parse( glssDBFile.readTextSync() ) }
     catch { gDB = tryToRescue( glssDBFile ) }
 
@@ -254,7 +254,7 @@ export function putGlossariesInBox () {
 export function putFlashcardsInBox () {
 
     let fDB: { [key: string]: TS.Flashcard[] } = {};
-    
+
     try { fDB = JSON.parse( flssDBFile.readTextSync() ) }
     catch { fDB = tryToRescue( flssDBFile ) }
 
@@ -269,7 +269,7 @@ export function putFlashcardsInBox () {
 export function putRibosomesInBox () {
 
     let rDB: { [key: string]: TS.Ribosomes } = {};
-    
+
     try { rDB = JSON.parse( rbssDBFile.readTextSync() ) }
     catch { rDB = tryToRescue( rbssDBFile ) }
 
@@ -285,7 +285,7 @@ let mDBBusy = false;
 export function saveMass (): Promise<void> {
 
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
-    
+
     mDBBusy = true;
 
     return new Promise ( async (rs, rx) => {
@@ -309,7 +309,7 @@ let gDBBusy = false;
 export function saveGlossar (): Promise<void> {
 
     if ( gDBBusy ) return new Promise( _ => setTimeout( _ => saveGlossar(), 10 ) )
-    
+
     gDBBusy = true;
 
     return new Promise ( async (rs, rx) => {
@@ -333,7 +333,7 @@ let fDBBusy = false;
 export function saveFlashCards (): Promise<void> {
 
     if ( fDBBusy ) return new Promise( _ => setTimeout( _ => saveFlashCards(), 10 ) )
-    
+
     fDBBusy = true;
 
     return new Promise ( async (rs, rx) => {
@@ -346,7 +346,7 @@ export function saveFlashCards (): Promise<void> {
             .finally( () => fDBBusy = false );
         else 
             rx( "backUpFailed!" );
-    
+
     } );
 
 }
@@ -357,7 +357,7 @@ let rDBBusy = false;
 export function saveRibosomes (): Promise<void> {
 
     if ( rDBBusy ) return new Promise( _ => setTimeout( _ => saveRibosomes(), 10 ) )
-    
+
     rDBBusy = true;
 
     return new Promise ( async (rs, rx) => {
@@ -391,10 +391,10 @@ function refreshBackUP ( file: NS. File ) {
 
     // .. remove old backUP
     bk.removeSync( CB );
-    
+
     // .. register tmp as bak
     if ( ok ) _bk.renameSync( bk.name, CB );
-    
+
     return ok;
 
 }
@@ -436,13 +436,13 @@ export function organellesLoader ( lesson: TS.Lesson ): Promise<void> {
 async function orgHandler ( org: TS.Organelle, m: string ) {
 
     let hand = store.state.inHand;
-    
+
     // .. source will assign as mediaPath
     hand[m] = org.sourceURL;
 
     // .. youTube & copyRighted Material will not save locally
     if ( !org.isYouTube && !org.copyRight ) {
-        
+
         // .. last downloaded & available file will replace the sourceURL  
         if ( org.address ) {
             let f = NS.path.join( baseFolder.path, org.address );
@@ -469,7 +469,7 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
         if ( org.type === "dVideo"   ) _dir = Videos_dir;
         if ( org.type === "dImage"   ) _dir = Images_dir;
         if ( org.type === "dAvatar"  ) _dir = Avatars_dir;
-        
+
         let name = anAvailableNameIn( _dir ),
             path = NS.path.join( _dir.path, name );
 
@@ -491,7 +491,7 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
                 rs( org.address );
             } );
         }
-    
+
     } );
 
 }
@@ -517,7 +517,7 @@ export async function getMedia ( path: string ) {
     let answer: string;
 
     await NS.Folder.fromPath( path ).getEntities().then( async entities => {
-        
+
         // TODO support all formats
         for ( const e of entities ) 
             if( NS.File.exists( e.path ) )
@@ -560,7 +560,7 @@ media ( name: string, folderPath: string, mediaURL: string, ext: ".mp3"|".mp4" )
     let mediaPath = NS.path.join( folderPath , mediaName );
 
     // store.state.progress = 'Downloading ...';
-    
+
     return NS.Http.getFile( mediaURL , mediaPath )
     .then(
         audio => mediaPath, 
@@ -575,7 +575,7 @@ media ( name: string, folderPath: string, mediaURL: string, ext: ".mp3"|".mp4" )
 // -- =====================================================================================
 
 export function have_these_on_local ( ribosome: TS.Ribosome ) {
-    
+
     let all = store.state.massDB[ store.state.inHand.institute ];
     let i_have_these: string[] = [];
 
@@ -584,7 +584,7 @@ export function have_these_on_local ( ribosome: TS.Ribosome ) {
             i_have_these.push( lesson.chromosome.code.idx );
 
     return i_have_these;
-    
+
 }
 
 // -- =====================================================================================

@@ -6,17 +6,34 @@ import store                            from "@/mixins/store"
 import Bus                              from "@/mixins/bus"
 import * as tools                       from "@/mixins/tools"
 
-// -- =====================================================================================
-
-export function copyingRibosome ( ribosome: TS.Ribosome ) {
-    // .. register in ribosomeBox
-    store.state.rbssDB[ store.state.inHand.institute ][ ribosome.code ] = ribosome;
-} 
 
 // -- =====================================================================================
 
-export function removeRibosome ( ribosome: TS.Ribosome ) {
-    delete store.state.rbssDB[ ribosome.institute ][ ribosome.code ];
+export function ribosomesOnServer( ins: string ): Promise<void> {
+
+    let url = tools.ssd + 'ribosome?';
+    url += "i=" + ins;
+    url += "&e=" + store.state.appConfig.email;
+
+    return new Promise( (rs, rx) => {
+
+        NS.Http.getJSON( url ).then(
+            ( res: TS.SSD_Res ) => {
+
+                // .. soft registration of data
+                store.state.rbssDB[ ins ] = JSON.parse( res.answer ) as TS.Ribosomes;
+                // .. hard registration of data
+                storage.saveRibosomes();
+                // .. resolve
+                rs();
+
+            },
+            e => rx( e + ' : 002 Server Collections!' )
+        )
+        .catch( e => rx( e + ' : 001 Server Collections!' ) );
+
+    } );
+
 }
 
 // -- =====================================================================================
@@ -63,7 +80,7 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
                     Bus.$emit( "IPanel_Result" );
                     await new Promise( _ => setTimeout( _, 1500 ) );
-                    Bus.$emit( "Institute_FolderListCalculator" );
+                    // Bus.$emit( "Institute_FolderListCalculator" );
                     Bus.$emit( "Battery_update" );
 
                 } )
@@ -265,21 +282,6 @@ function vCB ( subtitle: string ) {
     else context = [];
 
     return context;
-
-}
-
-// -- =====================================================================================
-
-function cCB ( text: string ) {
-
-    // let bubbles: TS.bubble[] = [];
-
-    // // ..separate bubble
-    // for ( let bubble of text.split ( "\n\n" ) ) {
-    //     bubbles.push( { text: bubble } );
-    // }
-
-    // return bubbles;
 
 }
 

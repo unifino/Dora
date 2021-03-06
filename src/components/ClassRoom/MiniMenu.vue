@@ -297,12 +297,12 @@ confirm () {
     if( this.confirm_TO ) {
 
         clearTimeout( this.confirm_TO );
-        
-        tools.confirmLesson( store.state.inHand.lesson )
-        Bus.$emit( "Institute_FolderListCalculator" );
+
+        tools.confirmLesson( store.state.inHand.lesson );
+        // Bus.$emit( "Institute_FolderListCalculator" );
         ( this as any ).$navigateBack();
         tools.dAO( store.state.inHand.institute );
-    
+
     }
     // .. step 1
     else {
@@ -314,12 +314,12 @@ confirm () {
 
         tools.toaster( "Press Again to Confirm as Read!", "short" );
         this.ControlBase.Confirm.class = "confirm pressed";
-        
+
         this.confirm_TO = setTimeout( () => {
             this.confirm_TO = null;
             this.ControlBase.Confirm.class = "confirm";
         }, 1000 );
-    
+
     }
 
 }

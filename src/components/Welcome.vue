@@ -4,7 +4,7 @@
     <AbsoluteLayout ref="fixOne" height="100%" width="100%" >
 
         <GridLayout height="100%" width="100%" rows="20,*,auto,20" class="wall" ref="wall">
-            
+
             <Image rowSpan=4 src="res://dora" width=165 stretch="aspectFit" />
 
             <GridLayout row=2 columns="30,auto,*,auto,30" class="fas myIcon" >

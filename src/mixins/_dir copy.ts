@@ -117,8 +117,8 @@ export function _ribosome ( ins: string, ribosome: TS.Ribosome ): TS.FolderPrope
 
 function lessonBinder ( ins: string, title: string ) {
     
-    let pTest
-    //  = [ ...store.state.inHand.path[ ins ], title ] ;
+    let pTest 
+    // = [ ...store.state.inHand.path[ ins ], title ] ;
 
     // .. determine folder Type
     let id = Object.values( store.state.massDB[ ins ] ).findIndex( x => 

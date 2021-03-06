@@ -1,9 +1,9 @@
 <template>
-<GridLayout class="myIcon" :visibility="isVisible ? 'visible' : 'collapsed'">
-    
+<GridLayout class="opt-item">
+
     <nButton
         ref="luncher"
-        :myClass="'fas ' + badgeActiveData.color"
+        :myClass="'opt-item fas ' + badgeActiveData.color"
         :myLabel="String.fromCharCode( '0x' + badgeActiveData.icon )"
         @tap="headToSalon_F()"
     />
@@ -44,15 +44,6 @@ badgeActiveData: {
     color: "init"|"blue"|"orange"|"green"|"red"|"off" , 
     count: number 
 } = { icon: "f141", color: "init", count: 0 };
-
-// -- =====================================================================================
-
-get isVisible () {
-    if ( this.badgeActiveData.color === "off" ) return false;
-    if ( store.state.mode !== 'idle' ) return false;
-    if ( store.state.here === 'Institute' ) return true;
-    return false;
-}
 
 // -- =====================================================================================
 
@@ -128,14 +119,6 @@ headToSalon_F () {
 
 <style scoped>
 /*                                          */
-    .myIcon {
-        text-align: center;
-        font-size: 40px;
-        width: 70;
-        height: 70;
-        border-radius: 10;
-    }
-
     .count {
         font-size: 12;
         font-family: Farsan-Regular;
@@ -143,13 +126,12 @@ headToSalon_F () {
         width: 18;
         height: 18;
         border-radius: 20;
-        margin: 30 0 0 40;
+        margin: 30 0 0 33;
         color: whitesmoke;
     }
 
     .light .count { background-color: rgba(20, 22, 12, 0.7) }
     .dark  .count { background-color: rgba(105, 98, 104, 0.5) }
-
 
     .light .transparent,
     .dark  .transparent { background-color: transparent; color: transparent; }
@@ -160,7 +142,7 @@ headToSalon_F () {
     .light .red    { color:#b41313; }
     .light .init   { color:#95c5ce; }
     .light .off    { color:transparent; }
-     
+
     .dark .blue    { color: #10597a; }
     .dark .green   { color: #296317; }
     .dark .orange  { color: #81450c; }

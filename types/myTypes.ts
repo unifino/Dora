@@ -257,6 +257,7 @@ export type Organelle = {
     pinnedPoint?    : number                        ,
     position?       : number                        ,
                                                      
+    hiddenCards?    : number[]                      ,
 }
 
 export type LessonType = 'audio'|'video'|'plain'|'comic'|'slide';
@@ -366,6 +367,6 @@ export type PlaceTriggerInfo = {
 
 export type SSD_Res = {
     status: 200 | 500,
-    answer?: string|Ribosomes,
+    answer?: string,
     reason?: string
 }

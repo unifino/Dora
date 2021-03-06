@@ -1,5 +1,5 @@
 <template>
-<GridLayout :visibility="isItemVisible ? 'visible' : 'collapsed'" >
+<GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -34,7 +34,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
-import * as tools                       from '@/mixins/tools'
+import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import nButton                          from "@/components/tools/n_Button.vue"
 
@@ -58,13 +58,6 @@ buttons_cef = [
     { title: "C1", active: true },
     { title: "C2", active: true }
 ]
-
-// -- =====================================================================================
-
-get isItemVisible () {
-    this.buttons_cef.forEach( b => b.active = true );
-    return store.state.mode === 'shopping';
-}
 
 // -- =====================================================================================
 

@@ -2,7 +2,7 @@
 <GridLayout 
     ref="ankiCover"
     class="ankiCover"
-    rows="*,auto,3*"
+    rows="*,auto,3*,50"
     columns="20,*,20"
     visibility="collapsed"
     @swipe="swipeControl"
@@ -46,6 +46,22 @@
 
 <!---------------------------------------------------------------------------------------->
 
+    <GridLayout row=3 col=1 columns="0,*,50,50,0" >
+        <nButton
+            myClass="opt-item delete fas"
+            :myLabel="String.fromCharCode( '0x' + 'f2ed' )"
+            col=3
+            @tap="deleteSlide"
+        />
+        <nButton
+            myClass="opt-item redo fas"
+            :myLabel="String.fromCharCode( '0x' + 'f82a' )"
+            col=2
+            @tap="redoDelete"
+            :visibility="redoVisibility"
+        />
+    </GridLayout>
+
 </GridLayout>
 </template>
 
@@ -63,6 +79,7 @@ import nWord                            from "@/components/tools/n_Word.vue"
 import * as tools                       from "@/mixins/tools"
 import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
 import Bus                              from "@/mixins/bus"
+import nButton                          from "@/components/tools/n_Button.vue"
 
 // -- =====================================================================================
 
@@ -72,7 +89,7 @@ interface card {
 };
 
 @Component ( { 
-    components: { nWord } 
+    components: { nWord, nButton } 
 } )
 
 // -- =====================================================================================
@@ -89,6 +106,7 @@ inx: number = -1;
 exitPermission = false;
 maxAttempt = 100;
 etikett: number[];
+redoVisibility = "hidden"
 
 // -- =====================================================================================
 
@@ -110,6 +128,11 @@ init ( dText: TS.Organelle, etikett: number[], bookmark: number ) {
     ( this.$refs.ankiCover as any ).nativeView.visibility = "visible";
     this.dText = dText;
     this.etikett = etikett;
+
+    // .. touch dText.hiddenCards slot
+    if ( !this.dText.hiddenCards ) this.dText.hiddenCards = [];
+    this.redoVisibility = this.dText.hiddenCards.length ? "visible" : "hidden";
+
     // this.dots = ( this.etikett ).length;
 
     this.slidesGenerator();
@@ -132,7 +155,7 @@ async slidesGenerator () {
         for ( let j = this.etikett[i]+1; j < this.etikett[i+1]; j++ ) {
             slide.push( this.dText.content[j] );
         }
-        this.slideBox.push( slide );
+        if ( !this.dText.hiddenCards.includes( i ) ) this.slideBox.push( slide );
     }
 
     this.etikett.shift();
@@ -302,11 +325,28 @@ bookCoverPainter ( mode: TS.AppMode ) {
 
 // -- =====================================================================================
 
+deleteSlide () {
+    this.dText.hiddenCards.push( this.inx + this.dText.hiddenCards.length );
+    this.redoVisibility = this.dText.hiddenCards.length ? "visible" : "hidden";
+    this.slidesGenerator();
+}
+
+// -- =====================================================================================
+
+redoDelete () {
+    this.dText.hiddenCards.pop();
+    this.redoVisibility = this.dText.hiddenCards.length ? "visible" : "hidden";
+    this.slidesGenerator();
+}
+
+// -- =====================================================================================
+
 
 beforeDestroy() {
     store.state.preserve.selected = [];
     // ! I don't know why it work here but ont work on jump!!
-    this.dText.pinnedPoint = this.inx;
+    // ! .. prevent to execute after exiting from other classroms!
+    if ( this.dText ) this.dText.pinnedPoint = this.inx;
 }
 
 // -- =====================================================================================
@@ -356,6 +396,14 @@ destroyed () {
 
     .pic {
         margin: 10 0;
+    }
+
+    .delete {
+        color: red;
+    }
+
+    .redo {
+        color: green;
     }
 
 </style>

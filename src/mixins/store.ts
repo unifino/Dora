@@ -19,13 +19,10 @@ export default new Vuex.Store( {
         glssDB              : {}                                    ,
         flssDB              : {}                                    ,
         rbssDB              : {}                                    ,
-        shopDB              : {}                                    ,
         activeBox           : {}                                    ,
         sentenceBox         : {}                                    ,
         numberBox           : {}                                    ,
-        inHand              : {                                      
-            path            : {}                                    ,
-        }                                                           ,
+        inHand              : {}                                    ,
         preserve            : {                                      
             selected        : []                                    ,
             flash           : []                                    ,
@@ -53,7 +50,6 @@ export interface state {
         flssDB              : { [key: string]: TS.Flashcard[]   }   ,
         glssDB              : { [key: string]: TS.Glossar       }   ,
         rbssDB              : { [key: string]: TS.Ribosomes     }   ,
-        shopDB              : { [key: string]: TS.Ribosomes     }   ,
         activeBox           : { [key: string]: TS.VIPSentence[] }   ,
         sentenceBox         : { [key: string]: TS.VIPSentence[] }   ,
         numberBox           : { [key: string]: TS.VIPSentence[] }   ,
@@ -63,7 +59,6 @@ export interface state {
             lesson          : TS.Lesson                             ,
             mediaPath       : string                                ,
             avatarPath      : string                                ,
-            path            : { [index:string] : string[] }         ,
         }                                                            
 
         preserve            : {                                      

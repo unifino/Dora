@@ -1,17 +1,17 @@
 <template>
-<GridLayout class="battery" :visibility="isVisible ? 'visible' : 'collapsed'" >
+<GridLayout class="opt-item">
 
 <!---------------------------------------------------------------------------------------->
 
     <nButton
-        :myClass="'battery fas ' + batteryStatus.iconColor"
+        :myClass="'opt-item fas rotate ' + batteryStatus.iconColor"
         :myLabel="String.fromCharCode( '0x' + batteryStatus.icon )"
         @tap="plugItIn"
     />
 
     <Label 
-        :text="batteryStatus.energy + '%'" 
-        :class="'percent ' + batteryStatus.textColor" 
+        :text="batteryStatus.energy + ' %'"
+        :class="'percent ' + batteryStatus.textColor"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -33,7 +33,7 @@ import store                            from "@/mixins/store"
 import nButton                          from "@/components/tools/n_Button.vue"
 import Bus                              from "@/mixins/bus"
 import admob                            from "nativescript-admob";
-import * as tools                       from '@/mixins/tools'
+import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
@@ -67,14 +67,6 @@ chargers: {
 } = {
     fast    : "off" ,
     normal  : "off" ,
-}
-
-// -- =====================================================================================
-
-get isVisible () {
-    if ( store.state.mode !== 'idle' ) return false;
-    if ( store.state.here === 'Institute' ) return true;
-    return false;
 }
 
 // -- =====================================================================================
@@ -284,19 +276,12 @@ destroyed () {
 <style scoped>
 
 /*                                          */
-    .battery {
-        text-align: center;
-        font-size: 40px;
-        width: 70;
-        height: 70;
-        border-radius: 10;
-    }
-
     .percent {
         font-size: 11;
         font-weight: bold;;
         font-family: Farsan-Regular;
         vertical-align: middle;
+        transform: rotate(90deg);
     }
     .light .percent     { color: #d1d1d1 }
     .dark  .percent     { color: #b2b4b6 }
@@ -306,7 +291,7 @@ destroyed () {
     .light .orange      { color: #f06735 }
     .light .red         { color: #f03535 }
     .light .green       { color: #539912 }
-    
+
     .dark  .init        { color: #747e80 }
     .dark  .blue        { color: #0169ad }
     .dark  .orange      { color: #d44714 }
@@ -322,5 +307,13 @@ destroyed () {
     .dark  .antiBlue    { color: #cccccc }
     .light .antiGreen   { color: #e7e7e7 }
     .dark  .antiGreen   { color: #cccccc }
+
+    .rotate {
+        transform: rotate(-90deg);
+    }
+
+    .opt-item {
+        font-size: 29;
+    }
 
 </style>
