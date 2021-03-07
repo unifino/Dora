@@ -2,7 +2,7 @@
 <GridLayout 
     ref="ankiCover"
     class="ankiCover"
-    rows="*,auto,3*,50"
+    rows="50,*,auto,3*,50"
     columns="20,*,20"
     visibility="collapsed"
     @swipe="swipeControl"
@@ -10,7 +10,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=1 col=1 class="pagesBox" >
+    <GridLayout row=2 col=1 class="pagesBox" >
         <GridLayout
             ref="page"
             orientation="vertical"
@@ -46,7 +46,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout row=3 col=1 columns="0,*,50,50,0" >
+    <GridLayout row=4 col=1 columns="0,*,50,50,0" >
         <nButton
             myClass="opt-item delete fas"
             :myLabel="String.fromCharCode( '0x' + 'f2ed' )"

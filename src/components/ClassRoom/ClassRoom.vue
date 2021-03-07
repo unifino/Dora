@@ -9,8 +9,8 @@
     <YouTubePlayer  ref="youTubePlayer" row=1               />
     <VideoControl   ref="videoControl"  row=2   rowSpan=2   />
 <!---------------------------------------------------------------------------------------->
-    <Book           ref="book"          row=2               />
-    <AnkiVue        ref="ankiVue"       row=2   rowSpan=4   />
+    <Book           ref="book"                  rowSpan=4   />
+    <AnkiVue        ref="ankiVue"               rowSpan=4   />
     <Subtitle       ref="subtitle"      row=2               />
 <!---------------------------------------------------------------------------------------->
     <SideBar        ref="sideBar"       row=1   rowSpan=3   />

@@ -123,48 +123,48 @@ dText: TS.Organelle;
 buttons = {
                                                                                            
     reading : [                                                                            
-    /* mark       */ { icon: 'f00c', class: ''     , fnc: () => this.f( "mark" )        } ,
-    /* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "scope" )       } ,
-    /* bind       */ { icon: 'f0c1', class: 'bind' , fnc: () => this.f( "bind" )        } ,
-    /* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "copy", false ) } ,
-    /* more       */ { icon: 'f078', class: 'more' , fnc: () => this.f( "more" )        } ,
-    /* less       */ { icon: 'f077', class: 'less' , fnc: () => this.f( "less" )        } ,
-    /* breakLine  */ { icon: 'f1dd', class: 'gray' , fnc: () => this.f( "breakLine" )   } ,
+/* mark       */ { icon: 'f00c', class: ''     , fnc: () => this.f( "mark" )            } ,
+/* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "scope" )           } ,
+/* bind       */ { icon: 'f0c1', class: 'bind' , fnc: () => this.f( "bind" )            } ,
+/* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "copy", false )     } ,
+/* more       */ { icon: 'f078', class: 'more' , fnc: () => this.f( "more" )            } ,
+/* less       */ { icon: 'f077', class: 'less' , fnc: () => this.f( "less" )            } ,
+/* breakLine  */ { icon: 'f1dd', class: 'gray' , fnc: () => this.f( "breakLine" )       } ,
     ]                                                                                     ,
                                                                                            
     more : [                                                                               
-    /* edit       */ { icon: 'f303', class: 'edit' , fnc: () => this.f( "edit" )        } ,
-    /* lineBreak  */ { icon: 'f1dd', class: 'line' , fnc: () => this.f( "lineBreak" )   } ,
-    /* snap       */ { icon: 'f276', class: 'snap' , fnc: () => this.f( "snap" )        } ,
-    /* block      */ { icon: ''    , class: 'pink' , fnc: () => this.f( "block" )       } ,
+/* edit       */ { icon: 'f303', class: 'edit' , fnc: () => this.f( "edit" )            } ,
+/* lineBreak  */ { icon: 'f1dd', class: 'line' , fnc: () => this.f( "lineBreak" )       } ,
+/* snap       */ { icon: 'f276', class: 'snap' , fnc: () => this.f( "snap" )            } ,
+/* block      */ { icon: ''    , class: 'pink' , fnc: () => this.f( "block" )           } ,
     ]                                                                                     ,
 
     snapping : [                                                                               
-    /*            */ { icon: 'f100', class: 'edit' , fnc: () => this.f( "adjusting", -2 )} ,
-    /*            */ { icon: 'f104', class: 'edit' , fnc: () => this.f( "adjusting", -1 )} ,
-    /*            */ { icon: ''    , class: 'space', fnc: () => {}                      } ,
-    /*            */ { icon: 'f105', class: 'edit' , fnc: () => this.f( "adjusting", 1 ) } ,
-    /*            */ { icon: 'f101', class: 'edit' , fnc: () => this.f( "adjusting", 2 ) } ,
+/*            */ { icon: 'f100', class: 'edit' , fnc: () => this.f( "adjusting", -2 )   } ,
+/*            */ { icon: 'f104', class: 'edit' , fnc: () => this.f( "adjusting", -1 )   } ,
+/*            */ { icon: ''    , class: 'space', fnc: () => {}                          } ,
+/*            */ { icon: 'f105', class: 'edit' , fnc: () => this.f( "adjusting", 1 )    } ,
+/*            */ { icon: 'f101', class: 'edit' , fnc: () => this.f( "adjusting", 2 )    } ,
     ]                                                                                     ,
                                                                                            
     selective : [                                                                          
-    /* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "scope", true ) } ,
-    /* highlight 1*/ { icon: 'f591', class: 'blue' , fnc: () => this.f( "phrase", "blue" ) } ,
-    /* highlight 2*/ { icon: 'f591', class: 'red'  , fnc: () => this.f( "phrase", "red" ) } ,
-    /* delete     */ { icon: 'f12d', class: 'erase', fnc: () => this.f( "delete" )      } ,
-    /* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "copy", true )  } ,
+/* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "scope", true )     } ,
+/* highlight 1*/ { icon: 'f591', class: 'blue' , fnc: () => this.f( "phrase", "blue" )  } ,
+/* highlight 2*/ { icon: 'f591', class: 'red'  , fnc: () => this.f( "phrase", "red" )   } ,
+/* delete     */ { icon: 'f12d', class: 'erase', fnc: () => this.f( "delete" )          } ,
+/* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "copy", true )      } ,
     ]                                                                                     ,
                                                                                            
     phrase : [                                                                             
-    /* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "p_Scope" )     } ,
-    /* highlight 1*/ { icon: 'f591', class: 'blue' , fnc: () => this.f( "p_Phrase", "blue" ) } ,
-    /* highlight 2*/ { icon: 'f591', class: 'red'  , fnc: () => this.f( "p_Phrase", "red" ) } ,
-    /* erase      */ { icon: 'f591', class: 'gray' , fnc: () => this.f( "p_Erase" )     } ,
-    /* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "p_Copy" )      } ,
+/* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "p_Scope" )         } ,
+/* highlight 1*/ { icon: 'f591', class: 'blue' , fnc: () => this.f( "p_Phrase", "blue" )} ,
+/* highlight 2*/ { icon: 'f591', class: 'red'  , fnc: () => this.f( "p_Phrase", "red" ) } ,
+/* erase      */ { icon: 'f591', class: 'gray' , fnc: () => this.f( "p_Erase" )         } ,
+/* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "p_Copy" )          } ,
     ]                                                                                     ,
                                                                                            
     restore : [                                                                            
-    /* restore    */ { icon: 'f829', class:'restore',fnc: () => this.f( "p_Restore" )   } ,
+/* restore    */ { icon: 'f829', class:'restore',fnc: () => this.f( "p_Restore" )       } ,
     ]                                                                                      
 }
 
@@ -172,14 +172,14 @@ buttons = {
 
 // .. functions of buttons
 f ( action, extra: boolean|-2|-1|0|1|2|"blue"|"red" = null ) {
-    
+
     // .. critical Error!
     let preserve = store.state.preserve;
     try { if ( !preserve.selected.length && !preserve.fakeSelected.length ) return 0; } 
     catch { return 0; }
-    
+
     let a = preserve.selected.length ? preserve.selected[0] : preserve.fakeSelected[0];
-    
+
     let bookModule = this.$parent.$parent.$refs.book as BookModule;
 
     switch ( action ) {
@@ -191,22 +191,22 @@ f ( action, extra: boolean|-2|-1|0|1|2|"blue"|"red" = null ) {
         case "less"     : this.flight(0,false,true);                                 break;
         case "more"     : this.flight(0,true);                                       break;
         case "breakLine": bookModule.removeLineBreak( a );              this.fade(); break;
-        
+
         case "edit"     : bookModule.editing(a,true);      this.fade(0,false,false); break;
         case "snap"     : this.snap( true );                                         break;
         case "lineBreak": bookModule.addLineBreakAfter( a );                         break;
         case "block"    : bookModule.blockToggler(a);                   this.fade(); break;
-        
+
         case "adjusting" : this.adjuster( extra as -2|-1|1|2 );                      break;
-        
+
         case "phrase"   : bookModule.phraseMarker( extra as null|"blue"|"red" );    this.fade(); break;
         case "delete"   : bookModule.eraser();                          this.fade(); break;
-        
+
         case "p_Scope"  : this.retrievePhrase(); this.f( "scope", true );            break;
         case "p_Phrase" : this.retrievePhrase(); this.f( "phrase", extra );          break;
         case "p_Erase"  : this.retrievePhrase(); this.f( "phrase", null );           break;
         case "p_Copy"   : this.retrievePhrase(); this.f( "copy", true );             break;
-        
+
         case "p_Restore": bookModule.restore();                         this.fade(); break;
 
     }
@@ -272,10 +272,10 @@ buttonController ( more: boolean, less: boolean, spot: number ) {
     let ins = store.state.inHand.lesson.chromosome.institute;
     this.buttons.reading[ RBS.Mark ].class = 
         tools.wordStating( wordRow[0], ins ) === "M" ? 'gray lineThrough' : 'green';
-    
+
     // .. set Style Block|Bridge Button
     let isBlk = tools.isBlock( wordRow, max, id );
-    
+
     // .. phrase Control
     let pb = this.buttons.phrase;
     for ( let i in pb ) pb[i].class = pb[i].class.replace( " off", "" );
@@ -294,7 +294,7 @@ retrieveText ( recursive: boolean ) {
         max = store.state.preserve.selected.length,
         a = store.state.preserve.selected[0],
         b = store.state.preserve.selected[ max-1 ];
-    
+
     string = this.dText.content[a][0] || "";
 
     if ( recursive ) {
@@ -317,7 +317,7 @@ retrievePhrase () {
         m = store.state.preserve.selected[0],
         a: number,
         b: number;
-    
+
     // TODO divide them by blocks
     a = m;
     while ( a >= 0 && this.dText.content[a][1].phrased ) a--;
@@ -353,7 +353,7 @@ snap ( init: boolean ) {
 // -- =====================================================================================
 
 async adjuster ( code: -2|-1|1|2 ) {
-    
+
     // .. hover flight simulation
     if ( this.barBox_Animation ) this.barBox_Animation.cancel();
     this.postFlight();
@@ -367,12 +367,12 @@ async adjuster ( code: -2|-1|1|2 ) {
     if ( typeof row[1].snap === "undefined" ) {
 
         tnsPLY.init( store.state.inHand.mediaPath );
-        
+
         await tnsPLY.getDuration().then( secs => {
             if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
             row[1].snap = tools.snapFinder( id, this.dText.content, secs );
         } );
-    
+
     }
     // .. still has no Data!
     if ( typeof row[1].snap === "undefined" ) return tools.toaster( "no success!" );
@@ -398,9 +398,9 @@ async flight ( latitude: number, more=false, less=false, spot=-1, exData? ) {
         x_def: NS.AnimationDefinition = {},
         h: number,
         y: number;
-    
+
     await this.extra_off();
-       
+
     this.buttonController( more, less, spot );
 
     if ( this.barBox_Animation ) this.barBox_Animation.cancel();
@@ -446,7 +446,7 @@ postFlight ( spot=-1 ) {
 // -- =====================================================================================
 
 async extra_on () {
-    
+
     if ( this.extra_barBox_Animation ) this.extra_barBox_Animation.cancel();
 
     ( this.$refs.extra_barBox as any ).nativeView.visibility = "visible";
@@ -456,7 +456,7 @@ async extra_on () {
     // .. put it behind barBox
     let originY = ( this.$refs.barBox as any ).nativeView.translateY;
     ( this.$refs.extra_barBox as any ).nativeView.translateY = originY;
-    
+
     let h = ( this.$refs.barBox as any ).nativeView.getActualSize().height +6;
 
     x_def.target = ( this.$refs.extra_barBox as any ).nativeView;
@@ -481,7 +481,7 @@ async extra_off () {
 
     ( this.$refs.extra_barBox as any ).nativeView.visibility = "collapsed";
     ( this.$refs.extra_barBox as any ).nativeView.opacity = 0;
-    
+
     return 0;
 
 }
@@ -502,7 +502,7 @@ fade ( delay=0, clean=true, toasterOff=false, duration=300, justLanding=false ) 
 
     if ( this.barBox_Animation ) this.barBox_Animation.cancel();
     if ( this.fade_TO ) clearTimeout( this.fade_TO );
-    
+
     x_def.target = ( this.$refs.barBox as any ).nativeView;
     x_def.curve = NS.Enums.AnimationCurve.ease,
     x_def.duration = duration;

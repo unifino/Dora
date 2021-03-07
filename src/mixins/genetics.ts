@@ -80,7 +80,6 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
                     Bus.$emit( "IPanel_Result" );
                     await new Promise( _ => setTimeout( _, 1500 ) );
-                    // Bus.$emit( "Institute_FolderListCalculator" );
                     Bus.$emit( "Battery_update" );
 
                 } )

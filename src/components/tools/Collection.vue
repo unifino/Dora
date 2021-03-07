@@ -204,7 +204,7 @@ tapAnimator (): Promise<void> {
 
     .video {
         font-size: 18;
-        color: #867904;
+        color: #2b0138;
         padding-top: 2;
         width: 23;
     }
