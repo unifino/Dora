@@ -15,14 +15,14 @@ export const ssd = "https://stark-chamber-36060.herokuapp.com/";
 
 export function 
 instituteTravel ( d: NS.SwipeDirection|null|TS.TravelBack = null ): TS.travelInfo {
-    
+
     let institutes = store.state.appConfig.activeInstitutes;
 
     let i = institutes.indexOf( store.state.inHand.institute );
-    
+
     let type: string , 
         duration: number = 300;
-    
+
     switch ( d ) {
 
         case NS.SwipeDirection.left:    i++; type = 'slideLeft';   break;
@@ -36,7 +36,7 @@ instituteTravel ( d: NS.SwipeDirection|null|TS.TravelBack = null ): TS.travelInf
             break;
 
     }
-    
+
     i = ( i + institutes.length  ) % institutes.length;
 
     return { 
@@ -82,10 +82,10 @@ let sentenceBOX: TS.VIPSentence[],
     numberBOX:  TS.VIPSentence[];
 // .. Find all sentences and Filter them by Mark or Phrase
 export async function sentenceRetriever ( lessons: TS.Lesson[] ) {
-    
+
     sentenceBOX = [];
     numberBOX = [];
-    
+
     for ( let lesson of lessons ) {
         if ( lesson ) {
             // .. just ( read ) Lesson will be considered
@@ -97,11 +97,11 @@ export async function sentenceRetriever ( lessons: TS.Lesson[] ) {
                 if ( model.includes( "dVideo" ) ) await sentenceRetriever_video( lesson );
             }
         }
-    } 
-    
+    }
+
     return { sentences: sentenceBOX, numbers: numberBOX }
 
-} 
+}
 
 // -- =====================================================================================
 
@@ -110,7 +110,7 @@ async function sentenceRetriever_audio ( lesson: TS.Lesson ) {
     let c: number = 0,
         beginningID: number,
         context = lesson.protoplasm.find( x => x.type === "dText" ).content;
-    
+
     for ( const idx in context ) {
 
         // .. preserving Starting ID of sentence
@@ -136,7 +136,7 @@ async function sentenceRetriever_audio ( lesson: TS.Lesson ) {
 async function sentenceRetriever_video ( lesson: TS.Lesson ) {
 
     let subtitle = lesson.protoplasm.find( x => x.type === "dText" ).content;
-    
+
     let a = 0;
     while( a < subtitle.length -1 ) {
         let b = subtitle.findIndex( (row,i) => row[1].standoff === "block" && i > a );
@@ -205,14 +205,14 @@ function sentenceRetriever_unify( lesson : TS.Lesson, start: number, stop: numbe
 // -- =====================================================================================
 
 export function isBlock ( obj: TS.UniText, length: number, idx?: number ): boolean {
-    
+
     if ( !obj[0] ) return true;
     if ( !obj[1] ) return false;
 
     let asNum = Number( ( obj[0] ).replace( ',' , '' ) );
 
     if ( obj[1].standoff === "bridge" && idx < length -1 ) return false;
-    else if 
+    else if
     (
         ( obj[1].standoff === "block" )                         ||
         ( obj[1].isBreakLine )                                  ||
@@ -221,13 +221,13 @@ export function isBlock ( obj: TS.UniText, length: number, idx?: number ): boole
         ( obj[0].includes('!') )                                ||
         ( obj[0].includes(';') )                                ||
         ( obj[0].includes(':') && obj[0].slice(-1) === ':' )    ||
-        ( obj[0].includes('.') && isNaN( asNum ) )                
-    ) 
+        ( obj[0].includes('.') && isNaN( asNum ) )
+    )
         return true;
-    
+
     else return false;
 
-} 
+}
 
 // -- =====================================================================================
 
@@ -246,7 +246,7 @@ export async function activator (
     flashcards: TS.Flashcard[]
 
 ): Promise<TS.VIPSentence[]> {
-    
+
     let now: number , 
         step: number , 
         time: number , 
@@ -257,7 +257,7 @@ export async function activator (
 
     // .. make a copy of sentenceBox
     VIPinTimeBox = sentenceBox.slice();
-    
+
     // .. removing not in Time sentences
     for ( let sentence of VIPinTimeBox ) {
 
@@ -278,7 +278,7 @@ export async function activator (
 
     // .. sort VIPinTimeBox
     VIPinTimeBox.sort( (x,y) => x[0].length > y[0].length ? 1 : -1 );
-    
+
     return VIPinTimeBox;
 
 }
@@ -307,12 +307,12 @@ export function translator ( from: string, to: string, string: string ): Promise
             // .. second Try
             translator_myMemory_free( from, to, string )
             .then( translate => rs( translate ) )
-            
+
             // .. Giving Up
             .catch( errB => rx( errA + "\n\n" + errB ) );
-        
+
         } );
-    
+
     } );
 
 }
@@ -327,7 +327,7 @@ export function translateByImage ( word: string ): Promise<string[]> {
             url += 'search?q=' + encodeURIComponent ( word );
             url += '&tbm=isch';
             url += '&tbs=isz%3Am';
-            
+
             NS.Http.request( {
                 url: url ,
                 method: "GET" ,
@@ -346,31 +346,31 @@ export function translateByImage ( word: string ): Promise<string[]> {
 
                     aCut   = "https://encrypted-tbn0.gstatic.com/images";
                     bCut   = '"';
-                    
+
                     aCutID = r.indexOf( aCut );
                     r      = r.substr( aCutID );
                     bCutID = r.indexOf( bCut );
-                
+
                     while ( aCutID > -1 && bCutID > -1 ) {
 
                         url    = r.substr( 0, bCutID );
                         url    = decodeURIComponent( JSON.parse( '"' + url + '"' ) );
                         url    = url.replace( "&amp;", "&" );
                         if ( !urls.includes( url ) ) urls.push( url );
-                        
+
                         r      = r.substr( bCutID );
                         aCutID = r.indexOf( aCut );
                         r      = r.substr( aCutID );
                         bCutID = r.indexOf( bCut );
-                    
+
                     }
-                    
+
                     rs( urls );
 
-                } , 
+                },
 
                 e => rx( [ e +'' ] )
-            
+
             )
             .catch( e => rx( [ e +'' ] ) );
 
@@ -380,17 +380,17 @@ export function translateByImage ( word: string ): Promise<string[]> {
 
 // -- =====================================================================================
 
-function 
+function
 translator_google_paid ( from: string, to: string, string: string ): Promise<string> {
-    
+
     return new Promise ( (rs,rx) => {
-        
+
         let url = 'https://translation.googleapis.com/language/translate/v2/?';
         url += 'q=' + encodeURIComponent ( string );
         url += '&source=' + from;
         url += '&target=' + to;
         url += '&key=' + "store.state.appConfig.gAPIKey";
-        
+
         NS.Http.getJSON( url ).then(
 
             res => {
@@ -399,8 +399,8 @@ translator_google_paid ( from: string, to: string, string: string ): Promise<str
                 // .. RTL force Mode 
                 if ( to == "fa" && mean.charAt(0).match(/[a-z]/i) ) mean = "ـ " + mean;
                 rs ( mean );
-            } , 
-            
+            },
+
             e => {
                 let connectionX = 'Error: java.net.UnknownHostException: ' +
                 'Unable to resolve host "translation.googleapis.com": ' +
@@ -409,7 +409,7 @@ translator_google_paid ( from: string, to: string, string: string ): Promise<str
                     "No Internet Connection!" : 'Google Translator: ' + e;
                 rx ( msg );
             }
-        
+
         )
         .catch( e => rx ( 'Link : ERROR! ' + e ) );
 
@@ -423,7 +423,7 @@ function
 translator_google_free ( from: string, to: string, string: string ): Promise<string> {
 
     return new Promise ( (rs,rx) => {
-        
+
         let url = 'https://translate.googleapis.com/translate_a/single?client=gtx&dt=t';
         url += '&q=' + encodeURIComponent ( string );
         url += '&sl=' + from;
@@ -436,9 +436,9 @@ translator_google_free ( from: string, to: string, string: string ): Promise<str
         } ).then(
 
             async answer => {
-                
+
                 let content = answer.content.toString();
-                
+
                 let mean = JSON.parse( content );
                 mean = mean[0][0][0];
 
@@ -447,8 +447,8 @@ translator_google_free ( from: string, to: string, string: string ): Promise<str
                 if ( to == "fa" && mean.charAt(0).match(/[a-z]/i) ) mean = "ـ " + mean;
                 rs ( mean );
 
-            } , 
-            
+            },
+
             e => {
                 let connectionX = 'Error: java.net.UnknownHostException: ' +
                 'Unable to resolve host "translate.googleapis.com": ' +
@@ -457,7 +457,7 @@ translator_google_free ( from: string, to: string, string: string ): Promise<str
                     "No Internet Connection!" : 'Google Translator: ' + e;
                 rx ( msg );
             }
-        
+
         )
         .catch( e => {
             let quotaX = "SyntaxError: Unexpected token < in JSON at position 0";
@@ -472,9 +472,9 @@ translator_google_free ( from: string, to: string, string: string ): Promise<str
 
 // -- =====================================================================================
 
-function 
+function
 translator_myMemory_free ( from: string, to: string, string: string ): Promise<string> {
-    
+
     let err_01 = "MYMEMORY WARNING: YOU USED ALL AVAILABLE FREE TRANSLATIONS FOR TODAY."
     let err_02 = 'Error: java.net.UnknownHostException: ' + 
         'Unable to resolve host "api.mymemory.translated.net": ' +
@@ -485,7 +485,7 @@ translator_myMemory_free ( from: string, to: string, string: string ): Promise<s
         let url = "https://api.mymemory.translated.net/get?";
         url += "q=" + string;
         url += "&langpair=" + from + "|" + to;
-        
+
         NS.Http.getJSON( url ).then(
 
             res => {
@@ -495,10 +495,10 @@ translator_myMemory_free ( from: string, to: string, string: string ): Promise<s
                 if ( to == "fa" && mean.charAt(0).match(/[a-z]/i) ) mean = "ـ " + mean;
                 if ( mean.includes( err_01 ) ) rx ( 'MyMemory.net: Quota Exceeded!' );
                 rs ( mean );
-            } , 
-            
+            } ,
+
             e => rx ( e.toString() === err_02 ? "No Connection!" : e )
-        
+
         )
         .catch( e => rx ( 'Link : ERROR! ' + e ) );
 
@@ -524,15 +524,15 @@ export function trimmer ( word: string , numCheck = false ) {
 
     return word;
 
-} 
+}
 
 // -- =====================================================================================
 
 export function deepSearch ( needle: string , strawStock: TS.Glossar ): string|null {
-    
+
     // .. making the needle neat
     needle = trimmer( needle );
-    
+
     if ( !needle ) return needle;
 
     // .. not Found in First Attempt ( aBC )
@@ -551,10 +551,9 @@ export function deepSearch ( needle: string , strawStock: TS.Glossar ): string|n
 
 }
 
-
 // -- =====================================================================================
 
-export function wordStating ( 
+export function wordStating (
 
     word: string,
     institute: string,
@@ -636,15 +635,15 @@ export function colorLuminance( hex: string, lum: number ) {
 
 	// convert to decimal and change luminosity
 	for ( let i = 0; i < 3; i++ ) {
-        
+
         c = parseInt( hex.substr(i*2,2), 16 );
 		c = Math.round( Math.min( Math.max(0, c + (c * lum)), 255 ) ).toString(16);
 		rgb += ( "00" + c ).substr( c.length );
-    
+
     }
 
     return rgb;
-    
+
 }
 
 // -- =====================================================================================
@@ -665,7 +664,7 @@ export function etikettKey (): string {
 // -- =====================================================================================
 
 function invertHex( hex: string ) {
-    
+
     hex = hex.replace( "#", "" );
     hex = "#" + (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1);
     return hex; 
@@ -685,7 +684,7 @@ export async function doorRemote (
 ) {
 
     if ( door_Animation && door_Animation.isPlaying ) return 0;
-    
+
     // .. get nativeView Element
     place = place.nativeView;
 
@@ -727,7 +726,7 @@ export async function doorRemote (
     door_Animation.play().then( async () => {
 
         place.backgroundColor = bgColor;
-        
+
         if ( act === "open" ) {
             place.height = place.width = "100%";
             place.translateX = place.translateY = 0;
@@ -754,9 +753,9 @@ changeOption ( direction: "previous"|"next", length: number, refs: any, inHand: 
 
     x = direction === "next" ? -170 : +170;
     refs.slide[ inHand ].nativeView.animate( { translate: { x: x, y: 0 } } );
-    
+
     inHand = ( inHand + step + length ) % length;
-    
+
     x = direction === "next" ? +170 : -170;
     refs.slide[ inHand ].nativeView.translateX = x;
 
@@ -869,7 +868,7 @@ export async function glssDBUpdater ( institute: string ) {
 // -- =====================================================================================
 
 export function randomCode () {
-    
+
     let result     = '';
     let integers = '0123456789';
     let slots = [];
@@ -881,30 +880,30 @@ export function randomCode () {
         result += slots[ Math.floor( Math.random()*slots.length ) ];
 
     return result;
- 
+
 }
 
 // -- =====================================================================================
 
 export function randomStr ( length: number ) {
-    
+
     let result     = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     for ( let i = 0; i < length; i++ ) {
         result += characters.charAt( Math.floor( Math.random()*characters.length ) );
     }
-    
+
     return result;
- 
+
 }
 
 // -- =====================================================================================
 
 export function appConfigValidator ( data: TS.appConfig ) {
-    
+
     let valid: boolean = true;
-    
+
     switch ( true ) {
 
         case typeof data !== "object"                   : valid = false; break;
@@ -991,7 +990,7 @@ export function subParser ( data: string ) {
     let aCut, aCutID, bCutID, box, begin, end, text;
 
     for ( const lineNum in lines ) {
-                    
+
         if ( lines[ lineNum ].match( /<p begin=\".*. end=\".*.\">.*.<\/p>/g ) ) {
 
             // ------- retrieve begin
@@ -1044,7 +1043,7 @@ export function subParser ( data: string ) {
 
     return subtitle;
 
-} 
+}
 
 // =====================================================================================
 
@@ -1056,19 +1055,19 @@ export function srtParser ( data: string ) {
     let points, begin, end, text;
 
     for ( let n=0; n < lines.length -2; n++ ) {
-        
+
         text = "";
 
-        if 
-        ( 
+        if
+        (
             lines[ n +0 ].match( /^\d+$/ ) &&
             lines[ n +1 ].match( /[0-9]*:*[0-9]*:*[0-9,]* --> [0-9]*:*[0-9]*:*[0-9,]*/ ) 
         )
         {
 
-            // ------- time Parsing
+            // .. time Parsing
             if ( n < lines.length - 1 ) points = lines[ n +1 ].split( '-->' );
-            
+
             begin  = points[0].split( ':' );
             begin  = Number( begin[2].replace( /,/g , '.' ) ) + 
                      Number( begin[1] ) *60 + 
@@ -1080,10 +1079,10 @@ export function srtParser ( data: string ) {
                      Number( end[1] ) *60 + 
                      Number( end[0] ) *60*60;
             end    = Number( end.toFixed(2) );
-            
-            // ------- text Parsing
+
+            // .. text Parsing
             text = lines[ n +2 ];
-            while ( 
+            while (
                 n +3 < lines.length && 
                 lines[ n +3 ] && 
                 !(
@@ -1091,18 +1090,18 @@ export function srtParser ( data: string ) {
                     lines[ n +3 ].match( /^\d+$/ ) &&
                     lines[ n +4 ].match( /[0-9]*:*[0-9]*:*[0-9,]* --> [0-9]*:*[0-9]*:*[0-9,]*/ ) 
                 )
-            ) 
+            )
             {
                 text += "\n" + lines[ n +3 ];
                 n++;
             }
-            
+
             str2UnifiedText( text, begin, end, subtitle );
 
             n += 3;
-            
+
         }
-    
+
     }
 
     return subtitle;

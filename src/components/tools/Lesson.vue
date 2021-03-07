@@ -3,6 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
+    <Label class="background" :text=" '#' + lesson.chromosome.code.idx " />
     <Image class="avatar" :src="avatar" />
 
 <!---------------------------------------------------------------------------------------->
@@ -36,6 +37,7 @@ import * as storage                     from "@/mixins/storageHandler"
 import ClassRoom                        from "@/components/ClassRoom/ClassRoom.vue"
 import Bus                              from "@/mixins/bus"
 import nButton                          from "@/components/tools/n_Button.vue"
+import Collection                       from "@/components/tools/Collection.vue"
 
 // -- =====================================================================================
 
@@ -175,6 +177,9 @@ deleteMe () {
         // .. recalculate Brain
         tools.dAO( store.state.inHand.institute );
 
+        // .. reappear the AddOne Button
+        ( this.$parent as Collection ).allGOT = false;
+
     } );
 
 }
@@ -279,11 +284,22 @@ destroyed () {}
 
 /*                                          */
 
-    .avatar {
+    .background {
         background-color: #f1f1f1;
-        border-width: 1;
+        border-width: 1.7 1.7 1.7 5.3;
         border-color: #094e63;
-        border-radius: 5;
+        border-radius: 2 6 6 2;        width: 55;
+        margin-right: 3;
+        text-align: center;
+        font-size: 25;
+        font-family: Farsan-Regular;
+        padding-top: 13;
+    }
+
+    .avatar {
+        border-width: 1.7 1.7 1.7 3.5;
+        border-color: #094e63;
+        border-radius: 2 6 6 2;
         width: 55;
         margin-right: 3;
         horizontal-align: left;

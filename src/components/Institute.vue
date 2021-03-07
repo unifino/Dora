@@ -89,7 +89,7 @@ mounted () {
     // .. update data
     genetics.ribosomesOnServer( this.ins ).then( () => this.collector() );
 
-    Bus.$off( "Institute_BackOrExit" )
+    Bus.$off( "Institute_BackOrExit" );
     Bus.$on( "Institute_BackOrExit", this.backOrExit );
 
 }

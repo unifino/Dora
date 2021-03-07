@@ -1,5 +1,5 @@
 <template>
-<GridLayout columns="12,75,7,*" rows="10,25,5,*,10" class="collectionBox">
+<GridLayout class="collectionBox" rows="10,25,5,*,10" columns="12,75,7,*">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -18,7 +18,13 @@
     <ScrollView col=3 row=3 orientation="horizontal" scrollBarIndicatorVisible="false">
         <StackLayout orientation="horizontal" >
             <Lesson v-for="(x,i) of inHand" :key="i" class="Lesson" :lesson="x" />
-            <Image class="addOne" src="res://add_one" @tap="addOne()" ref="addOne" />
+            <Image
+                class="addOne"
+                ref="addOne"
+                src="res://add_one"
+                @tap="addOne()"
+                :visibility="allGOT ? 'collapsed' : 'visible'"
+            />
         </StackLayout>
     </ScrollView>
 
@@ -52,6 +58,7 @@ export default class Folder extends Vue {
 // -- =====================================================================================
 
 defaultAvatar = "res://dora_default_avatar";
+allGOT = false;
 
 // -- =====================================================================================
 
@@ -87,13 +94,19 @@ get badge () {
 
 get inHand () {
 
-    let inHands = [];
+    let inHands = [],
+        inLocal = 0;
 
     // .. convert lessonBox to List
     for ( let x of Object.values( store.state.massDB[ this.ins ] ) )
-        if ( x.chromosome.code.ribosome === this.ribosome.code )
+        if ( x.chromosome.code.ribosome === this.ribosome.code ) {
+            inLocal++;
             if ( x.chromosome.status === "reading" )
                 inHands.push( x );
+        }
+
+    // .. determine if all Lessons has been Downloaded already!
+    if ( inLocal === this.ribosome.contains ) this.allGOT = true;
 
     return inHands;
 
@@ -168,12 +181,12 @@ tapAnimator (): Promise<void> {
 
     .addOne {
         background-color: #f1f1f1;
-        border-width: 1;
+        border-width: 0.5;
         border-color: #094e63;
-        border-radius: 5;
+        border-radius: 2 6 6 2;
         width: 55;
         horizontal-align: left;
-        stretch: aspectFill
+        stretch: aspectFit
     }
 
     .badge {
