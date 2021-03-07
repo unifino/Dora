@@ -572,7 +572,7 @@ export function wordStating (
     // .. dealing with a real NaN word
     else if ( isNaN( pureDigit( neatWord ) ) ) {
 
-        let uon = deepSearch ( word , glossar );
+        let uon = deepSearch( word , glossar );
 
         // .. old row
         if ( uon ) {
@@ -1147,14 +1147,15 @@ export function confirmLesson( lesson: TS.Lesson ) {
 
     let chromosome = lesson.chromosome;
 
-    for ( let row of lesson.protoplasm.find( x => x.type === "dText" ).content ) 
-        wordStating( row[0], chromosome.institute, "L" );
+    for ( let row of lesson.protoplasm.find( x => x.type === "dText" ).content )
+        if ( wordStating( row[0], chromosome.institute ) === "N" )
+            wordStating( row[0], chromosome.institute, "L" );
 
     // .. register in chromosome
     chromosome.status = "read";
     chromosome.vPath = [ "Archive", ...chromosome.hPath || [], chromosome.title ];
     delete chromosome.hPath;
-    
+
     // TODO MIX MODEL ???
     try {
         delete lesson.protoplasm.find( x => x.type === "dText" ).pinnedPoint;

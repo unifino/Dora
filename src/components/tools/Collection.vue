@@ -35,16 +35,9 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
-import * as storage                     from "@/mixins/storageHandler"
-import * as tools                       from "@/mixins/tools"
 import * as genetics                    from "@/mixins/genetics"
-import * as shopping                    from "@/mixins/shopping"
 import Lesson                           from "@/components/tools/Lesson.vue"
-import ClassRoom                        from "@/components/ClassRoom/ClassRoom.vue"
-import Bus                              from "@/mixins/bus"
-import nButton                          from "@/components/tools/n_Button.vue"
 
 // -- =====================================================================================
 

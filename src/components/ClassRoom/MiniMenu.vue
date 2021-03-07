@@ -204,7 +204,7 @@ miniMenu ( time=300 , forceMode?: "up" | "down" ) {
     let box = ( this.$refs.buttonsBox as any ).nativeView,
         luncherButton = ( this.$refs.luncherButton as any ).nativeView,
         controlBox = ( this.$refs.controlBox as any ).nativeView; 
-    
+
     let o_def: NS.AnimationDefinition = {},
         o2_def: NS.AnimationDefinition = {},
         o3_def: NS.AnimationDefinition = {};
@@ -278,7 +278,7 @@ speedToggler () {
 darkModeToggler () { 
 
     let box = ( this.$refs.buttonsBox as any ).nativeView; 
-    
+
     TM.darkModeToggler( this.$root.$children[0].$refs );
 
     box.backgroundColor = store.state.darkMode ? 
@@ -299,7 +299,6 @@ confirm () {
         clearTimeout( this.confirm_TO );
 
         tools.confirmLesson( store.state.inHand.lesson );
-        // Bus.$emit( "Institute_FolderListCalculator" );
         ( this as any ).$navigateBack();
         tools.dAO( store.state.inHand.institute );
 
