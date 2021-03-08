@@ -57,9 +57,6 @@ get bg () {
         else bg = NS.path.join( storage.bBGs_dir.path, this.BGName ) + style;
     }
 
-    // if ( TNS_ENV !== "production" ) try { bg.src = storage.bBGs_dir.path + "/test" + style + ".jpg"; } catch {}
-    // if ( TNS_ENV !== "production" ) bg.src += ".jpg";
-
     return bg;
 
 }
@@ -68,6 +65,7 @@ get bg () {
 
 mounted () {
     Bus.$on( "BeautyBG_Init", this.init );
+    Bus.$on( "BeautyBG_Next", this.next );
 }
 
 // -- =====================================================================================

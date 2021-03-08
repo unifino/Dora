@@ -163,14 +163,14 @@ backButtonCtl (e) {
 resumeCtl () {
 
     switch ( store.state.here ) {
-        
+
         case "ClassRoom":
             tnsPLY.stop();
             store.state.mode = "reading";
             break;
 
         case "Institute":
-            Bus.$emit( "Institute_Setting", false );
+            Bus.$emit( "BeautyBG_Next" );
             break;
 
         // .. Entrance | ClassRoom_B | ClassRoomEntrance | Salon_F will be omitted!
