@@ -14,7 +14,7 @@
 
         <StackLayout padding="85% 0 330% 0">
 
-            <ScrollView v-for="(code,i) of rbssCodes" :key="i" @swipe="swipePass=true">
+            <ScrollView v-for="(code,i) of rbssCodes" :key="code" @swipe="swipePass=true">
 
                 <StackLayout class="collectionBox">
 
@@ -72,6 +72,7 @@ export default class Institute extends Vue {
 // TODO what is this?
 swipePass: boolean;
 rbssCodes: string[] = [];
+pokAll = false;
 
 // -- =====================================================================================
 
@@ -119,6 +120,8 @@ collector () {
             if ( lessons.length < x.contains ) pok = true;
             // .. it will be presented because some lessons haven't been read yet
             else if ( lessons.some( z => z.chromosome.status === "reading" ) ) pok = true;
+            // .. it will be presented due to the user perforation
+            if ( this.pokAll ) pok = true;
 
         }
 

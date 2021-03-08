@@ -3,7 +3,6 @@
     <nButton
         myClass="opt-item filter fas"
         :myLabel="String.fromCharCode( '0x' + 'f0b0' )"
-        @tap="toggleMenu"
     />
 
 </template>
@@ -31,10 +30,6 @@ import Bus                              from "@/mixins/bus"
 export default class A extends Vue {
 
 // -- =====================================================================================
-
-toggleMenu () {
-    Bus.$emit( "Menu_ToggleMenu" )
-}
 
 // -- =====================================================================================
 

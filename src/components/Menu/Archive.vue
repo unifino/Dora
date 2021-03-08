@@ -3,7 +3,7 @@
     <nButton
         myClass="opt-item fas"
         :myLabel="String.fromCharCode( '0x' + 'f187' )"
-        @tap="toggleMenu"
+        @tap="toggleArchive"
     />
 
 </template>
@@ -16,9 +16,8 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import store                            from "@/mixins/store"
 import nButton                          from "@/components/tools/n_Button.vue"
-import Bus                              from "@/mixins/bus"
+import Institute                        from "@/components/Institute.vue"
 
 // -- =====================================================================================
 
@@ -32,8 +31,14 @@ export default class B extends Vue {
 
 // -- =====================================================================================
 
-toggleMenu () {
-    Bus.$emit( "Menu_ToggleMenu" )
+toggleArchive () {
+
+    let base = this.$root.$children[0].$refs.base as any;
+    let institute: Institute = base.$children[1];
+
+    institute.pokAll = !institute.pokAll;
+    institute.collector();
+
 }
 
 // -- =====================================================================================

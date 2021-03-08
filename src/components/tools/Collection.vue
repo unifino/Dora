@@ -17,7 +17,14 @@
 
     <ScrollView row=3 col=3 orientation="horizontal" scrollBarIndicatorVisible="false">
         <StackLayout orientation="horizontal" >
-            <Lesson v-for="(x,i) of inHand" :key="i" class="Lesson" :lesson="x" />
+
+            <Lesson 
+                v-for="x of inHand" 
+                :key="x.chromosome.code.idx" 
+                class="Lesson" 
+                :lesson="x" 
+            />
+
             <Image
                 class="addOne"
                 ref="addOne"
@@ -25,6 +32,7 @@
                 @tap="addOne()"
                 :visibility="allGOT ? 'collapsed' : 'visible'"
             />
+
         </StackLayout>
     </ScrollView>
 
