@@ -191,7 +191,7 @@ tapAnimator (): Promise<void> {
     }
 
     .addOne {
-        background-color: #f1f1f1;
+        background-color: #094e63;
         border-width: 0.5;
         border-color: #094e63;
         border-radius: 2 6 6 2;

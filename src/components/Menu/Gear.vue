@@ -49,10 +49,8 @@ toggleMenu () {
 
 /*                                          */
     .light .gear { color: #c2c3c4 }
-    .dark  .gear { color: #172124 }
+    .dark  .gear { color: #8a8c8d }
 
-    .opt-item {
-        margin: 0 0 0 -15;
-    }
+    .opt-item { margin: 0 0 0 -15 }
 
 </style>

@@ -4,11 +4,9 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout
-        width="100%"
-        height="60"
         row=1
         columns="18,*,auto,10"
-        :background=" !$store.state.darkMode ? '#003d47' : '#f4ddcb' "
+        class="panel"
     >
 
         <StackLayout col=1 orientation="horizontal" horizontalAlignment="left">
@@ -45,7 +43,6 @@ import Battery                          from "@/components/Menu/Battery.vue"
 import Filter                           from "@/components/Menu/Filter.vue"
 import A                                from "@/components/Menu/A.vue"
 import B                                from "@/components/Menu/B.vue"
-import store                            from "@/mixins/store"
 
 
 // -- =====================================================================================
@@ -79,5 +76,12 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
+    .panel {
+        width: 100%;
+        height: 60;
+    }
+
+    .light .panel { background-color: #003d47 }
+    .dark  .panel { background-color: #0a2429 }
 
 </style>
