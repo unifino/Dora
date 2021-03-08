@@ -32,7 +32,7 @@ declare var android; // required if tns-platform-declarations is not installed
 if ( NS.isAndroid ) {
 
     NS.TextBase.prototype[ NS.fontSizeProperty.setNative ] = function ( value ) {
-        
+
         if ( !this.formattedText || ( typeof value !== "number" ) ) {
             if ( typeof value === "number" ) {
                 this.nativeTextViewProtected
@@ -43,7 +43,7 @@ if ( NS.isAndroid ) {
                 .setTextSize( android.util.TypedValue.COMPLEX_UNIT_PX, value.nativeSize );
             }
         }
-    
+
     };
 
 }
@@ -51,13 +51,13 @@ if ( NS.isAndroid ) {
 // -- =====================================================================================
 
 new Vue( {
-    
+
 store ,
 
 // -- =====================================================================================
 
 template: `
-    
+
     <GridLayout backgroundColor="#125689">
         <Base />
     </GridLayout>` ,

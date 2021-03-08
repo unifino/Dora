@@ -1,26 +1,16 @@
 <template>
-<GridLayout 
-    columns="*,auto" 
-    rows="*,auto" 
-    :background="$store.state.darkMode ? '#003d47' : '#f4ddcb'" 
->
+<GridLayout columns="*,auto" rows="*,auto,60">
+
 <!---------------------------------------------------------------------------------------->
 
     <Image 
-        verticalAlignment="bottom" 
-        horizontalAlignment="right" 
+        verticalAlignment="bottom"
+        horizontalAlignment="right"
         stretch="aspectFit"
         col=1
         row=1
         :src=bg
         height="40%"
-        translateY="-60"
-    />
-
-    <StackLayout
-        row=1
-        colSpan=2
-        @tap="next"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -45,9 +35,7 @@ import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
-} )
+@Component ( {} )
 
 // -- =====================================================================================
 

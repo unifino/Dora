@@ -1,21 +1,21 @@
 <template>
-<GridLayout class="collectionBox" rows="10,25,5,*,10" columns="12,75,7,*">
+<GridLayout class="collectionBox" rows="10,25,5,*,16" columns="12,75,7,*">
 
 <!---------------------------------------------------------------------------------------->
 
-    <Image col=1 row=1 rowSpan=3 class="avatar" :src="defaultAvatar"  />
-    <Image col=1 row=1 rowSpan=3 class="avatar" :src="ribosome.avatar" />
+    <Image row=1 col=1 rowSpan=3 class="avatar" :src="defaultAvatar"  />
+    <Image row=1 col=1 rowSpan=3 class="avatar" :src="ribosome.avatar" />
 
 <!---------------------------------------------------------------------------------------->
 
-    <StackLayout col=3 row=1 orientation="horizontal" >
+    <StackLayout row=1 col=3 orientation="horizontal" >
         <Label class="title" :text="ribosome.title" />
         <Label :class="badge.class" :text="String.fromCharCode( '0x' + badge.icon )" />
     </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView col=3 row=3 orientation="horizontal" scrollBarIndicatorVisible="false">
+    <ScrollView row=3 col=3 orientation="horizontal" scrollBarIndicatorVisible="false">
         <StackLayout orientation="horizontal" >
             <Lesson v-for="(x,i) of inHand" :key="i" class="Lesson" :lesson="x" />
             <Image
@@ -27,6 +27,16 @@
             />
         </StackLayout>
     </ScrollView>
+
+<!---------------------------------------------------------------------------------------->
+
+    <StackLayout row=4 col=1 :class="ribosome.contains!=='∞' ? 'progressBox':'pfBox'" >
+        <StackLayout
+            :width="100 * ( read / Number( ribosome.contains ) ) + '%' "
+            horizontalAlignment="left" 
+            class="progressBar" 
+        />
+    </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -59,6 +69,7 @@ export default class Folder extends Vue {
 
 defaultAvatar = "res://dora_default_avatar";
 allGOT = false;
+read = 0;
 
 // -- =====================================================================================
 
@@ -101,8 +112,8 @@ get inHand () {
     for ( let x of Object.values( store.state.massDB[ this.ins ] ) )
         if ( x.chromosome.code.ribosome === this.ribosome.code ) {
             inLocal++;
-            if ( x.chromosome.status === "reading" )
-                inHands.push( x );
+            if ( x.chromosome.status === "reading" ) inHands.push( x );
+            else this.read++;
         }
 
     // .. determine if all Lessons has been Downloaded already!
@@ -158,7 +169,7 @@ tapAnimator (): Promise<void> {
 
     .collectionBox {
         background-color: rgba(44, 44, 44, 0.02);
-        height: 114;
+        height: 120;
     }
 
     .avatar {
@@ -218,6 +229,23 @@ tapAnimator (): Promise<void> {
         color: #219205;
         font-size: 17;
         padding-top: 4;
+    }
+
+    .progressBox, .pfBox {
+        height: 4;
+        margin: 0 1;
+        border-radius: 5;
+        background-color: cornsilk;
+    }
+
+    .pfBox { 
+        background-color: #7a7d7e;
+    }
+
+    .progressBar {
+        background-color: #fa4829;
+        border-radius: 5;
+        height: 4;
     }
 
 </style>

@@ -15,7 +15,7 @@ interface themeValues {
 }
 
 let themeValues = function ( color: string ): themeValues{
-    
+
     return {
         rootBG: TS.BGColors[ color ],
         statusBarIconsColor: TS.contentColorType[ color ],

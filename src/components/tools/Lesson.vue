@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label class="background" :text=" '#' + lesson.chromosome.code.idx " />
+    <Label class="background" :text="'#' + ( Number( lesson.chromosome.code.idx ) +1 )" />
     <Image class="avatar" :src="avatar" />
 
 <!---------------------------------------------------------------------------------------->

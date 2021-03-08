@@ -40,12 +40,14 @@ export type ThemaName_Dark =
     ;
 
 export enum BGColors { 
-    
+
     White       = "#FFFFFF" ,
     Smoky       = "#e6e6e6" ,
-    Milky       = "#fcefe6" ,
+    // MilkyOLD    = "#fcefe6" ,
+    Milky       = "#f4ddcb" ,
     Black       = "#000000" ,
-    DarkGreen   = "#0a1c20" ,
+    // DarkGreenOLD= "#0a1c20" ,
+    DarkGreen   = "#003d47" ,
     GreatGray   = "#1e2c2f" ,
     WarmBlue    = "#125689" ,
     CozyBlue    = "#3181a6" ,
