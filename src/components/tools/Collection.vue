@@ -116,6 +116,9 @@ get inHand () {
     let inHands = [],
         inLocal = 0;
 
+    // .. reset counter
+    this.read = 0;
+
     // .. convert lessonBox to List
     for ( let x of Object.values( store.state.massDB[ this.ins ] ) )
         if ( x.chromosome.code.ribosome === this.ribosome.code ) {
