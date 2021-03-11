@@ -326,9 +326,19 @@ bookCoverPainter ( mode: TS.AppMode ) {
 // -- =====================================================================================
 
 deleteSlide () {
-    this.dText.hiddenCards.push( this.inx + this.dText.hiddenCards.length );
+
+    let id: number = this.inx,
+        sorted = [ ...this.dText.hiddenCards ].sort();
+
+    // .. determine original ID of this slide
+    for ( let p of sorted ) if ( p <= this.inx ) id++;
+    // .. register removed ID
+    this.dText.hiddenCards.push( id );
+    // .. control REDO Button visibility
     this.redoVisibility = this.dText.hiddenCards.length ? "visible" : "hidden";
+    // .. re-render Slides.
     this.slidesGenerator();
+
 }
 
 // -- =====================================================================================
