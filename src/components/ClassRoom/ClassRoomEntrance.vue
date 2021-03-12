@@ -174,10 +174,10 @@ async setup_TA () {
 
     // .. class Formation
     this.mainBox.nativeView.rows = "40,auto,*,40";
-    // .. miniMenu
-    await this.miniMenu.init();
     // .. audio Player
     this.audioPlayer.init( store.state.inHand.mediaPath );
+    // .. miniMenu
+    await this.miniMenu.init();
     // .. touch etikett
     dText.etikett = dText.etikett || {};
     // .. provide etikett

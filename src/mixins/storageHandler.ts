@@ -433,12 +433,12 @@ export function organellesLoader ( lesson: TS.Lesson ): Promise<void> {
 
 // -- =====================================================================================
 
-async function orgHandler ( org: TS.Organelle, m: string ) {
+async function orgHandler ( org: TS.Organelle, mps: string ) {
 
     let hand = store.state.inHand;
 
-    // .. source will assign as mediaPath
-    hand[m] = org.sourceURL;
+    // .. source will be reset
+    hand[ mps ] = null;
 
     // .. youTube & copyRighted Material will not save locally
     if ( !org.isYouTube && !org.copyRight ) {
@@ -446,15 +446,17 @@ async function orgHandler ( org: TS.Organelle, m: string ) {
         // .. last downloaded & available file will replace the sourceURL  
         if ( org.address ) {
             let f = NS.path.join( baseFolder.path, org.address );
-            if ( NS.File.exists(f) ) hand[m] = f;
+            if ( NS.File.exists(f) ) hand[ mps ] = f;
             // .. some issues with the file detected!
             else delete org.address;
         }
 
-        // .. NOTHING locally has been found! (re)download it!
-        if ( hand[m] === org.sourceURL ) await get_org_media(org).then( p => hand[m] = p );
+        // .. NOTHING locally STILL has been found! (re)download it!
+        if ( !hand[ mps ] ) await get_org_media(org).then( p => hand[ mps ] = p );
 
     }
+    // .. Online sourceURL will assign as mediaPath
+    else hand[ mps ] = org.sourceURL;
 
 }
 
@@ -479,7 +481,7 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
             NS.Http.getImage( org.sourceURL ).then( imageSource => {
                 if ( imageSource.saveToFile( path, "jpg" ) ) 
                     org.address = path.replace( baseFolder.path, "" );
-                rs( org.address );
+                rs( NS.path.join( baseFolder.path, org.address ) );
             } );
         }
         // .. downloading AUDIO|VIDEO
@@ -488,7 +490,7 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
             NS.Http.getFile( org.sourceURL, path ).then( fileSource => {
                 org.address = path.replace( baseFolder.path, "" );
                 Bus.$emit( "Downloading_Panel", "stop" );
-                rs( org.address );
+                rs( NS.path.join( baseFolder.path, org.address ) );
             } );
         }
 

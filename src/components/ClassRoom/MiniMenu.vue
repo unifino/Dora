@@ -71,7 +71,7 @@ controlBtn: { [key: string] : { label: string, class: string, func: object } } =
 
 ControlBase : { [key: string] : { label: string, class: string, func: object } } = {
                                                                                        
-    Play:     { label: "f04b", class: "",       func: () => tnsPLY.play()           } ,
+    Play:     { label: "f04b", class: "",       func: () => this.play()             } ,
     Pause:    { label: "f04c", class: "",       func: () => tnsPLY.pause()          } ,
     Speed:    { label: "f6ec", class: "",       func: () => this.speedToggler()     } ,
     DarkMode: { label: "f042", class: "theme",  func: () => this.darkModeToggler()  } ,
@@ -169,6 +169,22 @@ launcher () {
         this.miniMenu();
         this.autoCollapse( 3600 );
     }
+}
+
+// -- =====================================================================================
+
+play () {
+
+    let audio = store.state.inHand.mediaPath;
+
+    if ( audio ) {
+        if ( tnsPLY.playerOptions.audioFile !== audio ) tnsPLY.init( audio );
+        tnsPLY.play();
+    }
+
+    // .. NO FILE ASSIGNED (YET!) !
+    else tools.toaster( "NO AUDIO!", "short" );
+
 }
 
 // -- =====================================================================================

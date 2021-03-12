@@ -5,7 +5,7 @@ import store                            from "./store"
 // -- =====================================================================================
 
 export const playerOptions = {
-    audioFile: '',
+    audioFile: null,
     loop: false ,
     completeCallback: () => store.state.mediaState = "stopped" ,
 }
