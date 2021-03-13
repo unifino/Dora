@@ -23,9 +23,9 @@ store.state.appConfig = {
 
 declare var android; // required if tns-platform-declarations is not installed
 
-import VueDevtools                      from 'nativescript-vue-devtools'
-if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ) }
-Vue.config.silent = (TNS_ENV === 'production')
+// import VueDevtools                      from 'nativescript-vue-devtools'
+// if( TNS_ENV !== 'production' ) { Vue.use( VueDevtools ) }
+// Vue.config.silent = (TNS_ENV === 'production')
 
 // -- =====================================================================================
 

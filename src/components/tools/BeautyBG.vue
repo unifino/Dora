@@ -116,6 +116,7 @@ init () {
 
 randomize () {
     let bgs = store.state.appConfig.beautyBGs;
+    bgs = this.myTmpFilter( bgs );
     let rand = Math.floor( Math.random() * bgs.length );
     this.BGName = bgs[ rand ];
 }
@@ -124,11 +125,21 @@ randomize () {
 
 next () {
     let bgs = store.state.appConfig.beautyBGs;
+    bgs = this.myTmpFilter( bgs );
     if ( bgs.length > 1 ) {
         let idx = bgs.indexOf( this.BGName );
         let next = ( idx + 1 ) % bgs.length;
         this.BGName = bgs[ next ];
     }
+    console.log(this.BGName);
+}
+
+// -- =====================================================================================
+
+myTmpFilter ( bgs: string[] ): string[] {
+    let bads = [ "puppy", "wet", "snowball", "sunset", "wizard" ];
+    bgs = bgs.filter( p => !( p in bads ) );
+    return bgs;
 }
 
 // -- =====================================================================================
