@@ -200,9 +200,9 @@ async nextSlide () {
             this.myVIP = [ "The End.", { isFake: true } as any ];
             this.end_TO = setTimeout( () => ( this as any ).$navigateBack(), 1600 );
         }
-        
+
         else await this.oneSentence().then( _ => this.myTraces.push( this.activeId ) );
-    
+
     }
 
     // .. pointer is not at the End
@@ -210,7 +210,7 @@ async nextSlide () {
         this.activeId = this.myTraces[ this.myTracePointer +1 ];
         this.myVIP = store.state.activeBox[ store.state.inHand.institute ][ this.activeId ];
     }
-    
+
     this.headToFlashCard( "slideLeft" );
     this.myTracePointer++;
 
@@ -234,7 +234,7 @@ async previousSlide () {
 async headToFlashCard( direction: "slideRight" | "slideLeft" ) {
 
     if ( !this.myVIP[1].isFake ) await storage.organellesLoader( this.myVIP[1].lesson );
-    
+
     Vue.prototype.$navigateTo( FlashCard, { 
         frame : 'flashcardsRail' ,
         backstackVisible : true ,

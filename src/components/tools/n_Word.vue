@@ -171,17 +171,17 @@ hoverOnWord ( args ) {
             if ( this.isOnIt( el.getLocationInWindow(), p_pos, el.getActualSize() ) ) {
 
                 this.end = el.refId;
-                
+
                 a = args.object.refId;
                 b = el.refId;
                 // .. exchange variables
                 if ( a > b ) { b = a; a = el.refId; }
-                
+
                 store.state.preserve.selected = [];
                 for ( let i=a; i<=b; i++ ) store.state.preserve.selected.push(i);
-                
+
                 return true;
-            
+
             }
 
         }
@@ -249,7 +249,7 @@ myLongPress ( args ) {
 // -- =====================================================================================
 
 miniTranslator ( word: string = this.myText ){
-    
+
     // .. find the word in the glossar
     let ins = store.state.inHand.institute;
 
@@ -257,7 +257,7 @@ miniTranslator ( word: string = this.myText ){
 
     // .. it has been found!
     if ( uon ) {
-        
+
         let dic = store.state.appConfig.dictionaries,
             uin = store.state.glssDB[ ins ][ uon ];
 
@@ -284,7 +284,7 @@ onReturnPress( args ) {
 setFocus () {
 
     this.editMode = true;
-    
+
     if ( typeof this.$refs.nEdit === "undefined" ) setTimeout( () => this.setFocus(), 10 );
     else ( this.$refs.nEdit as any ).nativeView.focus();
 
@@ -349,23 +349,23 @@ setFocus () {
 
     .light .r { color: #9c0a42; }
     .dark  .r { color: #9c0a42; }
-    
+
 /*                                          */
 
     .phrase { text-decoration: underline }
     .light .phrase { color: #13a0b9 }
     .dark  .phrase { color: #68a8ea }
-    
+
     .light .red { color: #d14217 }
     .dark  .red { color: #d14217 }
 
     .light .marked { color: #7fbd1b }
     .dark  .marked { color: #a7ca11 }
-    
+
     .new { border-radius: 5 }
     .light .new { border-color: rgba(139, 177, 214, 0.336) }
     .dark  .new { border-color: rgba(50, 125, 200, 0.14) }
-    
+
     .bind { border-radius: 5 }
     .light .bind { border-color: #b30e97 }
     .dark  .bind { border-color: brown }
@@ -468,7 +468,7 @@ setFocus () {
         }
         40% { 
             border-color: #292929;
-            background-color: #dfb912;
+            background-color: rgba(209, 206, 192, 0.4);
             color: #141414;
         }
         70% { 

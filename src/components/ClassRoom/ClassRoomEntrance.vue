@@ -70,7 +70,6 @@ loadHint = ' Opening ...';
 loadHindColor = "#168594";
 avatar = 'res://book_cover_' + ( store.state.darkMode ? "dark" : "light" );
 title = "";
-
 book: Book;
 ankiVue: AnkiVue;
 tafel: Tafel;
@@ -127,7 +126,7 @@ init () {
 
     storage.organellesLoader( lesson )
     .then( () => {
-        try { this.avatar = store.state.inHand.avatarPath } catch {}
+        try { this.avatar = store.state.inHand.avatarPath || this.avatar } catch {}
         try { this.title = lesson.chromosome.title } catch {}
     } )
     .catch( err => this.err( err ) );
