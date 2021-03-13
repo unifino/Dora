@@ -43,11 +43,9 @@ export enum BGColors {
 
     White       = "#FFFFFF" ,
     Smoky       = "#e6e6e6" ,
-    // MilkyOLD    = "#fcefe6" ,
-    Milky       = "#f4ddcb" ,
+    Milky       = "#fcefe6" ,
     Black       = "#000000" ,
-    // DarkGreenOLD= "#0a1c20" ,
-    DarkGreen   = "#003d47" ,
+    DarkGreen   = "#0a1c20" ,
     GreatGray   = "#1e2c2f" ,
     WarmBlue    = "#125689" ,
     CozyBlue    = "#3181a6" ,

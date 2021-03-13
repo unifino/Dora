@@ -1,5 +1,8 @@
 <template>
-<GridLayout columns="*,auto" rows="*,auto,60">
+<GridLayout 
+    columns="*,auto" rows="*,auto,60" 
+    :background="$store.state.darkMode ? '#003d47' : '#f4ddcb'"
+>
 
 <!---------------------------------------------------------------------------------------->
 
