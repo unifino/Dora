@@ -202,10 +202,12 @@ backOrExit () {
     .divider {
         height: 1;
         width: 97%;
-        background-color: #6638393d;
         margin: 0;
         padding: 0;
     }
+
+    .light .divider { background-color: #6638393d }
+    .dark  .divider { background-color: rgba(87, 87, 87, 0.7) }
 
 </style>
 

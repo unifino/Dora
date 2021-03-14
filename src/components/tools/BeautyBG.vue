@@ -131,15 +131,21 @@ next () {
         let next = ( idx + 1 ) % bgs.length;
         this.BGName = bgs[ next ];
     }
-    console.log(this.BGName);
 }
 
 // -- =====================================================================================
 
 myTmpFilter ( bgs: string[] ): string[] {
-    let bads = [ "puppy", "wet", "snowball", "sunset", "wizard" ];
-    bgs = bgs.filter( p => !( p in bads ) );
+
+    let bads: string[],
+        badsInLight = [ "puppy", "wet", "snowball", "sunset", "wizard" ],
+        badsInDark = [ "home", "march", "leafs", "student", "sign", "bird", "mother" ];
+
+    bads = [ ...badsInLight, ...badsInDark ];
+
+    bgs = bgs.filter( p => !( bads.includes( p ) ) );
     return bgs;
+
 }
 
 // -- =====================================================================================
