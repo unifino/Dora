@@ -12,7 +12,7 @@
     />
 
     <Label 
-        v-else-if="$store.state.here === 'ClassRoom_A'"
+        v-else-if="activeDoubleTap"
         ref="nWord"
         :class=properClass 
         :text=myText 
@@ -22,6 +22,7 @@
         @touch=wordTouched
         @longPress=myLongPress
         @tap=myTap
+        @doubleTap=myDoubleTap
     />
 
     <Label 
@@ -35,7 +36,6 @@
         @touch=wordTouched
         @longPress=myLongPress
         @tap=myTap
-        @doubleTap=myDoubleTap
     />
 
 </template>
@@ -47,8 +47,6 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
@@ -69,6 +67,7 @@ export default class n_Word extends Vue {
 @Prop() refId;
 @Prop() autoTranslate;
 @Prop() editMode;
+@Prop() activeDoubleTap;
 
 // -- =====================================================================================
 
@@ -92,16 +91,16 @@ moveStartAt: number;
 // -- =====================================================================================
 
 wordTouched ( args ) {
-    
+
     // .. press effect
     if ( args.action === "down" ) args.object.className += " pressed";
     if ( args.action === "up"   ) args.object.className = this.properClass;
-    
+
     if ( store.state.here !== "ClassRoom" ) return 0;
 
     // .. ClassRoom actions
     switch ( args.action ) {
-        
+
         case "move":
             this.itMoved = true;
             if ( ( store.state.mode === "reading" || store.state.mode === "selective" ) )
@@ -222,7 +221,7 @@ isOnIt (
         i_pos.y <= p_pos.y              &&
         p_pos.y <= i_pos.y + size.height  
     );
-    
+
     return isOnIt;
 
 }
@@ -231,7 +230,7 @@ isOnIt (
 
 myTap ( args ) {
     this.$emit( 'myTap' , args );
-    if ( this.autoTranslate ) this.miniTranslator( this.myText );
+    if ( this.autoTranslate && this.myText ) this.miniTranslator( this.myText );
 }
 
 // -- =====================================================================================

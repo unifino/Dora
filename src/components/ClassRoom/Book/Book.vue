@@ -392,7 +392,7 @@ nWordTapped ( args ) {
     // if ( args.object.className.includes( 'deleted' ) ) store.state.mode = "restore";
     // if ( store.state.mediaState === "playing" ) return 0;
 
-    this.shouldISeek( args );
+    this.seeker( args );
 
     switch ( store.state.mode ) {
 
@@ -410,7 +410,8 @@ nWordTapped ( args ) {
 // -- =====================================================================================
 
 nWordLongPressed ( args ) {
-    Bus.$emit( "Scope_DeskCtl", "up", args.object.text );
+    // Bus.$emit( "Scope_DeskCtl", "up", args.object.text );
+    if ( args.object.className.includes( 'word' ) ) this.seeker( args, true );
 }
 
 // -- =====================================================================================
@@ -437,24 +438,29 @@ notWordHandling ( args ) {
 
 // -- =====================================================================================
 
-async shouldISeek ( args ) {
+async seeker ( args, forcePlay = false ) {
 
-    if ( store.state.mode === "reading" && store.state.mediaState === "playing" ) {
+    // .. get Infos
+    await tnsPLY.getDuration().then( secs => {
 
-        await tnsPLY.getDuration().then( secs => {
+        // ! remove file!
+        // .. something is odd
+        if ( secs <= 0 ) { tools.toaster( "File Corrupted!" ); return 0; }
 
-            if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
+        // .. additional functionalities: "Play"
+        if ( forcePlay ) {
+            tnsPLY.init( store.state.inHand.mediaPath );
+            tnsPLY.play();
+        }
 
-            let lesson = store.state.inHand.lesson,
-                start = tools.snapFinder( args.object.refId, this.dText.content, secs );
-
+        // .. actual seeker function: it follows taps on "reading+playing" mode
+        let start = tools.snapFinder( args.object.refId, this.dText.content, secs );
+        if ( store.state.mode === "reading" && store.state.mediaState === "playing" ) {
             tnsPLY.seekTo( start );
             tnsPLY.resume();
+        }
 
-        } )
-
-    }
-
+    } )
 }
 
 // -- =====================================================================================
@@ -568,6 +574,12 @@ bookCoverTapped () {
 
     if ( !this.tapHasBeenHandled ) {
         this.tapHasBeenHandled = true;
+
+        // .. pause
+        if ( store.state.mediaState === "playing" ) tnsPLY.pause();
+        // .. or resume
+        else if ( store.state.mediaState === "paused" ) tnsPLY.play();
+
         if ( store.state.mode === "editing" ) this.editing( -1, false );
         else {
             Bus.$emit( "ToolBar_Fade", 0, true, true);
