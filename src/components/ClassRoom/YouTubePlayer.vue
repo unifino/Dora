@@ -136,11 +136,11 @@ handleEventFromWebView () {
 
 // -- =====================================================================================
 
-getCurrentTime_TO;
+getCurrentTime_TO: NodeJS.Timeout | any;
 reportCurrentTime ( state: boolean ) {
 
     if ( this.getCurrentTime_TO ) clearTimeout( this.getCurrentTime_TO );
-    
+
     if ( state ) {
 
         this.getCurrentTime_TO = setTimeout( () => this.reportCurrentTime( true ), 100 );
@@ -148,7 +148,7 @@ reportCurrentTime ( state: boolean ) {
         this.oWebViewInterface.callJSFunction( 'whereAreYou', null, currentTime => {
             Bus.$emit( "Subtitle_PresentPerTime", currentTime );
         } );
-     
+
     }
 
 } 
