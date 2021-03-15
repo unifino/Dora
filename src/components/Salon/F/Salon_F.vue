@@ -84,7 +84,7 @@ backOrExit () {
 
 // -- =====================================================================================
 
-init_TO;
+init_TO: NodeJS.Timeout | any;
 init () {
 
     if ( this.init_TO ) clearTimeout( this.init_TO );
@@ -135,7 +135,7 @@ dataChangingController () {
 
 // -- =====================================================================================
 
-myUIRefresher_TO;
+myUIRefresher_TO: NodeJS.Timeout | any;
 myUIRefresher () {
 
     if ( this.myUIRefresher_TO ) clearTimeout( this.myUIRefresher_TO );

@@ -49,7 +49,7 @@ instituteTravel ( d: NS.SwipeDirection|null|TS.TravelBack = null ): TS.travelInf
 
 // -- =====================================================================================
 
-let dAO_TO;
+let dAO_TO: NodeJS.Timeout | any;
 export async function dAO ( ins: string ) {
 
     if ( dAO_TO ) clearTimeout( dAO_TO );
@@ -65,7 +65,7 @@ export async function dAO ( ins: string ) {
     // .. retrieve sentences & numbers
     sentenceRetriever( store.state.massDB[ ins ] ).then( answer => {
 
-        store.state.sentenceBox[ ins ] = answer.sentences; 
+        store.state.sentenceBox[ ins ] = answer.sentences;
         store.state.numberBox[ ins ]   = answer.numbers;
 
         activator( answer.sentences, store.state.flssDB[ ins ] )
@@ -601,7 +601,7 @@ export function wordStating (
 
 // -- =====================================================================================
 
-let toaster_TO;
+let toaster_TO: NodeJS.Timeout | any;
 let toasty;
 export function toaster ( msg: string ="" , duration: "short" | "long" = "short" ) {
 

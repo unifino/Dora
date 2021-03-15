@@ -277,7 +277,7 @@ async setup_SL () {
 
 // -- =====================================================================================
 
-slide_TO: NodeJS.Timeout;
+slide_TO: NodeJS.Timeout | any;
 slide ( enter: boolean ) {
 
     if ( enter ) store.state.here = 'ClassRoomEntrance';

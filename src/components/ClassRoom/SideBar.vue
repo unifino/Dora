@@ -57,15 +57,11 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import nButton                          from "@/components/tools/n_Button.vue"
-import * as storage                     from "@/mixins/storageHandler"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
 import * as tools                       from "@/mixins/tools"
-import Bus                              from "@/mixins/bus"
 import YouTubePlayer                    from "@/components/ClassRoom/YouTubePlayer.vue"
 import VideoPlayer                      from "@/components/ClassRoom/VideoPlayer.vue"
 
@@ -204,14 +200,14 @@ translationSlotManger () {
         this.mySlots[ key ].fontFace = key === "fa" ? "Homa" : fontFace;
         this.mySlots[ key ].fontSize = key === "fa" ? fontSize -2.5 : fontSize;
     } );
-    
+
     this.$forceUpdate();
 
 }
 
 // -- =====================================================================================
 
-translate_TO: NodeJS.Timeout;
+translate_TO: NodeJS.Timeout | any;
 clearTranslations () {
 
     if ( this.translate_TO ) clearTimeout( this.translate_TO );

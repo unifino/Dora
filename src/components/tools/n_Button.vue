@@ -58,7 +58,7 @@ get specialClass () {
 
 // -- =====================================================================================
 
-press_TO;
+press_TO: NodeJS.Timeout | any;
 buttonTouched ( args ) {
 
     switch ( args.action ) {

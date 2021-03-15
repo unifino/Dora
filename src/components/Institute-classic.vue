@@ -265,7 +265,7 @@ railAdjuster () {
 
 // .. set timeouts to have better visual effects
 x_TO = [50, 800];
-railSnap_TO: NodeJS.Timeout;
+railSnap_TO: NodeJS.Timeout | any;
 railSnap ( args ) {
 
     // .. bug Resolver
@@ -348,7 +348,7 @@ pxx () {
 
 // -- =====================================================================================
 
-iSummery_TO: NodeJS.Timeout;
+iSummery_TO: NodeJS.Timeout | any;
 iSummerySetter ( id: number ) {
 
     if ( this.iSummery_TO ) clearTimeout( this.iSummery_TO );

@@ -48,7 +48,7 @@ mounted () {
 
 // -- =====================================================================================
 
-visibility_TO;
+visibility_TO: NodeJS.Timeout | any;
 panel_Animation: NS.Animation;
 panel ( state: "start"|"stop", waiting=5000 ) {
 
@@ -80,7 +80,7 @@ panel ( state: "start"|"stop", waiting=5000 ) {
 
 // -- =====================================================================================
 
-textCtr_TO;
+textCtr_TO: NodeJS.Timeout | any;
 textCtr ( state: "start"|"running"|"stop"|"reset" ) {
 
     // if ( this.textCtr_TO ) clearTimeout( this.textCtr_TO );

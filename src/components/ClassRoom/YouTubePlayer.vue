@@ -14,8 +14,6 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 // * tns plugin add nativescript-webview-interface
 let webViewInterfaceModule = require('nativescript-webview-interface');
@@ -23,9 +21,7 @@ import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
-} )
+@Component ( {} )
 
 // -- =====================================================================================
 
@@ -51,7 +47,7 @@ init() {
 youTubeIDFinder ( url: string ) {
 
     let youTube = [ "youtube.com/" , "youtu.be/" ];
-    
+
     if ( url.includes( youTube[0] ) && url.includes( "?v=" ) ) {
 
         let aCut: string,
@@ -62,7 +58,7 @@ youTubeIDFinder ( url: string ) {
 
         bCut = "&";
         if ( url.includes( bCut ) ) url = url.substring( 0, url.indexOf( bCut ) );
-        
+
         bCut = "/";
         if ( url.includes( bCut ) ) url = url.substring( 0, url.indexOf( bCut ) );
 
@@ -78,7 +74,7 @@ youTubeIDFinder ( url: string ) {
 
         aCut = "youtu.be/";
         url = url.substr( url.indexOf( aCut ) + aCut.length );
-        
+
         bCut = "/";
         bCutId = url.indexOf( bCut );
         if ( bCutId > -1 ) url = url.substring( 0, bCutId );
@@ -129,7 +125,7 @@ handleEventFromWebView () {
         }
         // .. reporting Management
         this.reportCurrentTime( eventData === PlayerState.playing );
-        
+
     } );
 
 }
@@ -151,7 +147,7 @@ reportCurrentTime ( state: boolean ) {
 
     }
 
-} 
+}
 
 // -- =====================================================================================
 
