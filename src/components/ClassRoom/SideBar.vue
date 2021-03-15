@@ -211,7 +211,7 @@ translationSlotManger () {
 
 // -- =====================================================================================
 
-translate_TO;
+translate_TO: NodeJS.Timeout;
 clearTranslations () {
 
     if ( this.translate_TO ) clearTimeout( this.translate_TO );

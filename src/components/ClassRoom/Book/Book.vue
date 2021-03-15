@@ -279,7 +279,7 @@ async swipeControl ( args: NS.SwipeGestureEventData ) {
 
 // -- =====================================================================================
 
-exit_TO;
+exit_TO: NodeJS.Timeout;
 blattern ( direction: "previous"|"next" ) {
 
     // .. exit checking

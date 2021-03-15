@@ -265,7 +265,7 @@ railAdjuster () {
 
 // .. set timeouts to have better visual effects
 x_TO = [50, 800];
-railSnap_TO;
+railSnap_TO: NodeJS.Timeout;
 railSnap ( args ) {
 
     // .. bug Resolver
@@ -284,7 +284,7 @@ railSnap ( args ) {
         let folderTitle = this.$refs.folder[ pxx.id ].myProp.title;
         let r_h = store.state.windowSize.height,
             f_H = this.$refs.folder[0].nativeView.getActualSize().height || 95;
-        
+
         // .. auto readjust in some situations:
         if ( folderTitle === "Archive" || folderTitle === ".." ) {
 
@@ -348,7 +348,7 @@ pxx () {
 
 // -- =====================================================================================
 
-iSummery_TO;
+iSummery_TO: NodeJS.Timeout;
 iSummerySetter ( id: number ) {
 
     if ( this.iSummery_TO ) clearTimeout( this.iSummery_TO );
