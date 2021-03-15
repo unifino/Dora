@@ -79,7 +79,7 @@
 
 // -- =====================================================================================
 
-import { Vue, Component, Prop }         from "vue-property-decorator"
+import { Vue, Component }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
@@ -88,10 +88,7 @@ import * as tools                       from "@/mixins/tools"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
 import BookModule                       from "@/components/ClassRoom/Book/Book.vue"
-import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
 import Bus                              from "@/mixins/bus"
-import * as storage                     from "@/mixins/storageHandler"
-import Scope                            from "@/components/Scope/Scope.vue"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
@@ -197,7 +194,7 @@ f ( action, extra: boolean|-2|-1|0|1|2|"blue"|"red" = null ) {
         case "lineBreak": bookModule.addLineBreakAfter( a );                         break;
         case "block"    : bookModule.blockToggler(a);                   this.fade(); break;
 
-        case "adjusting" : this.adjuster( extra as -2|-1|1|2 );                      break;
+        case "adjusting": this.adjuster( extra as -2|-1|1|2 );                       break;
 
         case "phrase"   : bookModule.phraseMarker( extra as null|"blue"|"red" );    this.fade(); break;
         case "delete"   : bookModule.eraser();                          this.fade(); break;
@@ -358,7 +355,7 @@ async adjuster ( code: -2|-1|1|2 ) {
     if ( this.barBox_Animation ) this.barBox_Animation.cancel();
     this.postFlight();
 
-    let factor = .25,
+    let factor = code%2 ? .25 : .33,
         append = code * factor,
         id = store.state.preserve.selected[0],
         row = this.dText.content[ id ];
@@ -495,7 +492,7 @@ fadeMe () {
 
 // -- =====================================================================================
 
-fade_TO;
+fade_TO: NodeJS.Timeout | any;
 fade ( delay=0, clean=true, toasterOff=false, duration=300, justLanding=false ) {
 
     let x_def: NS.AnimationDefinition = {};

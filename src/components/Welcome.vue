@@ -29,7 +29,6 @@
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import Bus                              from "@/mixins/bus"
 
@@ -62,7 +61,7 @@ randomData () {
 
 // -- =====================================================================================
 
-icon1_TO;
+icon1_TO: NodeJS.Timeout | any;
 workingAnimator_1 () {
 
     if( this.icon1_TO ) clearTimeout( this.icon1_TO );
@@ -78,11 +77,11 @@ workingAnimator_1 () {
 
 // -- =====================================================================================
 
-icon2_TO;
+icon2_TO: NodeJS.Timeout | any;
 workingAnimator_2 () {
 
     if( this.icon2_TO ) clearTimeout( this.icon2_TO );
-    
+
     let icon2 = ( this.$refs.icon2 as any ).nativeView;
     let randData = this.randomData();
     this.icon2_TO = setTimeout( () => { 
@@ -105,9 +104,9 @@ slide ( enter: boolean ) {
     ( this.$refs.icon1 as any ).nativeView.className = "";
     // if( this.icon2_TO ) clearTimeout( this.icon2_TO );
     // ( this.$refs.icon2 as any ).nativeView.className = "";
-    
+
     let sizes = ( this.$refs.fixOne as any ).nativeView.getActualSize();
-    
+
     ( this.$refs.fixOne as any ).nativeView.width = sizes.width;
     ( this.$refs.fixOne as any ).nativeView.height = sizes.height;
 
@@ -119,7 +118,7 @@ slide ( enter: boolean ) {
     x_def.width = enter ? "100%" : 1;
     x_def.delay = enter ? 0 : 300;
     x_def.duration = 400;
-    
+
     let wallAnimation = new NS.Animation( [ x_def ], false );
 
     wallAnimation.play().then( () => {
