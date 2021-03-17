@@ -758,31 +758,37 @@ editingAnimation ( end: boolean ) {
 
 editor ( refId: number, text: string ) {
 
-    let newData: TS.UniText[] = [],
-        context = this.dText.content,
-        glossar = store.state.glssDB[ store.state.inHand.institute ];
-
     text = text.trim();
+    let context = this.dText.content;
 
-    for ( let w of text.split( " " ) ) {
-        newData.push( [ w, {} ] );
-        if ( context[ refId ][1].phrased ) 
-            newData[ newData.length -1 ][1].phrased = context[ refId ][1].phrased;
+    // .. text modified
+    if ( text ) {
+
+        let newData: TS.UniText[] = [];
+
+        for ( let w of text.split( " " ) ) {
+            newData.push( [ w, {} ] );
+            if ( context[ refId ][1].phrased ) 
+                newData[ newData.length -1 ][1].phrased = context[ refId ][1].phrased;
+        }
+
+        // .. first row inherits some data
+        if ( context[ refId ][1].snap )
+            newData[0][1].snap = context[ refId ][1].snap;
+        // .. last row inherits some data
+        if ( context[ refId ][1].standoff )
+            newData[ newData.length -1 ][1].standoff = context[ refId ][1].standoff;
+
+        // TODO remove corresponded BindDATA:  if ( newData[0][ WRS.BindToId ] )
+        // TODO update Further BinsDATA
+        context.splice( refId, 1, ...newData );
+
     }
+    // .. text removed completely => treat it as deleted!
+    else context.splice( refId, 1 );
 
-    // .. first row inherits some data
-    if ( context[ refId ][1].snap ) 
-        newData[0][1].snap = context[ refId ][1].snap;
-    // .. last row inherits some data
-    if ( context[ refId ][1].standoff ) 
-        newData[ newData.length -1 ][1].standoff = context[ refId ][1].standoff;
-
-    // TODO remove corresponded BindDATA:  if ( newData[0][ WRS.BindToId ] )
-    // TODO update Further BinsDATA
-
-    context.splice( refId, 1, ...newData );
     delete this.dText.etikett;
- 
+
     this.editing( -1, false );
 
     this.rePub();

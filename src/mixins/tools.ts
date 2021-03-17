@@ -1146,9 +1146,12 @@ export function confirmLesson( lesson: TS.Lesson ) {
 
     let chromosome = lesson.chromosome;
 
-    for ( let row of lesson.protoplasm.find( x => x.type === "dText" ).content )
-        if ( wordStating( row[0], chromosome.institute ) === "N" )
-            wordStating( row[0], chromosome.institute, "L" );
+    // ! reconsider this
+    // .. temporary exception for news
+    if ( lesson.chromosome.code.ribosome !== "DWNCHRT" )
+        for ( let row of lesson.protoplasm.find( x => x.type === "dText" ).content )
+            if ( wordStating( row[0], chromosome.institute ) === "N" )
+                wordStating( row[0], chromosome.institute, "L" );
 
     // .. register in chromosome
     chromosome.status = "read";
