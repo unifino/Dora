@@ -126,7 +126,7 @@ collector () {
         }
 
         // ! remove it
-        if ( x.type !== "slide" || x.institute !== "de" )
+        // if ( x.type !== "slide" || x.institute !== "de" )
         if ( pok ) codes.push( x.code );
 
     }
