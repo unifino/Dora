@@ -71,7 +71,7 @@ controlBtn: { [key: string] : { label: string, class: string, func: object } } =
 
 ControlBase : { [key: string] : { label: string, class: string, func: object } } = {
                                                                                        
-    Play:     { label: "f04b", class: "",       func: () => tnsPLY.play()           } ,
+    Play:     { label: "f04b", class: "",       func: () => this.play()             } ,
     Pause:    { label: "f04c", class: "",       func: () => tnsPLY.pause()          } ,
     Speed:    { label: "f6ec", class: "",       func: () => this.speedToggler()     } ,
     DarkMode: { label: "f042", class: "theme",  func: () => this.darkModeToggler()  } ,
@@ -173,6 +173,22 @@ launcher () {
 
 // -- =====================================================================================
 
+play () {
+
+    let audio = store.state.inHand.mediaPath;
+
+    if ( audio ) {
+        if ( tnsPLY.playerOptions.audioFile !== audio ) tnsPLY.init( audio );
+        tnsPLY.play();
+    }
+
+    // .. NO FILE ASSIGNED (YET!) !
+    else tools.toaster( "NO AUDIO!", "short" );
+
+}
+
+// -- =====================================================================================
+
 fontPallet () {
     // ! checkkkk
     // ( this.$refs.fontsBox as FontsBox ).pallet( true );
@@ -180,7 +196,7 @@ fontPallet () {
 
 // -- =====================================================================================
 
-showOff_TO;
+showOff_TO: NodeJS.Timeout | any;
 showOff () {
     this.autoCollapse( 100 );
     this.showOff_TO = setTimeout( () => this.autoCollapse( 900 ), 800 );
@@ -188,7 +204,7 @@ showOff () {
 
 // -- =====================================================================================
 
-box_TO;
+box_TO: NodeJS.Timeout | any;
 autoCollapse ( time = -1 ) {
     if ( this.box_TO ) clearTimeout( this.box_TO );
     if ( time > -1 ) this.box_TO = setTimeout( () => this.miniMenu(), time );
@@ -290,7 +306,7 @@ darkModeToggler () {
 
 // -- =====================================================================================
 
-confirm_TO;
+confirm_TO: NodeJS.Timeout | any;
 confirm () {
 
     // .. step 2

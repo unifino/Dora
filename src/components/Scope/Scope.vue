@@ -2,7 +2,7 @@
 <GridLayout ref="rail" rows="*" >
 
     <GridLayout ref="desk" class="desk" rows="12,auto,25,auto,25,auto,*" @pan="dragMe" >
-        
+
         <GridLayout row=1 class="barHandle" />
 
         <Waiting    row=3 />
@@ -140,10 +140,10 @@ snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
             translator_H = translator.getActualSize().height,
             x_def: NS.AnimationDefinition = {},
             snapToY: number;
-        
+
         switch ( snapPosition ) {
             case "waiting": snapToY = desk_H -75; break;
-            case "hide": snapToY = desk_H; break;
+            case "hide": snapToY = desk_H +1; break;
             case "translate": snapToY = desk_H - translator_H - 60; break;
             case "web": snapToY = 75; break;
         }
@@ -152,7 +152,7 @@ snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
         x_def.translate = { x: 0, y: snapToY }
         x_def.curve = NS.Enums.AnimationCurve.easeIn;
         x_def.duration = 200;
-        
+
         this.desk_Animation = new NS.Animation( [ x_def ], false );
 
         this.desk_Animation.play().then( () => {
@@ -175,7 +175,7 @@ snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
                 store.state.scopeIsActive = false;
             }
         } );
-    
+
     } );
 
 }

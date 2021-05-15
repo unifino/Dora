@@ -1,9 +1,13 @@
 <template>
-<GridLayout columns="*,auto" rows="*,auto,60">
+<GridLayout 
+    columns="*,auto" rows="*,auto,60" 
+    :background="$store.state.darkMode ? '#003d47' : '#f4ddcb'"
+>
 
 <!---------------------------------------------------------------------------------------->
 
-    <Image 
+    <Image
+        ref="bg"
         verticalAlignment="bottom"
         horizontalAlignment="right"
         stretch="aspectFit"
@@ -113,19 +117,62 @@ init () {
 
 randomize () {
     let bgs = store.state.appConfig.beautyBGs;
+    bgs = this.myTmpFilter( bgs );
     let rand = Math.floor( Math.random() * bgs.length );
-    this.BGName = bgs[ rand ];
+    this.bgChanger( bgs[ rand ] );
 }
 
 // -- =====================================================================================
 
 next () {
     let bgs = store.state.appConfig.beautyBGs;
+    bgs = this.myTmpFilter( bgs );
     if ( bgs.length > 1 ) {
         let idx = bgs.indexOf( this.BGName );
         let next = ( idx + 1 ) % bgs.length;
-        this.BGName = bgs[ next ];
+        this.bgChanger( bgs[ next ] );
     }
+}
+
+// -- =====================================================================================
+
+myTmpFilter ( bgs: string[] ): string[] {
+
+    let bads: string[],
+        badsInLight = [ "puppy", "wet", "snowball", "sunset", "wizard" ],
+        badsInDark = [ "home", "march", "leafs", "student", "sign", "bird", "mother" ];
+
+    bads = [ ...badsInLight, ...badsInDark ];
+
+    bgs = bgs.filter( p => !( bads.includes( p ) ) );
+    return bgs;
+
+}
+
+// -- =====================================================================================
+
+bgChanger ( newBG: string ) {
+
+    let x_def: NS.AnimationDefinition = {};
+
+    x_def.target = ( this.$refs.bg as any ).nativeView;
+    x_def.duration = 180;
+    x_def.opacity = 0;
+
+    // .. fadeOut BG
+    new NS.Animation( [ x_def ], false ).play().then( () => {
+
+        // .. change BG
+        this.BGName = newBG;
+
+        x_def.delay = 100;
+        x_def.duration = 700;
+        x_def.opacity = 1;
+        // .. FadeIn BG
+        new NS.Animation( [ x_def ], false ).play();
+
+    } );
+
 }
 
 // -- =====================================================================================

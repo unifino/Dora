@@ -5,16 +5,17 @@
 
         <nWord 
             alignSelf="flex-start"
-            v-for="(word,i) in words" 
-            :key="i" 
-            :myText="word.text"
-            :myClass="word.class" 
-            :autoTranslate=true 
             verticalAlignment="middle"
+            v-for="(word,i) in words"
+            :key="i"
+            :myText="word.text"
+            :myClass="word.class"
+            :autoTranslate=true
+            :activeDoubleTap=true
             @myDoubleTap=nWordDoubleTapped
             @myLongPress=nWordLongPressed
         />
-    
+
     </FlexboxLayout>
 
 </GridLayout>

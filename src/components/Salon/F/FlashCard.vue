@@ -57,7 +57,7 @@
                     :class="summery.class" 
                 />
             </FormattedString>
-        
+
         </Label>
 
         <Label 
@@ -78,7 +78,7 @@
             marginBottom="13"
             columns="auto,auto,auto,*,auto,auto,auto"
         >
-            
+
             <nButton 
                 v-for="(button,i) in buttonsRow1"
                 :key="i" 
@@ -93,7 +93,7 @@
         </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
-        
+
         <GridLayout
             :visibility=" !VIPSentence[1].isFake && $store.state.mediaButtons ? 
                 'visible' : 'collapsed' " 
@@ -112,7 +112,7 @@
                 :myLabel="String.fromCharCode( '0x' + button.label )" 
                 :myClass="'dotButton ' + button.class"
             />
-        
+
         </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -132,17 +132,14 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import nButton                          from "@/components/tools/n_Button.vue"
 import nWord                            from "@/components/tools/n_Word.vue"
 import Folder                           from "@/components/tools/Folder.vue"
-import * as storage                     from "@/mixins/storageHandler"
 import * as tools                       from "@/mixins/tools"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 import Bus                              from "@/mixins/bus"
-import Scope                            from "@/components/Scope/Scope.vue"
 
 // -- =====================================================================================
 
@@ -209,13 +206,13 @@ myFlashcards = store.state.flssDB[ store.state.inHand.institute ];
 get words (): { text: string, class: string }[] {
 
     let words: { text: string, class: string }[] = [],
-        item = this.VIPSentence[1],
-        dText = item.lesson.protoplasm.find( x => x.type === "dText" );
-    
+        item = this.VIPSentence[1];
+
     if ( !item.isFake ) {
-        
-        let ins = item.lesson.chromosome.institute;
-        
+
+        let ins = item.lesson.chromosome.institute,
+            dText: TS.Organelle = item.lesson.protoplasm.find( x => x.type === "dText" );
+
         for ( let i = item.A; i <= item.B; i++ ) {
             let txt = dText.content[i][0];
             let cls = "parole";
@@ -224,7 +221,7 @@ get words (): { text: string, class: string }[] {
             if ( dText.content[i][1].phrased === "red" ) cls += " r";
             if ( txt ) words.push( { text: txt, class: cls } );
         }
-    
+
     }
     else words = [ { text: this.VIPSentence[0], class:"parole" } ];
 
@@ -235,10 +232,10 @@ get words (): { text: string, class: string }[] {
 // -- =====================================================================================
 
 mounted () {
-    
-    ( this.$refs.bigBox as any ).nativeView.marginBottom = store.state.mediaButtons ? 
+
+    ( this.$refs.bigBox as any ).nativeView.marginBottom = store.state.mediaButtons ?
         0 : 51.5;
-    
+
     try { this.myAct( this.VIPSentence[1].studyHistory.acted, false ) } catch {}
 
     if ( !this.VIPSentence[1].isFake ) this.speaker();
@@ -281,7 +278,8 @@ async adjuster ( point: 'A' | 'B' , act: '-' | '+' ) {
 
     let factor = .25,
         append = act === '+' ? factor : -factor,
-        uContext = this.VIPSentence[1].lesson.protoplasm.find( x => x.type === "dText" ).content,
+        item = this.VIPSentence[1],
+        uContext = item.lesson.protoplasm.find( x => x.type === "dText" ).content,
         id = this.VIPSentence[1][ point ],
         row = uContext[ id ];
 
@@ -307,17 +305,18 @@ async adjuster ( point: 'A' | 'B' , act: '-' | '+' ) {
 
 speaker ( shortcut = false ) {
 
-    let uContext = this.VIPSentence[1].lesson.protoplasm.find( x => x.type === "dText" ).content;
+    let item = this.VIPSentence[1],
+        uContext = item.lesson.protoplasm.find( x => x.type === "dText" ).content;
 
     // .. setUp speaker
     tnsPLY.init( store.state.inHand.mediaPath );
     tnsPLY.getDuration().then( secs => {
-                
+
         if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
 
         let start = tools.snapFinder( this.VIPSentence[1].A, uContext, secs );
         let stop  = tools.snapFinder( this.VIPSentence[1].B, uContext, secs );
-        
+
         if ( start > stop ) {
             delete uContext[ this.VIPSentence[1].A ][1].snap;
             delete uContext[ this.VIPSentence[1].B ][1].snap;
