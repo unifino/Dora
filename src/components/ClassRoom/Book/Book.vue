@@ -445,7 +445,7 @@ async seeker ( args, forcePlay = false ) {
 
         // ! remove file!
         // .. something is odd
-        if ( secs <= 0 ) { tools.toaster( "File Corrupted!" ); return 0; }
+        if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
 
         // .. additional functionalities: "Play"
         if ( forcePlay ) {
