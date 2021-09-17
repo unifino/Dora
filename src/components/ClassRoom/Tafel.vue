@@ -1,10 +1,10 @@
 <template>
 <GridLayout ref="tafel" class="bookCover" rows="*,auto,*" visibility="hidden">
-  
+
     <GridLayout row=1 class="pagesBox" >
 
         <WrapLayout ref="page">
-        
+
             <nWord 
              v-for="(word,i) in page" 
              :key="i"
@@ -13,11 +13,11 @@
              :refId=i
              :autoTranslate=false
             />
-        
+
         </WrapLayout>
-         
+
     </GridLayout>
-    
+
 </GridLayout>
 </template>
 
@@ -71,7 +71,7 @@ init ( setHeightLimit?: boolean, factor?: number ): Promise<void> {
         }
 
         rs();
-    
+
     } );
 
 }
@@ -84,7 +84,7 @@ typeset ( context: TS.UniText[], c=0 ): Promise<number[]> {
 
         // .. rendering percent...
         Bus.$emit( "ClassRoomEntrance_RenderingBar", ( c / context.length ) *100 | 0 );
-        
+
         // .. put 100|mean|remaining first words at once in a blank Page
         if ( this.page.length === 0 ) {
 
@@ -93,7 +93,7 @@ typeset ( context: TS.UniText[], c=0 ): Promise<number[]> {
                 ( this.etikett[ this.etikett.length-1 ] / this.etikett.length ) | 0 : 100;
 
             for ( let i=0; i < max; i++ ) {
-                
+
                 if ( c > context.length-1 ) break;
                 let typed = this.typist(c);
                 c = typed.c;
@@ -102,12 +102,12 @@ typeset ( context: TS.UniText[], c=0 ): Promise<number[]> {
                     this.etikett.push(c-1);
                     break;
                 }
-            
+
             }
             await this.isRendering();
-        
+
         }
-        
+
         // .. add next word
         if ( c < context.length ) {
             this.rendering = true;
@@ -118,11 +118,11 @@ typeset ( context: TS.UniText[], c=0 ): Promise<number[]> {
                 this.page = [];
             }
             await this.isRendering();
-        } 
+        }
 
         // .. check point & eraser
         if ( this.lineal() > this.maxHeight ) {
-            
+
             while( this.lineal() > this.maxHeight ) {
                 this.rendering = true;
                 this.page.pop();
@@ -148,12 +148,12 @@ typeset ( context: TS.UniText[], c=0 ): Promise<number[]> {
 
     } )
 
-} 
+}
 
 // -- =====================================================================================
 
 typist ( c: number ) {
-    
+
     let className = "word";
     let newPage = false;
 
@@ -161,14 +161,14 @@ typist ( c: number ) {
     let text = data[0];
 
     // TODO .. there is Blank Text
-    
+
     // .. first BreakLine on the beginning of each page will not be shown
     if ( data[1].isBreakLine ) className = this.page.length === 0 ? "hidden" : "breakLine"; 
 
     this.page.push( { text: text, class: className } );
 
     c++;
-    
+
     return { c: c, forceNewPage: newPage };
 
 }
@@ -187,7 +187,7 @@ isRendering (): Promise<void> {
 // -- =====================================================================================
 
 lineal () {
-    
+
     let page = ( this.$refs.page as any ).nativeView;
     return page.getActualSize().height | 0;
 
@@ -212,7 +212,7 @@ updated () {
 <style scoped>
 
 /*                                          */
- 
+
     /* ! should be same as Book.vue */
     .bookCover {
         width: auto;
