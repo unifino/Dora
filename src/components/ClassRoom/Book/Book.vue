@@ -1,31 +1,31 @@
 <template>
-<GridLayout 
-    ref="bookCover" 
-    class="bookCover" 
-    rows="*,auto,*" 
-    columns="50,*,50" 
+<GridLayout
+    ref="bookCover"
+    class="bookCover"
+    rows="*,auto,*"
+    columns="50,*,50"
     visibility="collapsed"
-    @tap=bookCoverTapped 
+    @tap=bookCoverTapped
     @swipe="swipeControl"
 >
 
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1 colSpan=3 rows="auto" class="pagesBox" >
-        <WrapLayout 
-            ref="page" 
-            v-for="(page,x) in book" 
+        <WrapLayout
+            ref="page"
+            v-for="(page,x) in book"
             :key="x"
             :translateX="x===inx ? 0 : $store.state.windowSize.width"
         >
-            <nWord 
-                v-for="word in page" 
-                :key=word.refId 
+            <nWord
+                v-for="word in page"
+                :key=word.refId
                 :ref="'word_' +  word.refId"
                 :onPage=x
                 :myText=word.data[0]
                 :snap=word.data[4]
-                :myClass=word.class 
+                :myClass=word.class
                 :refId=word.refId
                 :autoTranslate=true
                 :editMode="false"
@@ -126,8 +126,8 @@ bookmarkValidator( bookmark: number ) {
     if ( store.state.preserve.flash.length > 0 ) {
         for ( let i in this.etikett ) {
             if ( this.etikett[i] > store.state.preserve.flash[0] ) {
-                bookmark = Number(i); 
-                break; 
+                bookmark = Number(i);
+                break;
             }
         }
     }

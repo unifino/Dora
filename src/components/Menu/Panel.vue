@@ -13,9 +13,10 @@
             <Archive />
             <A />
             <SalonFIcon />
-        </StackLayout>
+         </StackLayout>
 
         <StackLayout col=2 orientation="horizontal" horizontalAlignment="right">
+            <Ram />
             <Battery />
             <Gear />
         </StackLayout>
@@ -42,13 +43,14 @@ import Gear                             from "@/components/Menu/Gear.vue"
 import Battery                          from "@/components/Menu/Battery.vue"
 import Filter                           from "@/components/Menu/Filter.vue"
 import A                                from "@/components/Menu/A.vue"
+import Ram                              from "@/components/Menu/Ram.vue"
 import Archive                          from "@/components/Menu/Archive.vue"
 
 
 // -- =====================================================================================
 
 @Component ( { 
-    components: { SalonFIcon, Gear, Battery, Filter, A, Archive } 
+    components: { SalonFIcon, Gear, Battery, Filter, A, Archive, Ram } 
 } )
 
 // -- =====================================================================================

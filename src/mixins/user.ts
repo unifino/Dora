@@ -108,4 +108,42 @@ export function myPurchasedItems () {
 
 }
 
+
+// -- =====================================================================================
+
+export function myRam ( data: string ) {
+
+    return new Promise ( (rs, rx) => { 
+
+        if ( !store.state.appConfig.email ) return rx( "Log in First!" );
+
+        let url = tools.ssd + 'ram';
+
+        NS.Http.request( {
+            url: url ,
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            content: JSON.stringify( {
+                e: store.state.appConfig.email,
+                k: tools.key(),
+                d: data
+            } )
+        } )
+        .then(
+
+            res => {
+                let x = res.content.toJSON() as TS.SSD_Res;
+                if ( x.status === 200 ) console.log( x.answer );
+                else return rx(x)
+            },
+
+            e => rx(e)
+
+        )
+        .catch( e => rx(e) );
+
+    } );
+
+}
+
 // -- =====================================================================================
