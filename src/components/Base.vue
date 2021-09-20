@@ -192,6 +192,7 @@ init (): void {
     .then( () => this.appConfiguration() )
     .then( () => Bus.$emit( "BeautyBG_Init" ) )
     .then( () => Bus.$emit( "Battery_Init" ) )
+    .then( () => Bus.$emit( "Ram_Init" ) )
     .then( () => myPurchasedItems() )
     // .. not resolvable situation
     .catch( msg => {
