@@ -79,10 +79,10 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
 // -- =====================================================================================
 
 @Component ( {
-    components: { 
+    components: {
         FirstMeet,
         Institute,
-        Menu, 
+        Menu,
         Welcome,
         Downloading,
         BeautyBG,
