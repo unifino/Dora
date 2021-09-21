@@ -4,7 +4,7 @@
         :myClass="'opt-item ram fas ' + profile.iconColor"
         :myLabel="String.fromCharCode( '0x' + profile.icon )"
         @tap="ram"
-        @long-press="getRamStatus"
+        @long-press="longPressed"
     />
 
 </template>
@@ -135,6 +135,23 @@ ram () {
 
     } )
     .catch ( e => Bus.$emit( "IPanel_Result", e.reason || e ) );
+
+}
+
+// -- =====================================================================================
+
+longPressed () {
+
+    if ( this.profile.name === "full" ) {
+        myRam( "purge" )
+        .then( ram => {
+            this.profile = this.profiles.empty;
+            tools.toaster( "Ram is Free!" );
+        } )
+        .catch ( e => Bus.$emit( "IPanel_Result", e.reason || e ) );
+    }
+
+    else this.getRamStatus();
 
 }
 
