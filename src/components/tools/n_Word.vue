@@ -1,11 +1,11 @@
 <template>
 
-    <TextField 
+    <TextField
         v-if=editMode
         ref="nEdit"
         color="#069106"
-        :text=myText 
-        :class=properClass 
+        :text=myText
+        :class=properClass
         :fontFamily="$store.state.appConfig.fontFace"
         :fontSize="$store.state.appConfig.fontSize"
         @returnPress="onReturnPress( $event )"
@@ -14,8 +14,8 @@
     <Label 
         v-else-if="activeDoubleTap"
         ref="nWord"
-        :class=properClass 
-        :text=myText 
+        :class=properClass
+        :text=myText
         :refId=refId
         :fontFamily="$store.state.appConfig.fontFace"
         :fontSize="$store.state.appConfig.fontSize"
@@ -25,11 +25,11 @@
         @doubleTap=myDoubleTap
     />
 
-    <Label 
+    <Label
         v-else
         ref="nWord"
-        :class=properClass 
-        :text=myText 
+        :class=properClass
+        :text=myText
         :refId=refId
         :fontFamily="$store.state.appConfig.fontFace"
         :fontSize="$store.state.appConfig.fontSize"

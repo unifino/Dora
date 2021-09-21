@@ -1,10 +1,10 @@
 <template>
-<GridLayout 
-    :class="myClass" 
-    @tap="$emit( 'tap' )" 
-    @longPress="$emit( 'long-press' )" 
-    @touch="buttonTouched" 
-    ref="button" 
+<GridLayout
+    :class="myClass"
+    @tap="$emit( 'tap' )"
+    @longPress="$emit( 'long-press' )"
+    @touch="buttonTouched"
+    ref="button"
 >
 
 <!---------------------------------------------------------------------------------------->

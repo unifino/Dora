@@ -443,15 +443,16 @@ async function orgHandler ( org: TS.Organelle, mps: string ) {
     // .. youTube & copyRighted Material will not save locally
     if ( !org.isYouTube && !org.copyRight ) {
 
-        // .. last downloaded & available file will replace the sourceURL  
+        // .. last downloaded & available file will replace the sourceURL
         if ( org.address ) {
             let f = NS.path.join( baseFolder.path, org.address );
             if ( NS.File.exists(f) ) hand[ mps ] = f;
-            // .. some issues with the file detected!
-            else delete org.address;
+            // ! do not use this line of code! we need it for ram
+            // // .. some issues with the file detected!
+            // else delete org.address;
         }
 
-        // .. NOTHING locally STILL has been found! (re)download it!
+        // .. NOTHING STILL has been found in local storage! (re-)download it!
         if ( !hand[ mps ] ) await get_org_media(org).then( p => hand[ mps ] = p );
 
     }
@@ -464,7 +465,7 @@ async function orgHandler ( org: TS.Organelle, mps: string ) {
 
 function get_org_media ( org: TS.Organelle ): Promise<string> {
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
 
         let _dir: NS.Folder;
         if ( org.type === "dAudio"   ) _dir = Audios_dir;
@@ -472,7 +473,10 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
         if ( org.type === "dImage"   ) _dir = Images_dir;
         if ( org.type === "dAvatar"  ) _dir = Avatars_dir;
 
-        let name = anAvailableNameIn( _dir ),
+        // .. purifying the name
+        org.address = org.address.replace( _dir.path.replace( baseFolder.path, "" ), "" );
+        // .. use the already allocated PURE name or get a new one
+        let name = org.address || anAvailableNameIn( _dir ),
             path = NS.path.join( _dir.path, name );
 
         // .. downloading Pic

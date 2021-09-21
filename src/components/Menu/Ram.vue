@@ -3,7 +3,8 @@
     <nButton
         :myClass="'opt-item ram fas ' + profile.iconColor"
         :myLabel="String.fromCharCode( '0x' + profile.icon )"
-        @tap="update"
+        @tap="ram"
+        @long-press="getRamStatus"
     />
 
 </template>
@@ -21,9 +22,10 @@ import nButton                          from "@/components/tools/n_Button.vue"
 import Bus                              from "@/mixins/bus"
 import * as storage                     from "@/mixins/storageHandler"
 import * as NS                          from "@nativescript/core"
-import { myRam }                        from "@/mixins/user"
+import { myRam, _ram }                  from "@/mixins/user"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
+import { x007 }                         from '@/mixins/android007Agent'
 
 // -- =====================================================================================
 
@@ -36,10 +38,10 @@ import * as TS                          from "@/../types/myTypes"
 export default class Ram extends Vue {
 
 profiles = {
-    init:   { icon: "f141", iconColor: "init"   } ,
-    empty:  { icon: "f093", iconColor: "blue"   } ,
-    full:   { icon: "f019", iconColor: "orange" } ,
-    error:  { icon: "f188", iconColor: "red"    } ,
+    init:   { name: "init" , icon: "f141", iconColor: "init"   } ,
+    empty:  { name: "empty", icon: "f093", iconColor: "blue"   } ,
+    full:   { name: "full" , icon: "f019", iconColor: "orange" } ,
+    error:  { name: "error", icon: "f188", iconColor: "red"    } ,
 }
 
 profile = { ...this.profiles.init };
@@ -67,10 +69,8 @@ getRamStatus (): Promise<void> {
                 let x = res.content.toJSON() as TS.SSD_Res;
 
                 if ( x.status === 200 ) {
-                    let ram = parseInt( x.answer as string ) ;
-                    if ( ram <   0 ) this.profile = { ...this.profiles.error };
-                    if ( ram === 0 ) this.profile = { ...this.profiles.empty };
-                    if ( ram >   0 ) this.profile = { ...this.profiles.full  };
+                    let ram = x.answer;
+                    this.profile = ram ? this.profiles.full : this.profiles.empty;
                     rs();
                 }
                 else rx( this.profile = { ...this.profiles.error } );
@@ -99,21 +99,42 @@ init () {
 
 // -- =====================================================================================
 
-update () {
+ram () {
 
-    // .. zip all important data to transfer
-    let z_data = {
-        mass: store.state.massDB,
-        flss: store.state.flssDB,
-        glss: store.state.glssDB,
+    let action: TS.RamActions;
+
+    switch ( this.profile.name ) {
+
+        case "init" : tools.toaster( "wait ..." );      return;
+        case "error": tools.toaster( "ram error!" );    return;
+
+        case "empty": action = "upload";                break;
+        case "full" : action = "download";              break;
+
     }
 
-    let baseFolder  = NS.Folder.fromPath( NS.path.join( storage.SDCard, "Dora" ) );
-    let bp      = baseFolder.path;
-    let tmpFile = NS.File.fromPath( NS.path.join( bp, ".documents", "tmp"  ) );
-    tmpFile.writeText( JSON.stringify( z_data ) )
+    // .. initiate transfer animation
+    Bus.$emit( "Base_HeadToIPanel" );
 
-    myRam( JSON.stringify( z_data ) );
+    myRam( action ).then( async ram => {
+
+        Bus.$emit( "IPanel_Result" );
+
+        // .. beautifying
+        await new Promise( _ => setTimeout( _ , 180 ) );
+
+        // .. ram data is downloaded
+        if ( ram ) {
+            // .. data is implanted successfully 
+            if ( _ram(ram) ) this.profile = this.profiles.empty;
+            // .. data is corrupted!
+            else this.profile = this.profiles.error;
+        }
+        // .. data is uploaded to the Ram
+        else this.profile = this.profiles.full;
+
+    } )
+    .catch ( e => Bus.$emit( "IPanel_Result", e.reason || e ) );
 
 }
 

@@ -232,11 +232,11 @@ permissionApplier (): Promise<any> {
 
 appConfiguration (): Promise<void> {
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
 
         // .. checking existence && structure of mandatory files
         storage.readAppConfig()
-        .then( async validAppConfig => { 
+        .then( async validAppConfig => {
 
             // .. register appConfig
             store.state.appConfig = validAppConfig;

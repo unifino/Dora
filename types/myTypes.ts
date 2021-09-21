@@ -346,19 +346,19 @@ export type CEF = "A1"|"A2"|"B1"|"B2"|"C1"|"C2"
 // -- =====================================================================================
 
 export type PlaceTriggerInfo = {
-    
+
     [ K in Place ] : {                            
-        
+
         position : {                              
             x: number                            ,
             y: number                            ,
         }                                        ,
-        
+
         size : {                                  
             height: number                       ,
             width: number                        ,
         }                                        ,
-    
+
     }                                             
 
 }
@@ -370,3 +370,5 @@ export type SSD_Res = {
     answer?: string,
     reason?: string
 }
+
+export type RamActions = "upload"|"download"|"purge";

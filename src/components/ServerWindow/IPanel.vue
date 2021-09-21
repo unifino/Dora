@@ -94,6 +94,7 @@ result ( err: string|false ) {
         if ( ex.includes( "Unknown Lesson's Pre-Model" ) ) err = "Not Compatible";
         if ( ex.includes( "context is not iterable" ) ) err = "Not Compatible";
         if ( ex.includes( "No News" ) ) err = "No News";
+        if ( ex.includes( "No more News" ) ) err = "No more News";
 
         switch ( err ) {
 
@@ -112,7 +113,7 @@ result ( err: string|false ) {
                 tools.toaster( "We can NOT verify you!", "long" );
                 break;
 
-            case "No more News for Today!":
+            case "No more News":
                 this.errIcon = "f0c5";
                 tools.toaster( "You've already got Today News!", "long" );
                 break;
