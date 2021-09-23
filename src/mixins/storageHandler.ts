@@ -473,8 +473,11 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
         if ( org.type === "dImage"   ) _dir = Images_dir;
         if ( org.type === "dAvatar"  ) _dir = Avatars_dir;
 
-        // .. purifying the name
-        org.address = org.address.replace( _dir.path.replace( baseFolder.path, "" ), "" );
+        // .. try to purifying the name
+        try {
+            let pat = _dir.path.replace( baseFolder.path, "" );
+            org.address = org.address.replace( pat, "" )
+        } catch {}
         // .. use the already allocated PURE name or get a new one
         let name = org.address || anAvailableNameIn( _dir ),
             path = NS.path.join( _dir.path, name );

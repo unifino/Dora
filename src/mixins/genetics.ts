@@ -64,12 +64,6 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
         async res => {
 
             let x = res.content.toJSON() as TS.SSD_Res;
-            const t =JSON.stringify( {
-                e: store.state.appConfig.email,
-                k: tools.key(),
-                r: ribosome.code,
-                l: storage.have_these_on_local( ribosome ),
-            } );
 
             if ( x.status === 200 ) {
 
@@ -84,6 +78,7 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
                 } )
                 .catch( err => Bus.$emit( "IPanel_Result", err ) );
+
             }
             else Bus.$emit( "IPanel_Result", x.reason );
 
