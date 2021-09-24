@@ -43,6 +43,7 @@ export interface state {
         mode                : TS.AppMode                            ,
         placeTrigger        : TS.PlaceTriggerInfo                   ,
         mediaState          : TS.mediaState                         ,
+        realCurrentTime     : number                                ,
         mediaButtons        : boolean                               ,
         needCalculation     : boolean                               ,
         downloadingData     : boolean                               ,

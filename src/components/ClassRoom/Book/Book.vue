@@ -21,7 +21,7 @@
             <nWord
                 v-for="word in page"
                 :key=word.refId
-                :ref="'word_' +  word.refId"
+                :ref="'word_' + word.refId"
                 :onPage=x
                 :myText=word.data[0]
                 :snap=word.data[4]

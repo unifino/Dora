@@ -176,57 +176,17 @@ export function putLessonsInBox () {
 
     for ( let ins of store.state.appConfig.institutes ) if ( !(ins in mDB) ) mDB[ins] = [];
 
+    // .. loop over lessons - keep for further checks
     // for ( let ins of store.state.appConfig.institutes ) {
     //     for ( let lesson of mDB[ins] ) {
-
-    //         lesson.protoplasm = [];
-
-    //         let p: TS.Organelle = {
-    //             type: "dAvatar",
-    //             sourceURL: (lesson as any).chromosome.wPath.avatarURL
-    //         };
-    //         if ( (lesson as any).chromosome.wPath.avatar_C ) p.copyRight = true;
-    //         else if ( (lesson as any).chromosome.uPath.avatar ) 
-    //             p.address = NS.path.join(  ".files", "avatars", (lesson as any).chromosome.uPath.avatar );
-    //         lesson.protoplasm.push(p);
-
-    //         lesson.protoplasm.push( {
-    //             type: "dText",
-    //             content: (lesson as any ).context,
-    //         } );
-
-    //         if ( (lesson as any).chromosome.type === "audio" ) {
-    //             lesson.chromosome.model = ["dAudio","dText"];
-    //             let o: TS.Organelle = {
-    //                 type: "dAudio",
-    //                 sourceURL: (lesson as any).chromosome.wPath.mediaURL,
-    //             };
-    //             if ( (lesson as any).chromosome.wPath.media_C ) o.copyRight = true;
-    //             else if ( (lesson as any).chromosome.uPath.media ) 
-    //                 o.address = NS.path.join(  ".files", "audios", (lesson as any).chromosome.uPath.media );
-    //             lesson.protoplasm.push(o);
+    //         for ( let org of lesson.protoplasm ) {
+    //             if( org.type === "dText" ) {
+    //                 for ( let word of org.content ) {
+    //                     if ( typeof word[1].snap === "number" ) 
+    //                         console.log(word[1].snap);
+    //                 }
+    //             }
     //         }
-    //         else if ( (lesson as any).chromosome.type === "video" ) {
-    //             lesson.chromosome.model = ["dVideo","dText"];
-    //             let o: TS.Organelle = {
-    //                 type: "dVideo",
-    //                 sourceURL: (lesson as any).chromosome.wPath.mediaURL
-    //             };
-    //             if ( (lesson as any).chromosome.wPath.media_C ) o.copyRight = true;
-    //             else if ( (lesson as any).chromosome.uPath.media ) 
-    //                 o.address = NS.path.join(  ".files", "videos", (lesson as any).chromosome.uPath.media );
-    //             if ( (lesson as any).chromosome.isYouTube ) o.isYouTube = true;
-    //             lesson.protoplasm.push(o);
-    //         }
-    //         else console.log("here");
-
-    //         delete (lesson as any).context;
-    //         delete (lesson as any).chromosome.uPath;
-    //         delete (lesson as any).chromosome.wPath;
-    //         delete (lesson as any).chromosome.forceRender;
-    //         delete (lesson as any).chromosome.etikett;
-    //         delete (lesson as any).chromosome.type;
-
     //     }
     // }
 

@@ -189,10 +189,10 @@ buttonsRow1: { label:string, class:string, pos: number, func: Function }[] = [
 
 buttonsRow2: { label:string, class:string, pos: number, func: Function }[] = [
     { label: "f068", class: "fas y", pos:1, func: () => { this.adjuster( "A", "-" ) } } ,
-    { label: "f067", class: "fas y", pos:2, func: () => { this.adjuster( "A", "+" ) } } ,
+    { label: "2b", class: "fas y", pos:2, func: () => { this.adjuster( "A", "+" ) } } ,
     { label: ""    , class: 'space', pos:3, func: () => {}                            } ,
     { label: "f068", class: "fas b", pos:4, func: () => { this.adjuster( "B", "-" ) } } ,
-    { label: "f067", class: "fas b", pos:5, func: () => { this.adjuster( "B", "+" ) } } ,
+    { label: "2b", class: "fas b", pos:5, func: () => { this.adjuster( "B", "+" ) } } ,
 ];
 
 plyIcon: "f04b" | "f2ea" = "f04b";

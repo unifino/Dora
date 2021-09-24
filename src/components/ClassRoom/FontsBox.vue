@@ -36,7 +36,7 @@
 
         <nButton
          col=2
-         :myLabel="String.fromCharCode( '0x' + 'f067' )"
+         :myLabel="String.fromCharCode( '0x' + '2b' )"
          myClass="fas sizeButton"
          @tap="changeSize( 'more' )"
         />

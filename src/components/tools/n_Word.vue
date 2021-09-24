@@ -51,6 +51,7 @@ import store                            from "@/mixins/store"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import PageMargin                       from "@/components/ClassRoom/Book/PageMargin.vue"
+import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
 
@@ -74,7 +75,7 @@ export default class n_Word extends Vue {
 get properClass () {
 
     let classPlus = this.myClass;
-    
+
     if ( store.state.preserve.selected.includes( this.refId ) ) classPlus += " selected";
     if ( store.state.preserve.flash.includes( this.refId ) ) classPlus += " flash";
 
@@ -208,8 +209,8 @@ hoverOnPageMargin ( args, margin: PageMargin ) {
 
 // -- =====================================================================================
 
-isOnIt ( 
-    i_pos: { x     : number, y      : number }, 
+isOnIt (
+    i_pos: { x     : number, y      : number },
     p_pos: { x     : number, y      : number },
     size : { width : number, height : number }
 ) {
@@ -231,6 +232,8 @@ isOnIt (
 myTap ( args ) {
     this.$emit( 'myTap' , args );
     if ( this.autoTranslate && this.myText ) this.miniTranslator( this.myText );
+    // .. register real-currentTime
+    store.state.realCurrentTime = tnsPLY.getCurrentTime();
 }
 
 // -- =====================================================================================
@@ -251,7 +254,6 @@ miniTranslator ( word: string = this.myText ){
 
     // .. find the word in the glossar
     let ins = store.state.inHand.institute;
-
     let uon = tools.deepSearch ( word , store.state.glssDB[ ins ] );
 
     // .. it has been found!

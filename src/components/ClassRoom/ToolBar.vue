@@ -93,7 +93,7 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
 
-enum RBS { Mark, Scope, Bind, Copy, More, Less, BreakLine }
+enum RBS { Mark, Scope, Bind, QuickSnap, Copy, More, Less, BreakLine }
 enum MBS { Edit, LineBreak, Snap, Block }
 enum SBS { Translate, Highlight_1, Highlight_2, Delete, Copy }
 enum PBS { Highlight_x, eraser, Translate, Copy }
@@ -123,9 +123,10 @@ buttons = {
 /* mark       */ { icon: 'f00c', class: ''     , fnc: () => this.f( "mark" )            } ,
 /* scope      */ { icon: 'f002', class: 'scope', fnc: () => this.f( "scope" )           } ,
 /* bind       */ { icon: 'f0c1', class: 'bind' , fnc: () => this.f( "bind" )            } ,
+/* quick snap */ { icon: 'e131', class: 'q_sp' , fnc: () => this.f( "q_snap" )          } ,
 /* copy       */ { icon: 'f0c5', class: 'copy' , fnc: () => this.f( "copy", false )     } ,
-/* more       */ { icon: 'f078', class: 'more' , fnc: () => this.f( "more" )            } ,
-/* less       */ { icon: 'f077', class: 'less' , fnc: () => this.f( "less" )            } ,
+/* more       */ { icon: 'f077', class: 'more' , fnc: () => this.f( "more" )            } ,
+/* less       */ { icon: 'f078', class: 'less' , fnc: () => this.f( "less" )            } ,
 /* breakLine  */ { icon: 'f1dd', class: 'gray' , fnc: () => this.f( "breakLine" )       } ,
     ]                                                                                     ,
                                                                                            
@@ -191,6 +192,7 @@ f ( action, extra: boolean|-2|-1|0|1|2|"blue"|"red" = null ) {
 
         case "edit"     : bookModule.editing(a,true);      this.fade(0,false,false); break;
         case "snap"     : this.snap( true );                                         break;
+        case "q_snap"   : this.q_snap();                                             break;
         case "lineBreak": bookModule.addLineBreakAfter( a );                         break;
         case "block"    : bookModule.blockToggler(a);                   this.fade(); break;
 
@@ -349,6 +351,22 @@ snap ( init: boolean ) {
 
 // -- =====================================================================================
 
+q_snap () {
+
+    // .. if we have valid registered RCT
+    if ( store.state.realCurrentTime !== -1 ) {
+        let id = store.state.preserve.selected[0];
+        let snap = parseFloat( ( store.state.realCurrentTime - .5 ).toFixed(1) );
+        // .. assign it
+        this.dText.content[ id ][1].snap = snap;
+        // .. play it
+        tnsPLY.seekTo( snap );
+    }
+
+}
+
+// -- =====================================================================================
+
 async adjuster ( code: -2|-1|1|2 ) {
 
     // .. hover flight simulation
@@ -375,6 +393,8 @@ async adjuster ( code: -2|-1|1|2 ) {
     if ( typeof row[1].snap === "undefined" ) return tools.toaster( "no success!" );
 
     row[1].snap += append;
+    // .. trim number
+    row[1].snap = parseFloat( row[1].snap.toFixed(1) );
     tnsPLY.seekTo( row[1].snap );
     tnsPLY.resume();
 
@@ -574,21 +594,21 @@ destroyed () {
 
     .light .red   { color: #d34b0c; }
     .dark  .red   { color: #d31212; }
-    
+
     .light .green { color: #54a017; }
     .dark  .green { color: #44850e; }
-    
+
     .light .pink  { color: #ad4702; font-size: 13px; padding-top: 8; }
     .dark  .pink  { color: #c95b92; font-size: 13px; padding-top: 8; }
-    
+
     .light .copy  { color: #2a4e3d; }
     .dark  .copy  { color: #138fc9; }
-    
+
     .light .bind  { color: #d64912; }
     .dark  .bind  { color: #d48816; }
 
-    .light .less  { padding-top: 0; }
-    .dark  .less  { padding-top: 0; }
+    .light .less  { padding-top: 10; }
+    .dark  .less  { padding-top: 10; }
 
     .light .more  { padding-top: 10 }
     .dark  .more  { padding-top: 10 }
@@ -598,16 +618,19 @@ destroyed () {
 
     .light .space { width: 2; margin: 0 7; }
     .dark  .space { width: 2; margin: 0 7; }
-        
+
     .light .snap  { color: #069636; }
     .dark  .snap  { color: #91c713; }
+
+    .light .q_sp  { color: #079961; }
+    .dark  .q_sp  { color: #74bb03; }
 
     .light .edit  { color: #0d7bad; }
     .dark  .edit  { color: #1ca9eb; }
 
     .light .line  { color: #dd2095; }
     .dark  .line  { color: #b31a78; }
-    
+
     .light .erase { color: #2d3233; }
     .dark  .erase { color: #eb801c; }
 
@@ -616,10 +639,10 @@ destroyed () {
 
     .light .restore { color: #5a8f1e; }
     .dark  .restore { color: #5fa70e; }
-    
+
     .light .gray  { color: #484c50; background-color: #27b5d4; }
     .dark  .gray  { color: #a0a5a7; background-color: #132327; }
-    
+
     .light .off   { visibility: collapse; }
     .dark  .off   { visibility: collapse; }
 

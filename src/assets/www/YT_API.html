@@ -27,7 +27,7 @@
 
         var oWebViewInterface = window.nsWebViewInterface;
         
-        window.whereAreYou = ()   => parseFloat( player.getCurrentTime().toFixed(2) );
+        window.whereAreYou = ()   => parseFloat( player.getCurrentTime().toFixed(1) );
         window.play        = ()   => player.playVideo();
         window.pause       = ()   => player.pauseVideo();
         window.goTo        = time => player.seekTo( time, true );

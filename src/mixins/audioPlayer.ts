@@ -83,3 +83,12 @@ export let stopAt = function ( second: number ): Promise<void> {
 }
 
 // -- =====================================================================================
+
+export function getCurrentTime () {
+
+    return store.state.mediaState === "playing" ?
+        parseFloat( (player.currentTime /1000).toFixed(1) ) : -1;
+
+}
+
+// -- =====================================================================================

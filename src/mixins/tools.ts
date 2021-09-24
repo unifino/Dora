@@ -820,7 +820,7 @@ snapFinder ( id: number, context: TS.UniText[], duration: number ): number {
 
         let step = ( context[b][1].snap - context[a][1].snap ) / ( b - a );
 
-        return parseFloat( ( context[a][1].snap + step * ( id - a ) ).toFixed(2) );
+        return parseFloat( ( context[a][1].snap + step * ( id - a ) ).toFixed(1) );
 
     }
 
@@ -1022,13 +1022,13 @@ export function subParser ( data: string ) {
             begin  = Number( begin[2].replace( /,/g , '.' ) ) + 
                      Number( begin[1] ) *60 + 
                      Number( begin[0] ) *60*60 ;
-            begin  = Number( begin.toFixed(2) );
+            begin  = Number( begin.toFixed(1) );
 
             end    = end.split( ':' );
             end    = Number( end[2].replace( /,/g , '.' ) ) + 
                      Number( end[1] ) *60 + 
                      Number( end[0] ) *60*60;
-            end    = Number( end.toFixed(2) );
+            end    = Number( end.toFixed(1) );
 
             // ------- text Parsing
             if ( text.indexOf( "- " ) === 0 ) text = text.replace( "- " , "" );
@@ -1072,13 +1072,13 @@ export function srtParser ( data: string ) {
             begin  = Number( begin[2].replace( /,/g , '.' ) ) + 
                      Number( begin[1] ) *60 + 
                      Number( begin[0] ) *60*60;
-            begin  = Number( begin.toFixed(2) );
+            begin  = Number( begin.toFixed(1) );
 
             end    = points[1].split( ':' );
             end    = Number( end[2].replace( /,/g , '.' ) ) + 
                      Number( end[1] ) *60 + 
                      Number( end[0] ) *60*60;
-            end    = Number( end.toFixed(2) );
+            end    = Number( end.toFixed(1) );
 
             // .. text Parsing
             text = lines[ n +2 ];

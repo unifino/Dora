@@ -71,11 +71,11 @@ controlBtn: { [key: string] : { label: string, class: string, func: object } } =
 
 ControlBase : { [key: string] : { label: string, class: string, func: object } } = {
                                                                                        
-    Play:     { label: "f04b", class: "",       func: () => this.play()             } ,
+    Play:     { label: "f04b", class: "play",   func: () => this.play()             } ,
     Pause:    { label: "f04c", class: "",       func: () => tnsPLY.pause()          } ,
     Speed:    { label: "f6ec", class: "",       func: () => this.speedToggler()     } ,
     DarkMode: { label: "f042", class: "theme",  func: () => this.darkModeToggler()  } ,
-    Font:     { label: "f031", class: "",       func: () => this.fontPallet()       } ,
+    Font:     { label: "41",   class: "",       func: () => this.fontPallet()       } ,
     Confirm:  { label: "f559", class: 'confirm',func: () => this.confirm()          } ,
                                                                                        
 }
@@ -422,8 +422,11 @@ destroyed () {
     .light .confirm { color: #ffffff; }
     .dark  .confirm { color: #69a333; }
 
-/*                                          */
+    .play {
+        margin-left: -5;
+    }
 
+/*                                          */
     .light .pressed { background-color: rgba(41, 44, 48, 0.5) }
     .dark  .pressed { background-color: rgba(74, 76, 78, 0.5) }
 
