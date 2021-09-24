@@ -230,10 +230,11 @@ isOnIt (
 // -- =====================================================================================
 
 myTap ( args ) {
+    // .. register real-currentTime - first
+    store.state.realCurrentTime = tnsPLY.getCurrentTime();
+    // .. register tap action - second
     this.$emit( 'myTap' , args );
     if ( this.autoTranslate && this.myText ) this.miniTranslator( this.myText );
-    // .. register real-currentTime
-    store.state.realCurrentTime = tnsPLY.getCurrentTime();
 }
 
 // -- =====================================================================================

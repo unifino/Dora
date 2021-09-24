@@ -356,7 +356,7 @@ q_snap () {
     // .. if we have valid registered RCT
     if ( store.state.realCurrentTime !== -1 ) {
         let id = store.state.preserve.selected[0];
-        let snap = parseFloat( ( store.state.realCurrentTime - .5 ).toFixed(1) );
+        let snap = parseFloat( ( store.state.realCurrentTime -1 ).toFixed(1) );
         // .. assign it
         this.dText.content[ id ][1].snap = snap;
         // .. play it
