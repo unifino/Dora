@@ -1,12 +1,12 @@
 <template>
-<Page @navigatedTo="$store.state.here='Institute'" >
-<AbsoluteLayout height="100%" width="100%" ref="wall" >
+<Page @navigatedTo="$store.state.here='Institute'">
+<AbsoluteLayout height="100%" width="100%" ref="wall">
 
 <!---------------------------------------------------------------------------------------->
 
     <ScrollView 
-        ref="folderBox" 
-        verticalAlignment="middle" 
+        ref="folderBox"
+        verticalAlignment="middle"
         @swipe="swipePass=true"
         height="100%"
         @scroll=railSnap
@@ -17,14 +17,14 @@
             ref="folderRail"
             width="200"
             class="miniFolder"
-            flexWrap="wrap" 
+            flexWrap="wrap"
             flexDirection="row"
             justifyContent="center"
         >
 
-            <Folder 
-                ref="folder" 
-                v-for="(folder,i) of dir" 
+            <Folder
+                ref="folder"
+                v-for="(folder,i) of dir"
                 :key="folder.type+i+folder.path.join()"
                 :myProp="folder"
                 :hidden=folder.hidden

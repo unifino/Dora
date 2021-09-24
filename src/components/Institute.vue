@@ -12,21 +12,15 @@
         scrollBarIndicatorVisible="false"
     >
 
-        <StackLayout padding="85% 0 330% 0">
+        <WrapLayout padding="85% 0 330% 0" horizontalAlignment="center">
 
-            <ScrollView v-for="(code,i) of rbssCodes" :key="code" @swipe="swipePass=true">
+            <StackLayout width=309 v-for="code of rbssCodes" :key="code" @swipe="swipePass=true">
 
-                <StackLayout class="collectionBox">
+                <Collection class="collection" :code="code" :ins="ins" />
 
-                    <Collection horizontalAlignment="left" :code="code" :ins="ins" />
+            </StackLayout>
 
-                    <StackLayout v-if="i<rbssCodes.length-1" class="divider" />
-
-                </StackLayout>
-
-            </ScrollView>
-
-        </StackLayout>
+        </WrapLayout>
 
     </ScrollView>
 
@@ -189,25 +183,7 @@ backOrExit () {
 
 /*                                          */
 
-    .myBigBox {
-        height: 100%;
-    }
-
-    .collectionBox {
-        margin: 1 0;
-        padding: 0;
-        width: 100%;
-    }
-
-    .divider {
-        height: 1;
-        width: 97%;
-        margin: 0;
-        padding: 0;
-    }
-
-    .light .divider { background-color: #6638393d }
-    .dark  .divider { background-color: rgba(87, 87, 87, 0.7) }
+    .myBigBox { height: 100% }
 
 </style>
 

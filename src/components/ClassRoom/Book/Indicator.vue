@@ -12,7 +12,7 @@
         justifyContent="center"
         :visibility="isVisible ? 'visible' : 'collapsed'"
     >
-    
+
         <StackLayout
             :class="i === currentIndex ? 'idx onIt' : 'idx'"
             ref="idx"
@@ -21,10 +21,10 @@
             @tap="$parent.jumpTo(i-1)"
             verticalAlignment="middle"
             :visibility="dots > 1 ? 'visible' : 'collapsed'"
-        > 
+        >
             <StackLayout class='dot' /> 
         </StackLayout>
-    
+
     </FlexboxLayout>
 
 </GridLayout>

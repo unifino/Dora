@@ -179,14 +179,17 @@ tapAnimator (): Promise<void> {
 /*                                          */
 
     .collectionBox {
-        background-color: rgba(44, 44, 44, 0.02);
+        background-color: rgba(44, 44, 44, 0.04);
+        border-radius: 5;
         height: 120;
+        width: 300;
+        margin: 3;
     }
 
     .avatar {
         border-radius: 7;
         android-elevation: 5;
-        stretch: aspectFill
+        stretch: aspectFill;
     }
 
     .title {

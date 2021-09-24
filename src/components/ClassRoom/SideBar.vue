@@ -32,7 +32,7 @@
 
     <StackLayout col=2 row=1 >
 
-        <Label 
+        <Label
             v-for="slot in mySlots"
             :key="slot.text"
             :text="slot.text"
