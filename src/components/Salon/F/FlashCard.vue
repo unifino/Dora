@@ -94,26 +94,26 @@
 
 <!---------------------------------------------------------------------------------------->
 
-        <GridLayout
+        <StackLayout
             :visibility=" !VIPSentence[1].isFake && $store.state.mediaButtons ?
                 'visible' : 'collapsed' "
             row=4
             col=1
             class="buttonRow"
             marginBottom="13"
-            columns="*,auto,auto,auto,auto,auto,*"
+            orientation="horizontal"
+            horizontalAlignment="center"
         >
 
             <nButton
                 v-for="(button,i) in buttonsRow2"
                 :key="i"
                 @tap="button.func()"
-                :col="button.pos"
                 :myLabel="String.fromCharCode( '0x' + button.label )"
                 :myClass="'dotButton ' + button.class"
             />
 
-        </GridLayout>
+        </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -187,12 +187,16 @@ buttonsRow1: { label:string, class:string, pos: number, func: Function }[] = [
                                                                                      
 ];
 
-buttonsRow2: { label:string, class:string, pos: number, func: Function }[] = [
-    { label: "f068", class: "fas y", pos:1, func: () => { this.adjuster( "A", "-" ) } } ,
-    { label: "2b", class: "fas y", pos:2, func: () => { this.adjuster( "A", "+" ) } } ,
-    { label: ""    , class: 'space', pos:3, func: () => {}                            } ,
-    { label: "f068", class: "fas b", pos:4, func: () => { this.adjuster( "B", "-" ) } } ,
-    { label: "2b", class: "fas b", pos:5, func: () => { this.adjuster( "B", "+" ) } } ,
+buttonsRow2: { label:string, class:string, func: Function }[] = [
+    { label: "f068", class: "fas y mini", func: () => { this.adjuster( "A", -.3  ) } } ,
+    { label: "f068", class: "fas y",      func: () => { this.adjuster( "A", -1.9 ) } } ,
+    { label: "2b",   class: "fas y",      func: () => { this.adjuster( "A", 1.9  ) } } ,
+    { label: "2b",   class: "fas y mini", func: () => { this.adjuster( "A", .3   ) } } ,
+    { label: ""  ,   class: 'space',      func: () => {}                             } ,
+    { label: "f068", class: "fas b mini", func: () => { this.adjuster( "B", -.3  ) } } ,
+    { label: "f068", class: "fas b",      func: () => { this.adjuster( "B", -1.9 ) } } ,
+    { label: "2b",   class: "fas b",      func: () => { this.adjuster( "B", 1.9  ) } } ,
+    { label: "2b",   class: "fas b mini", func: () => { this.adjuster( "B", .3   ) } } ,
 ];
 
 plyIcon: "f04b" | "f2ea" = "f04b";
@@ -274,10 +278,9 @@ myAct ( action: TS.studyActions, apply=true ) {
 
 // -- =====================================================================================
 
-async adjuster ( point: 'A' | 'B' , act: '-' | '+' ) {
+async adjuster ( point: 'A' | 'B' , fac: -.3 | .3 | -1.9 | 1.9 ) {
 
     let factor = .25,
-        append = act === '+' ? factor : -factor,
         item = this.VIPSentence[1],
         uContext = item.lesson.protoplasm.find( x => x.type === "dText" ).content,
         id = this.VIPSentence[1][ point ],
@@ -294,7 +297,7 @@ async adjuster ( point: 'A' | 'B' , act: '-' | '+' ) {
     // .. still has no Data!
     if ( !row[1].snap ) return tools.toaster( "no success!" );
 
-    row[1].snap += append;
+    row[1].snap += fac;
 
     let shortcut = point === "B" ? true : false;
     this.speaker( shortcut );
@@ -582,10 +585,15 @@ nWordLongPressed ( args ) {
 
     .space {
         width: 2;
-        margin: 0 25;
+        margin: 0 12;
     }
     .light .space { background-color: #b5b7b8; }
     .dark  .space { background-color: #515557; }
+
+    .mini { 
+        font-size: 11;
+        width: 20;
+    }
 
 /*                                          */
     .breakLine {
