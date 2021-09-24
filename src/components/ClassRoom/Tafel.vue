@@ -3,7 +3,7 @@
 
     <GridLayout row=1 class="pagesBox" >
 
-        <WrapLayout ref="page">
+        <WrapLayout ref="page" class="page">
 
             <nWord 
              v-for="(word,i) in page" 
@@ -214,13 +214,9 @@ updated () {
 /*                                          */
 
     /* ! should be same as Book.vue */
-    .bookCover {
-        width: auto;
-    }
-
-    .pagesBox {
-        width: 80%;
-    }
+    .bookCover { width: auto }
+    .pagesBox { width: 80% }
+    .page { width: 510 }
     /* ! should be same as Book.vue */
 
 </style>

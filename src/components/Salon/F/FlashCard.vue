@@ -18,24 +18,24 @@
     <GridLayout
         row=1
         colSpan=3
-        ref="bigBox" 
+        ref="bigBox"
         class="bigBox"
         :marginBottom="$store.state.mediaButtons ? 0 : 51.5"
-        rows="18,auto,18,auto,auto,4" 
-        columns="15,*,15" 
+        rows="18,auto,18,auto,auto,4"
+        columns="15,*,15"
     >
 
 <!---------------------------------------------------------------------------------------->
 
         <WrapLayout row=1 col=1 class="sentenceBox" >
 
-            <nWord 
-                v-for="(word,i) in words" 
-                :key="i" 
+            <nWord
+                v-for="(word,i) in words"
+                :key="i"
                 :myText="word.text"
-                :myClass="word.class" 
+                :myClass="word.class"
                 :refId=i
-                :autoTranslate=true 
+                :autoTranslate=true
                 verticalAlignment="middle"
                 @myLongPress=nWordLongPressed
             />
@@ -44,47 +44,47 @@
 
 <!---------------------------------------------------------------------------------------->
 
-        <Label 
-            :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' " 
-            row=1 
-            col=1 
+        <Label
+            :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' "
+            row=1
+            col=1
             class="summeryBox"
-        > 
+        >
 
             <FormattedString>
-                <Span 
-                    :text="String.fromCharCode( '0x' + summery.icon )" 
-                    :class="summery.class" 
+                <Span
+                    :text="String.fromCharCode( '0x' + summery.icon )"
+                    :class="summery.class"
                 />
             </FormattedString>
 
         </Label>
 
-        <Label 
-            :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' " 
-            row=2 
-            col=1 
-            class="summeryStepBox" 
-            :text="summery.nextVisit" 
-        /> 
+        <Label
+            :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' "
+            row=2
+            col=1
+            class="summeryStepBox"
+            :text="summery.nextVisit"
+        />
 
 <!---------------------------------------------------------------------------------------->
 
-        <GridLayout 
-            :visibility=" !VIPSentence[1].isFake ? 'visible' : 'collapsed' " 
-            row=3 
+        <GridLayout
+            :visibility=" !VIPSentence[1].isFake ? 'visible' : 'collapsed' "
+            row=3
             col=1
             class="buttonRow"
             marginBottom="13"
             columns="auto,auto,auto,*,auto,auto,auto"
         >
 
-            <nButton 
+            <nButton
                 v-for="(button,i) in buttonsRow1"
-                :key="i" 
-                @tap="button.func()" 
+                :key="i"
+                @tap="button.func()"
                 :col="button.pos"
-                :myLabel="String.fromCharCode( '0x' + button.label )" 
+                :myLabel="String.fromCharCode( '0x' + button.label )"
                 :myClass="'dotButton ' + button.class"
             />
 
@@ -95,21 +95,21 @@
 <!---------------------------------------------------------------------------------------->
 
         <GridLayout
-            :visibility=" !VIPSentence[1].isFake && $store.state.mediaButtons ? 
-                'visible' : 'collapsed' " 
+            :visibility=" !VIPSentence[1].isFake && $store.state.mediaButtons ?
+                'visible' : 'collapsed' "
             row=4
             col=1
-            class="buttonRow" 
+            class="buttonRow"
             marginBottom="13"
             columns="*,auto,auto,auto,auto,auto,*"
         >
 
-            <nButton 
-                v-for="(button,i) in buttonsRow2" 
-                :key="i" 
-                @tap="button.func()" 
+            <nButton
+                v-for="(button,i) in buttonsRow2"
+                :key="i"
+                @tap="button.func()"
                 :col="button.pos"
-                :myLabel="String.fromCharCode( '0x' + button.label )" 
+                :myLabel="String.fromCharCode( '0x' + button.label )"
                 :myClass="'dotButton ' + button.class"
             />
 
@@ -529,7 +529,7 @@ nWordLongPressed ( args ) {
 
     .sentenceBox {
         border-color: #041320;
-        border-width: 1; 
+        border-width: 1;
         padding: 23 15;
         border-radius: 7;
     }
@@ -567,7 +567,7 @@ nWordLongPressed ( args ) {
     .light .o { color: #333233; }
     .dark  .o { color: #919191; }
 
-    .p { 
+    .p {
         font-size: 27;
         width: 40;
         height: 40;
@@ -580,15 +580,14 @@ nWordLongPressed ( args ) {
 
     .t { font-size: 22px }
 
-    .space { 
-        width: 2; 
-        margin: 0 25; 
+    .space {
+        width: 2;
+        margin: 0 25;
     }
     .light .space { background-color: #b5b7b8; }
     .dark  .space { background-color: #515557; }
 
 /*                                          */
-
     .breakLine {
         height: 1;
         padding: 0;

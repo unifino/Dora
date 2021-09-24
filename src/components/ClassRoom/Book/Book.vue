@@ -14,6 +14,7 @@
     <GridLayout row=1 colSpan=3 rows="auto" class="pagesBox" >
         <WrapLayout
             ref="page"
+            class="page"
             v-for="(page,x) in book"
             :key="x"
             :translateX="x===inx ? 0 : $store.state.windowSize.width"
@@ -945,6 +946,8 @@ destroyed () {
         width: 80%;
         /* height: 70%; ! should be same as factor of maxHeight */
     }
+
+    .page { width: 510 }
     /* ! should be same as Tafel.vue */
 
 </style>

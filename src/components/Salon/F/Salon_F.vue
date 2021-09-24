@@ -335,4 +335,8 @@ destroyed () {
         letter-spacing: .3;
     }
 
+    #flashcardsRail {
+        width: 510;
+    }
+
 </style>
