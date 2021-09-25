@@ -1,6 +1,6 @@
 <template>
 <Page class="fx" @navigatedTo="$store.state.here='Institute'" >
-<GridLayout ref="wall" >
+<GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -14,7 +14,12 @@
 
         <WrapLayout padding="85% 0 330% 0" horizontalAlignment="center">
 
-            <StackLayout width=309 v-for="code of rbssCodes" :key="code" @swipe="swipePass=true">
+            <StackLayout
+                width=309
+                v-for="code of rbssCodes"
+                :key="code"
+                @swipe="swipePass=true"
+            >
 
                 <Collection class="collection" :code="code" :ins="ins" />
 

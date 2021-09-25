@@ -161,6 +161,8 @@ resumeCtl () {
 
         case "ClassRoom":
             tnsPLY.stop();
+            // .. try to reload audio
+            try { tnsPLY.init( store.state.inHand.mediaPath ) } catch {}
             store.state.mode = "reading";
             break;
 
@@ -236,8 +238,10 @@ appConfiguration (): Promise<void> {
             // .. register appConfig
             store.state.appConfig = validAppConfig;
 
+            // ! remove this, for now app starts in black
+            TM.themeApplier( "Black", this.$refs );
             // .. assign user selected theme
-            TM.themeApplier( store.state.appConfig.theme, this.$refs );
+            // TM.themeApplier( store.state.appConfig.theme, this.$refs );
 
             await new Promise( _ => setTimeout( _, 100 ) );
 
@@ -398,5 +402,5 @@ destroyed () {
         vertical-align: bottom;
         horizontal-align: center;
     }
-    
+
 </style>

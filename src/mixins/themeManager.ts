@@ -37,13 +37,13 @@ themeApplier ( colorName: TS.ThemaName, refs ): void {
 
     // .. apply root ClassName
     refs[ obj[0] ].nativeView.className = palette.contrast + ' ' + palette.name;
- 
+
     // .. apply Background values
     for ( let x of obj ) refs[x].nativeView.backgroundColor = palette.rootBG;
 
     // .. register Theme
     store.state.appConfig.theme = colorName as TS.ThemaName;
-    
+
     // .. register DarkMode
     store.state.darkMode = palette.contrast === "dark" ? true : false;
 
@@ -59,14 +59,14 @@ themeApplier ( colorName: TS.ThemaName, refs ): void {
 export function darkModeToggler ( refs ) {
 
     store.state.darkMode = !store.state.darkMode;
-    
+
     // TODO                               it should be completed
     const newTheme: TS.ThemaName = store.state.darkMode ? "DarkGreen" : "Milky";
     themeApplier( newTheme, refs );
-    
+
     // .. save config File
     storage.saveAppConfig();
-    
+
 }
 
 // -- =====================================================================================
