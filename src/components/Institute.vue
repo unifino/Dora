@@ -140,7 +140,7 @@ backOrExit () {
     // .. shopping mode
     if      ( store.state.mode === "shopping" ) shopping.backOrExitShop( this.ins );
     // .. setting mode
-    else if ( store.state.mode === "setting"  ) Bus.$emit( "Menu_ToggleMenu" );
+    else if ( store.state.mode === "setting"  ) Bus.$emit( "Panel_ToggleExpansion" );
     // .. exit
     else {
 

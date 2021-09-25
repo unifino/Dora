@@ -11,7 +11,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <OptionBar />
+    <MenuPanel ref="menuPanel" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -21,10 +21,6 @@
 <!---------------------------------------------------------------------------------------->
 
     <Downloading />
-
-<!---------------------------------------------------------------------------------------->
-
-    <Menu ref="menu" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -64,13 +60,13 @@ import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storageHandler"
 import FirstMeet                        from "@/components/SETUPFirstMeet/FirstMeet.vue"
 import Institute                        from "@/components/Institute.vue"
-import Menu                             from "@/components/Menu/Menu.vue"
+// import Menu                             from "@/components/Menu/Menu.vue"
 import Downloading                      from "@/components/tools/Downloading.vue"
 import ServerWindow                     from "@/components/ServerWindow/IPanel.vue"
 import Welcome                          from "@/components/Welcome.vue"
 import Bus                              from "@/mixins/bus"
 import BeautyBG                         from "@/components/tools/BeautyBG.vue"
-import OptionBar                        from "@/components/Menu/Panel.vue"
+import MenuPanel                        from "@/components/Menu/Panel.vue"
 import { myPurchasedItems }             from "@/mixins/user"
 import Scope                            from "@/components/Scope/Scope.vue"
 import * as shopping                    from "@/mixins/shopping"
@@ -82,11 +78,10 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
     components: {
         FirstMeet,
         Institute,
-        Menu,
+        MenuPanel,
         Welcome,
         Downloading,
         BeautyBG,
-        OptionBar,
         Scope
     }
 } )
@@ -264,7 +259,7 @@ appConfiguration (): Promise<void> {
 
             // .. setUp app
             this.getRootWindowSize()
-            .then( () => ( this.$refs.menu as Menu ).toggleMenu()        )
+            .then( () => Bus.$emit( "Panel_ToggleExpansion" )            )
             .then( () => this.headToInstitute( tools.instituteTravel() ) )
             .then( () => Bus.$emit( "Welcome_Slide", false )             )
             .then( () => ( this.$refs.scope as Scope ).init()            );
