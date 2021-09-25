@@ -126,7 +126,11 @@ ram () {
         // .. ram data is downloaded
         if ( ram ) {
             // .. data is implanted successfully 
-            if ( _ram(ram) ) this.profile = this.profiles.empty;
+            if ( _ram(ram) ) {
+                this.profile = this.profiles.empty;
+                // .. reload Data
+                tools.dAO( store.state.inHand.institute );
+            }
             // .. data is corrupted!
             else this.profile = this.profiles.error;
         }
