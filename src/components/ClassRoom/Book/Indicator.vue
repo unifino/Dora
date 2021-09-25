@@ -4,6 +4,7 @@
     <FlexboxLayout
         row=1
         col=3
+        ref="indicatorBar"
         class="indicatorBar"
         orientation="horizontal"
         horizontalAlignment="center"
@@ -66,6 +67,9 @@ isVisible = true;
 
 mounted () {
     Bus.$on( 'Indicator_visibility', this.toggleVisibility );
+    // .. set the width of indicatorBar
+    let indicatorBar = this.$refs.indicatorBar as any;
+    indicatorBar.nativeView.width = store.state.windowSize.width > 600 ? 240 : 150;
 }
 
 // -- =====================================================================================
@@ -95,7 +99,7 @@ destroyed () {
 /*                                          */
 .indicatorBar {
     height: auto;
-    width: 150;
+    width: 240;
     line-height: 0;
 }
 
