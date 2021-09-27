@@ -286,10 +286,10 @@ export async function activator (
 // -- =====================================================================================
 
 export let map = {
-    amp     : '&' , 
-    lt      : '<' , 
-    gt      : '>' , 
-    quot    : '"' , 
+    amp     : '&' ,
+    lt      : '<' ,
+    gt      : '>' ,
+    quot    : '"' ,
     '#39'   : "'" ,
     '#039'  : "'"
 }
@@ -419,7 +419,7 @@ translator_google_paid ( from: string, to: string, string: string ): Promise<str
 
 // -- =====================================================================================
 
-function 
+function
 translator_google_free ( from: string, to: string, string: string ): Promise<string> {
 
     return new Promise ( (rs,rx) => {
@@ -576,20 +576,25 @@ export function wordStating (
         // .. old row
         if ( uon ) {
             // .. performing new State
-            if ( newState ) glossar[ uon ].state = newState;
+            if ( newState ) {
+                glossar[ uon ].state = newState;
+                glossar[ uon ].sync = false;
+            }
         }
         // .. new Meet
-        else glossar[ neatWord ] = { state: newState || "N" };
+        else glossar[ neatWord ] = { state: newState || "N", sync: false };
 
         // .. toggle M|L
         if ( toggle ) {
             if ( glossar[ uon || neatWord ].state === "M" )
                 glossar[ uon || neatWord ].state = "L";
-            else 
+            else
                 glossar[ uon || neatWord ].state = "M";
+            // .. register sync status
+            glossar[ uon || neatWord ].sync = false;
         }
 
-        // reporting current state
+        // .. reporting current state
         return glossar[ uon || neatWord ].state;
 
     }
@@ -950,7 +955,7 @@ export function chromosomeValidator( chromosome: TS.Chromosome, deep?: boolean )
 
 export function key () {
 
-    return x007( JSON.stringify( { 
+    return x007( JSON.stringify( {
         name: NS.Device.manufacturer + " | " + NS.Device.model,
         uuid: NS.Device.uuid,
     } ) );
@@ -980,7 +985,7 @@ export function mDBValidator ( mDB: { [key: string]: TS.Lesson[] }, bigKey: obje
 
 }
 
-// =====================================================================================
+// -- =====================================================================================
 
 export function subParser ( data: string ) {
 
@@ -1045,7 +1050,7 @@ export function subParser ( data: string ) {
 
 }
 
-// =====================================================================================
+// -- =====================================================================================
 
 export function srtParser ( data: string ) {
 
@@ -1061,7 +1066,7 @@ export function srtParser ( data: string ) {
         if
         (
             lines[ n +0 ].match( /^\d+$/ ) &&
-            lines[ n +1 ].match( /[0-9]*:*[0-9]*:*[0-9,]* --> [0-9]*:*[0-9]*:*[0-9,]*/ ) 
+            lines[ n +1 ].match( /[0-9]*:*[0-9]*:*[0-9,]* --> [0-9]*:*[0-9]*:*[0-9,]*/ )
         )
         {
 
@@ -1108,7 +1113,7 @@ export function srtParser ( data: string ) {
 
 }
 
-// =====================================================================================
+// -- =====================================================================================
 
 function str2UnifiedText (
 
@@ -1140,7 +1145,7 @@ function str2UnifiedText (
 
 }
 
-// =====================================================================================
+// -- =====================================================================================
 
 export function confirmLesson( lesson: TS.Lesson ) {
 
@@ -1169,7 +1174,7 @@ export function confirmLesson( lesson: TS.Lesson ) {
 
 }
 
-// =====================================================================================
+// -- =====================================================================================
 
 export function lessonUnloader () {
     store.state.inHand.lesson = null;
@@ -1177,4 +1182,106 @@ export function lessonUnloader () {
     store.state.inHand.avatarPath = null;
 }
 
-// =====================================================================================
+// -- =====================================================================================
+
+export function zip () {
+
+    // .. zip all important data to transfer
+    let zip: TS.zip = { mass: {}, flss: {}, glss: {} };
+
+    // .. filter non-synced lessons
+    for ( const ins of Object.keys( store.state.massDB ) )
+        zip.mass[ ins ] = store.state.massDB[ ins ].filter( x => !x.chromosome.sync );
+
+    // .. filter non-synced flashcard
+    for ( const ins of Object.keys( store.state.flssDB ) )
+        zip.flss[ ins ] = store.state.flssDB[ ins ].filter( x => !x[1].sync );
+
+    // .. filter non-synced words
+    for ( const ins of Object.keys( store.state.glssDB ) ) {
+        // .. touch glossar for current institute
+        zip.glss[ ins ] = {};
+        for ( const word of Object.keys( store.state.glssDB[ ins ] ) )
+            if ( !store.state.glssDB[ ins ][ word ].sync )
+                zip.glss[ ins ][ word ] = store.state.glssDB[ ins ][ word ];
+    }
+
+    return Buffer.from( JSON.stringify( zip ), 'utf-8' ).toString( 'base64' );
+
+}
+
+// -- =====================================================================================
+
+export function syncConfirm () {
+
+    // .. lessons are synced
+    for ( const ins of Object.keys( store.state.massDB ) )
+        for ( const i in store.state.massDB[ ins ] )
+            store.state.massDB[ ins ][i].chromosome.sync = true;
+
+    // .. flashcards are synced
+    for ( const ins of Object.keys( store.state.flssDB ) )
+        for ( const i in store.state.flssDB[ ins ] )
+            store.state.flssDB[ ins ][i][1].sync = true;
+
+    // .. words are synced
+    for ( const ins of Object.keys( store.state.glssDB ) )
+        for ( const word of Object.keys( store.state.glssDB[ ins ] ) )
+            store.state.glssDB[ ins ][ word ].sync = true;
+
+    return Promise.resolve();
+
+}
+
+// -- =====================================================================================
+
+export function unzip_scatter( zip: TS.zip ) {
+
+    let tmp_c: TS.ChromosomeCode;
+    let tmp_s: string;
+    let itemIdx: number;
+
+    try {
+
+        // .. implant Lessons
+        for ( const ins of Object.keys( zip.mass ) ) {
+            for ( const i in zip.mass[ ins ] ) {
+                tmp_c = zip.mass[ ins ][i].chromosome.code;
+                itemIdx = store.state.massDB[ ins ].findIndex( x =>
+                    x.chromosome.code.idx === tmp_c.idx &&
+                    x.chromosome.code.ribosome === tmp_c.ribosome
+                )
+                // .. update existing Lesson
+                if ( ~itemIdx ) store.state.massDB[ ins ][ itemIdx ] = zip.mass[ ins ][i];
+                // .. create new one
+                else store.state.massDB[ ins ].push( zip.mass[ ins ][i] );
+            }
+        }
+
+        // .. implant Flashcards
+        for ( const ins of Object.keys( zip.flss ) ) {
+            for ( const i in zip.flss[ ins ] ) {
+                tmp_s = zip.flss[ ins ][i][0];
+                itemIdx = store.state.flssDB[ ins ].findIndex( x => x[0] === tmp_s );
+                // .. update existing Flashcard
+                if ( ~itemIdx ) store.state.flssDB[ ins ][ itemIdx ] = zip.flss[ ins ][i];
+                // .. create new one
+                else store.state.flssDB[ ins ].push( zip.flss[ ins ][i] );
+            }
+        }
+
+        // .. implant Flashcards
+        for ( const ins of Object.keys( zip.glss ) )
+            for ( const word of Object.keys( zip.glss[ ins ] ) )
+                store.state.glssDB[ ins ][ word ] = zip.glss[ ins ][ word ];
+
+        // .. report 1 if every thing went well
+        return 1;
+
+    }
+    // ..something went wrong!
+    catch { return 0; }
+
+}
+
+// -- =====================================================================================

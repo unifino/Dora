@@ -122,6 +122,9 @@ init () {
     store.state.here = 'ClassRoomEntrance';
     let lesson = store.state.inHand.lesson;
 
+    // .. register sync status
+    lesson.chromosome.sync = false;
+
     this.wallPainter();
 
     storage.organellesLoader( lesson )

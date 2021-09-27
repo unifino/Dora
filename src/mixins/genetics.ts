@@ -127,6 +127,9 @@ function mutator ( cell: TS.cell ) {
         return context.length ? Promise.resolve() : Promise.reject();
     }
 
+    // .. register sync status
+    cell.chromosome.sync = false;
+
     // .. update glssDB
     for ( let row of context ) tools.wordStating( row[0], cell.chromosome.institute );
     tools.glssDBUpdater( cell.chromosome.institute );

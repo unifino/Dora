@@ -216,7 +216,7 @@ export interface Ribosome {
 
 export interface Ribosomes { [key: string]: Ribosome }
 
-interface ChromosomeCode {                           
+export interface ChromosomeCode {                           
     ribosome    : string                            ,
     idx         : string                            ,
 }                                                    
@@ -231,6 +231,7 @@ export interface Chromosome {
     hPath           : string[]                      ,
     vPath           : string[]                      ,
     status          : LessonStatus                  ,
+    sync            : boolean                       ,
                                                      
 }
 
@@ -258,6 +259,7 @@ export type Organelle = {
     position?       : number                        ,
                                                      
     hiddenCards?    : number[]                      ,
+                                                     
 }
 
 export type LessonType = 'audio'|'video'|'plain'|'comic'|'slide';
@@ -276,16 +278,17 @@ export type LessonStatus = 'reading' | 'read';
 // -- =====================================================================================
 
 export type WordState = 'N'|'L'|'M';
-export interface Glossar { 
-    [key: string]: { 
+export interface Glossar {
+    [key: string]: {
         state: WordState,
+        sync: boolean,
         en?: string,
         de?: string,
         it?: string,
         tr?: string,
         fr?: string,
         fa?: string,
-    } 
+    }
 }
 
 export interface GlssDB {
@@ -329,7 +332,8 @@ export interface FlashcardFlags {
     code        : ChromosomeCode        ,
     A           : number                ,
     B           : number                ,
-} 
+    sync        : boolean               ,
+}
 
 // -- =====================================================================================
 
@@ -372,3 +376,9 @@ export type SSD_Res = {
 }
 
 export type RamActions = "upload"|"download"|"purge";
+
+export type zip = {
+    mass: { [key: string]: Lesson[] },
+    flss: { [key: string]: Flashcard[] },
+    glss: { [key: string]: Glossar }
+}

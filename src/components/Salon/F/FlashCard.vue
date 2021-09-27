@@ -159,8 +159,8 @@ export default class FlashCard extends Vue {
 // -- =====================================================================================
 
 folderProperty: TS.FolderProperty = { 
-    title      : null, 
-    icon       : null, 
+    title      : null,
+    icon       : null,
     type       : "shortLink",
     path       : null,
     institute  : store.state.inHand.institute,
@@ -246,13 +246,13 @@ mounted () {
 
     store.state.preserve.flash = [];
     if ( !this.VIPSentence[1].isFake )
-        for ( let i = this.VIPSentence[1].A; i <= this.VIPSentence[1].B; i++ ) 
+        for ( let i = this.VIPSentence[1].A; i <= this.VIPSentence[1].B; i++ )
             store.state.preserve.flash.push(i);
 
     // .. patch plyIcon icon
-    store.watch( 
-        state => state.mediaState, 
-        newValue => this.plyIcon = newValue === "playing" ? "f2ea" : "f04b" 
+    store.watch(
+        state => state.mediaState,
+        newValue => this.plyIcon = newValue === "playing" ? "f2ea" : "f04b"
     );
 
 }
@@ -265,7 +265,7 @@ myAct ( action: TS.studyActions, apply=true ) {
         case '+': this.summery = { icon: "f00c", class: "fas summeryIcon g" }; break;
         case '-': this.summery = { icon: "f00d", class: "fas summeryIcon r" }; break;
     }
-    
+
     try {
         let baseTime = store.state.appConfig.baseTime;
         let days = this.VIPSentence[1].studyHistory.newStep ** baseTime;
@@ -343,7 +343,7 @@ speaker ( shortcut = false ) {
 // -- =====================================================================================
 
 translate () {
-    
+
     // .. inFrame Translation
     const from = store.state.inHand.institute.toLowerCase();
     if ( !this.VIPSentence[1].translations ) this.VIPSentence[1].translations = {};
@@ -373,9 +373,9 @@ translate () {
         if ( data[0] !== " " ) {
             translations = this.VIPSentence[1].translations.en + "\n\n" + translations;
         }
-    
+
         tools.toaster( translations , "long" );
-    
+
     } )
     .catch ( err => { tools.toaster( err ) } );
 
@@ -394,10 +394,10 @@ studyAct ( action: TS.studyActions ) {
     // .. register new trace
     if ( idx === -1 ) this.VIPSentence[1].studyHistory = state_0;
     // .. get last study data
-    else this.lastStudyDataExtractor(); 
+    else this.lastStudyDataExtractor();
 
-    // .. do calculations 
-    this.studyCalculator( action ); 
+    // .. do calculations
+    this.studyCalculator( action );
 
     // .. registering studyData
     this.studyDataRegistrator().then( () => this.nextSlide() );
@@ -410,7 +410,7 @@ studyAct ( action: TS.studyActions ) {
 lastStudyDataExtractor() {
 
     let now: number = ( new Date().getTime() /1000 ) | 0;
-    
+
     let step: number = 0;
     let lastVisit: number = now;
     let redHit: number = 0;
@@ -425,7 +425,7 @@ lastStudyDataExtractor() {
     // .. this is first act [in this session] on this old Trace!
     if ( typeof this.VIPSentence[1].studyHistory === "undefined" ) {
         this.VIPSentence[1].studyHistory = {
-            oldStep     : step      , 
+            oldStep     : step      ,
             lastVisit   : lastVisit ,
             oldRedHit   : redHit    ,
         }
@@ -445,18 +445,15 @@ studyCalculator ( action: TS.studyActions ) {
     let stepFactor = Math.log( passedTime / tools.day ) / Math.log( baseTime );
         stepFactor = ( stepFactor * 1.0 ) | 0;
 
-    let oldStep = this.VIPSentence[1].studyHistory.oldStep;
     let oldRedHit = this.VIPSentence[1].studyHistory.oldRedHit;
     let newStep: number,
         newRedHit: number;
 
     switch ( action ) {
-        
         case '+' : newStep = ++stepFactor;                           break;
         case '-' : newStep = --stepFactor; newRedHit = oldRedHit +1; break;
         // TODO ..........................................................
         // case '0'  : status = iisa ? 'hidden' : false;            break;
-        
     }
 
     if ( newStep < 1 ) newStep = 1;
@@ -480,17 +477,20 @@ async studyDataRegistrator () {
     if ( idx > -1 ) item = this.myFlashcards[ idx ];
     // .. new Registration
     else {
-        item = [ this.VIPSentence[0], { 
+        item = [ this.VIPSentence[0], {
             status      : null ,
             step        : null ,
             lastVisit   : null ,
             code        : this.VIPSentence[1].lesson.chromosome.code ,
             A           : this.VIPSentence[1].A ,
             B           : this.VIPSentence[1].B ,
+            sync        : false ,
         } ];
         this.myFlashcards.push( item );
     }
 
+    // .. registration sync status
+    item[1].sync = false;
     // .. soft Registration for Audio Lesson on FlashCardsBox
     item[1].status = "memorizing";
     item[1].step = this.VIPSentence[1].studyHistory.newStep;

@@ -76,7 +76,7 @@ export function register( email: string ): Promise<void> {
 
 export function myPurchasedItems () {
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
 
         if ( !store.state.appConfig.email ) return rx( "Log in First!" );
 
@@ -118,21 +118,15 @@ export function myRam ( action: TS.RamActions ): Promise<string> {
 
     // .. provide actual data
     if ( action === "upload" ) {
-
-        // .. zip all important data to transfer
-        let z_data = {
-            mass: store.state.massDB,
-            flss: store.state.flssDB,
-            glss: store.state.glssDB,
-        }
-        data = Buffer.from( JSON.stringify( z_data ), 'utf-8' ).toString( 'base64' );
-
+        // .. get actual zipped data
+        data = tools.zip();
+        // .. no need to update | return back
+        if ( data.length < 140 ) return Promise.reject( "All DATA synced already!" );
         // .. notify uploading data size
-        tools.toaster( ( ( data.length /1024 ) | 0 ) + " KB" );
-
+        else tools.toaster( ( ( data.length /1024 ) | 0 ) + " KB" );
     }
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
 
         if ( !store.state.appConfig.email ) return rx( "Log in First!" );
 
@@ -177,18 +171,12 @@ export function _ram ( ram: string ) {
         // .. notify received data size
         tools.toaster( ( ( ram.length /1024 ) | 0 ) + " KB" );
 
-        let z_data:{
-            mass: { [key: string]: TS.Lesson[] },
-            flss: { [key: string]: TS.Flashcard[] },
-            glss: { [key: string]: TS.Glossar }
-        } = JSON.parse( Buffer.from( ram, 'base64' ).toString('utf-8') );
+        let zip: TS.zip = JSON.parse( Buffer.from( ram, 'base64' ).toString('utf-8') );
 
         // .. chcek integrity of zip data
-        if ( z_data.mass && z_data.flss && z_data.glss ) {
-            store.state.flssDB = z_data.flss;
-            store.state.glssDB = z_data.glss;
-            store.state.massDB = z_data.mass;
-            return 1;
+        if ( zip.mass && zip.flss && zip.glss ) {
+            // .. implanting them ...
+            return tools.unzip_scatter( zip );
         }
 
         // .. data is not met zip-data structure

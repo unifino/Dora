@@ -25,7 +25,6 @@ import * as NS                          from "@nativescript/core"
 import { myRam, _ram }                  from "@/mixins/user"
 import * as tools                       from "@/mixins/tools"
 import * as TS                          from "@/../types/myTypes"
-import { x007 }                         from '@/mixins/android007Agent'
 
 // -- =====================================================================================
 
@@ -125,7 +124,7 @@ ram () {
 
         // .. ram data is downloaded
         if ( ram ) {
-            // .. data is implanted successfully 
+            // .. data is implanted successfully
             if ( _ram(ram) ) {
                 this.profile = this.profiles.empty;
                 // .. reload Data
@@ -136,6 +135,9 @@ ram () {
         }
         // .. data is uploaded to the Ram
         else this.profile = this.profiles.full;
+
+        // .. confirm everything is synced
+        tools.syncConfirm();
 
     } )
     .catch ( e => Bus.$emit( "IPanel_Result", e.reason || e ) );
