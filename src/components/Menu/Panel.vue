@@ -12,7 +12,12 @@
 
 <!---------------------------------------------------------------------------------------->
 
-        <GridLayout row=0 columns="18,*,auto,10" ref="panel_header" visibility="hidden">
+        <GridLayout
+            row=0
+            columns="18,*,auto,10"
+            ref="panel_header"
+            :visibility="app_mode === 'development' ? 'visible' : 'collapsed'"
+        >
 
             <StackLayout col=1 orientation="horizontal" horizontalAlignment="left">
                 <Archive />
@@ -30,7 +35,13 @@
 
         </GridLayout>
 
-        <GridLayout row=0 rows="*,auto,*" columns="18,*,*,auto,*,10" ref="panel_header" visibility="visible">
+        <GridLayout
+            row=0
+            rows="*,auto,*"
+            columns="18,*,*,auto,*,10"
+            ref="panel_header"
+            :visibility="app_mode === 'production' ? 'visible' : 'collapsed'"
+        >
             <SalonFIcon col=1 rowSpan=3 />
             <Label row=1 col=3 text="Dora - Deutsche - A1 - Student Version" />
         </GridLayout>
@@ -104,6 +115,12 @@ export default class MenuPanel extends Vue {
 // -- =====================================================================================
 
 expanded = true;
+
+// -- =====================================================================================
+
+get app_mode () {
+    return TNS_ENV;
+}
 
 // -- =====================================================================================
 
