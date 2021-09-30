@@ -10,6 +10,7 @@
 
     <StackLayout row=1 col=3 orientation="horizontal" >
         <Label class="title" :text="ribosome.title" />
+        <Label :class="'level ' + ribosome.level" :text="ribosome.level" />
         <Label :class="badge.class" :text="String.fromCharCode( '0x' + badge.icon )" />
     </StackLayout>
 
@@ -193,7 +194,7 @@ tapAnimator (): Promise<void> {
         stretch: aspectFill;
     }
 
-    .title {
+    .title, .level {
         background-color: #676d6d;
         color: #fcf9f6;
         font-family: Raleway-Regular;
@@ -204,6 +205,14 @@ tapAnimator (): Promise<void> {
         border-radius: 4;
         horizontal-align: left;
     }
+
+    .level { padding: 5 5 }
+    .A1 { background-color: #5fb102 }
+    .A2 { background-color: #0d8a1d }
+    .B1 { background-color: #026bb1 }
+    .B2 { background-color: #083983 }
+    .C1 { background-color: #8b0575 }
+    .C2 { background-color: #970707 }
 
     .addOne {
         background-color: #094e63;
