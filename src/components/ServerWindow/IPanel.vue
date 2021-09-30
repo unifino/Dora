@@ -95,6 +95,8 @@ result ( err: string|false ) {
         if ( ex.includes( "context is not iterable" ) ) err = "Not Compatible";
         if ( ex.includes( "No News" ) ) err = "No News";
         if ( ex.includes( "No more News" ) ) err = "No more News";
+        // .. if "contains" reports more than actual provided lessons
+        if ( ex.includes( "no more lesson" ) ) err = "no more lesson";
 
         switch ( err ) {
 

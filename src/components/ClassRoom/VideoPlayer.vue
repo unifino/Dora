@@ -46,7 +46,7 @@ mounted () {
     // app.on( app.suspendEvent, _ => { 
     //     try{ vid.pause(); } catch (e) { tools.toaster( e + '' ) } 
     // } );
-    
+
     // app.on( app.resumeEvent,  _ => { 
     //     vid.seekToTime( this.position ); 
     //     vid.play(); 
@@ -72,6 +72,8 @@ init () {
 // -- =====================================================================================
 
 play () {
+    // .. reload src | resolve downloading process bug
+    this.player.src = store.state.inHand.mediaPath;
     this.player.play();
 }
 

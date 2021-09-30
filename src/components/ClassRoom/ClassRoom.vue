@@ -1,5 +1,5 @@
 <template isPassThroughParentEnabled=false>
-<Page isPassThroughParentEnabled=false >
+<Page isPassThroughParentEnabled=false @tap="preventBeneathGetTapped">
 <GridLayout ref="mainBox" class="curtain" rows="40,auto,auto,*" visibility="hidden" >
 
 <!---------------------------------------------------------------------------------------->
@@ -96,6 +96,10 @@ mounted () {
     Bus.$on( "ClassRoom_BackOrExit", this.backOrExit );
 
 }
+
+// -- =====================================================================================
+
+preventBeneathGetTapped () {}
 
 // -- =====================================================================================
 

@@ -12,13 +12,13 @@
 
 <!---------------------------------------------------------------------------------------->
 
-        <GridLayout row=0 columns="18,*,auto,10" ref="panel_header">
+        <GridLayout row=0 columns="18,*,auto,10" ref="panel_header" visibility="hidden">
 
             <StackLayout col=1 orientation="horizontal" horizontalAlignment="left">
                 <Archive />
                 <A />
                 <SalonFIcon />
-                </StackLayout>
+            </StackLayout>
 
             <StackLayout col=2 orientation="horizontal" horizontalAlignment="right">
                 <Ram />
@@ -28,6 +28,11 @@
 
             <!-- <Filter /> -->
 
+        </GridLayout>
+
+        <GridLayout row=0 rows="*,auto,*" columns="18,*,*,auto,*,10" ref="panel_header" visibility="visible">
+            <SalonFIcon col=1 rowSpan=3 />
+            <Label row=1 col=3 text="Dora - Deutsche - A1 - Student Version" />
         </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
