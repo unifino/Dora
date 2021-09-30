@@ -514,8 +514,6 @@ async studyDataRegistrator () {
     item[1].sync = false;
     // .. soft Registration for Audio Lesson on FlashCardsBox
     let isOut = this.VIPSentence[1].studyHistory.acted === "x";
-    console.log(isOut);
-    
     item[1].status = isOut ? "hidden" : "memorizing";
     item[1].step = this.VIPSentence[1].studyHistory.newStep;
     item[1].lastVisit = now;
