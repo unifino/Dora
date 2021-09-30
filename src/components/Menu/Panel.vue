@@ -242,7 +242,6 @@ destroyed () {
         height: 40;
         border-radius: 40;
         margin: 0 5;
-        visibility: hidden; /* //!remove it */
     }
 
 </style>

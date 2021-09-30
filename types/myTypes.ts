@@ -312,7 +312,7 @@ export interface VIPSentenceFlags {
         oldStep     : number                        ,
         lastVisit   : number                        ,
         oldRedHit   : number                        ,
-        acted?      : '+'|'-'                       ,
+        acted?      : studyActions                  ,
         newStep?    : number                        ,
         newRedHit?  : number                        ,
     }                                               ,
@@ -341,7 +341,7 @@ export type mediaState = 'stopped' | 'playing' | 'paused' | 'pausedByScope';
 
 // -- =====================================================================================
 
-export type studyActions = '+' | '-';
+export type studyActions = '+' | '-' | 'x' | '0';
 
 // -- =====================================================================================
 

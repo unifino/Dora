@@ -8,7 +8,7 @@
         row=0
         col=1
         myClass="dotButton fas p"
-        @tap="speaker()" 
+        @tap="speaker()"
         :myLabel="String.fromCharCode( '0x' + plyIcon )"
         :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' "
     />
@@ -82,7 +82,8 @@
             <nButton
                 v-for="(button,i) in buttonsRow1"
                 :key="i"
-                @tap="button.func()"
+                @tap="button.fnc1()"
+                @long-press="button.fnc2()"
                 :col="button.pos"
                 :myLabel="String.fromCharCode( '0x' + button.label )"
                 :myClass="'dotButton ' + button.class"
@@ -169,20 +170,40 @@ folderProperty: TS.FolderProperty = {
 
 // -- =====================================================================================
 
-buttonsRow1: { label:string, class:string, pos: number, func: Function }[] = [
+buttonsRow1: {
+    label:string,
+    class:string,
+    pos: number,
+    fnc1: Function,
+    fnc2: Function
+} [] = [
                                                                                      
-    { label: "f25b", class: "far g",   pos:0, func: () => { this.myAct('+')   }     } ,
-    { label: "f256", class: "far r",   pos:1, func: () => { this.myAct('-')   }     } ,
-    { label: "f070", class: "far x",   pos:2, func: () => { "this.myAct('0')" }     } ,
-    { label: "f1ab", class: "fas b t", pos:5, func: () => { this.translate()  }     } ,
+    { label: "f25b", class: "far g", pos:0,
+        fnc1: () => { this.myAct('+') },
+        fnc2: () => {} 
+    },
+    { label: "f256", class: "far r", pos:1,
+        fnc1: () => { this.myAct('-')  },
+        fnc2: () => {}
+    },
+    { label: "f070", class: "far x", pos:2,
+        fnc1: () => { this.myAct('0') },
+        fnc2: () => { this.myAct('x') }
+    },
+    { label: "f1ab", class: "fas b t", pos:5,
+        fnc1: () => { this.translate() },
+        fnc2: () => {}
+    },
                                                                                      
     {                                                                                
         label: store.state.mediaButtons ? "f077" : "f078"                           ,
         class: "fas o"                                                              ,
-        pos:4, func: () => {                                                         
+        pos:4, 
+        fnc1: () => {                                                         
             store.state.mediaButtons = !store.state.mediaButtons;                    
             this.buttonsRow1[4].label = store.state.mediaButtons ? "f077" : "f078";  
-        }                                                                           ,
+        },
+        fnc2: () => {}                                                              ,
     }                                                                               ,
                                                                                      
 ];
@@ -264,6 +285,8 @@ myAct ( action: TS.studyActions, apply=true ) {
     switch ( action ) {
         case '+': this.summery = { icon: "f00c", class: "fas summeryIcon g" }; break;
         case '-': this.summery = { icon: "f00d", class: "fas summeryIcon r" }; break;
+        case '0': tools.toaster( 'Long Press to Delete!' ); return;
+        case 'x': tools.toaster( 'Deleted!' ); break;
     }
 
     try {
@@ -452,8 +475,6 @@ studyCalculator ( action: TS.studyActions ) {
     switch ( action ) {
         case '+' : newStep = ++stepFactor;                           break;
         case '-' : newStep = --stepFactor; newRedHit = oldRedHit +1; break;
-        // TODO ..........................................................
-        // case '0'  : status = iisa ? 'hidden' : false;            break;
     }
 
     if ( newStep < 1 ) newStep = 1;
@@ -492,7 +513,10 @@ async studyDataRegistrator () {
     // .. registration sync status
     item[1].sync = false;
     // .. soft Registration for Audio Lesson on FlashCardsBox
-    item[1].status = "memorizing";
+    let isOut = this.VIPSentence[1].studyHistory.acted === "x";
+    console.log(isOut);
+    
+    item[1].status = isOut ? "hidden" : "memorizing";
     item[1].step = this.VIPSentence[1].studyHistory.newStep;
     item[1].lastVisit = now;
     if ( this.VIPSentence[1].studyHistory.newRedHit || item[1].redHit ) {
@@ -578,8 +602,8 @@ nWordLongPressed ( args ) {
     .light .p { color: #333233; }
     .dark  .p { color: #0a577a; }
 
-    .light .x { color: transparent }
-    .dark  .x { color: transparent }
+    .light .x { color: #919191; }
+    .dark  .x { color: #919191; }
 
     .t { font-size: 22px }
 

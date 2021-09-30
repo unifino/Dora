@@ -122,9 +122,9 @@ wakeUp ( delay: number ) {
 // -- =====================================================================================
 
 darkModeToggler () { 
-    
+
     TM.darkModeToggler( this.$root.$children[0].$refs );
-    
+
     setTimeout( () => {
         ( this.$refs.darkModeSwitch as any ).nativeView.checked = store.state.darkMode
     }, 100 );
@@ -137,15 +137,15 @@ launcher () {
 
     this.expand = !this.expand;
     let pos = this.expand ? 0 : -this.travelDistance;
-    ( this.$refs.rail as any ).nativeView.animate( { 
-        translate: { x: 0, y: pos } ,
-        duration: 350 ,
+    ( this.$refs.rail as any ).nativeView.animate( {
+        translate: { x: 0, y: pos },
+        duration: 350,
         curve: Enums.AnimationCurve.easeOut
     } );
 
-    ( this.$refs.cabinet as any ).nativeView.animate( { 
+    ( this.$refs.cabinet as any ).nativeView.animate( {
         opacity: this.expand ? 1 : 0,
-        duration: 100 ,
+        duration: 100,
         curve: Enums.AnimationCurve.easeOut
     } );
 
