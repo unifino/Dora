@@ -62,7 +62,7 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
 // -- =====================================================================================
 
 export default class MiniMenu extends Vue {
-    
+
 // -- =====================================================================================
 
 box_animation;
@@ -76,23 +76,24 @@ ControlBase : { [key: string] : { label: string, class: string, func: object } }
     Speed:    { label: "f6ec", class: "",       func: () => this.speedToggler()     } ,
     DarkMode: { label: "f042", class: "theme",  func: () => this.darkModeToggler()  } ,
     Font:     { label: "41",   class: "",       func: () => this.fontPallet()       } ,
+    Skip:     { label: "f472", class: 'skip',   func: () => this.skip()          } ,
     Confirm:  { label: "f559", class: 'confirm',func: () => this.confirm()          } ,
                                                                                        
 }
 
 u = {
-    label : "f077" ,
-    class : "fas luncherButton"           , 
-    func  : () => { this.launcher() }      
-} 
+    label : "f077",
+    class : "fas luncherButton",
+    func  : () => { this.launcher() }
+}
 
 speeds = [ 
-    { icon: "f722", value: 0.5  } , 
-    { icon: "f6ec", value: 0.75 } , 
-    { icon: "f554", value: 1    } , 
-    { icon: "f70c", value: 1.5  } , 
-    { icon: "f7c9", value: 1.75 } , 
-    { icon: "f533", value: 2    } 
+    { icon: "f722", value: 0.5  },
+    { icon: "f6ec", value: 0.75 },
+    { icon: "f554", value: 1    },
+    { icon: "f70c", value: 1.5  },
+    { icon: "f7c9", value: 1.75 },
+    { icon: "f533", value: 2    }
 ];
 speedMode = 2;
 
@@ -106,7 +107,7 @@ mounted () {
     Bus.$on( "MiniMenu_MiniMenu", this.miniMenu );
 
     store.watch(
-        state => state.mediaState, 
+        state => state.mediaState,
         newVal => this.controlButtons( newVal )
     );
 
@@ -336,6 +337,21 @@ confirm () {
         }, 1000 );
 
     }
+
+}
+
+// -- =====================================================================================
+
+skip () {
+
+    if ( store.state.inHand.lesson.chromosome.status === "skipped" ) {
+        tools.toaster( "Already add to Skipped Lessons!", "short" );
+        return 0;
+    }
+
+    tools.skipLesson( store.state.inHand.lesson );
+    ( this as any ).$navigateBack();
+    tools.dAO( store.state.inHand.institute );
 
 }
 

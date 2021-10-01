@@ -12,7 +12,7 @@
         scrollBarIndicatorVisible="false"
     >
 
-        <WrapLayout ref="myBigRail" padding="85% 0 330% 0" horizontalAlignment="center">
+        <WrapLayout padding="48% 0 330% 0" horizontalAlignment="center">
 
             <StackLayout
                 width=309
@@ -91,10 +91,6 @@ mounted () {
 
     Bus.$off( "Institute_BackOrExit" );
     Bus.$on( "Institute_BackOrExit", this.backOrExit );
-
-    // .. adjust paddingTop of myBigRail
-    ( this.$refs.myBigRail as any ).nativeView.paddingTop =
-        store.state.windowSize.width > 700 ? "44%" : "85%";
 
 }
 

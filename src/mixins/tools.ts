@@ -1176,6 +1176,28 @@ export function confirmLesson( lesson: TS.Lesson ) {
 
 // -- =====================================================================================
 
+export function skipLesson( lesson: TS.Lesson ) {
+
+    let chromosome = lesson.chromosome;
+
+    // .. register in chromosome
+    chromosome.status = "skipped";
+    chromosome.vPath = [ "Archive", ...chromosome.hPath || [], chromosome.title ];
+    delete chromosome.hPath;
+
+    // TODO MIX MODEL ???
+    try {
+        delete lesson.protoplasm.find( x => x.type === "dText" ).pinnedPoint;
+        delete lesson.protoplasm.find( x => x.type === "dVideo" ).pinnedPoint;
+    } catch {}
+
+    // .. hide last toaster
+    toaster();
+
+}
+
+// -- =====================================================================================
+
 export function lessonUnloader () {
     store.state.inHand.lesson = null;
     store.state.inHand.mediaPath = null;

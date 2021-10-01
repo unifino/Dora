@@ -273,7 +273,7 @@ export type OrganelleType =
     | "rawText"
     ;
 
-export type LessonStatus = 'reading' | 'read';
+export type LessonStatus = 'reading' | 'read' | 'skipped';
 
 // -- =====================================================================================
 
