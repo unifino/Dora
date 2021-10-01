@@ -4,7 +4,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <ScrollView 
+    <ScrollView
         ref="myBigBox"
         class="myBigBox"
         verticalAlignment="middle"
@@ -12,14 +12,9 @@
         scrollBarIndicatorVisible="false"
     >
 
-        <WrapLayout padding="48% 0 330% 0" horizontalAlignment="center">
+        <WrapLayout ref="myBigRail" padding="48% 0 330% 0">
 
-            <StackLayout
-                width=309
-                v-for="code of rbssCodes"
-                :key="code"
-                @swipe="swipePass=true"
-            >
+            <StackLayout v-for="code of rbssCodes" :key="code" @swipe="swipePass=true">
 
                 <Collection class="collection" :code="code" :ins="ins" />
 
@@ -91,6 +86,10 @@ mounted () {
 
     Bus.$off( "Institute_BackOrExit" );
     Bus.$on( "Institute_BackOrExit", this.backOrExit );
+
+    // .. adjust paddingTop of myBigRail
+    ( this.$refs.myBigRail as any ).nativeView.horizontalAlignment =
+        store.state.windowSize.width > 700 ? "center" : "left";
 
 }
 
@@ -187,7 +186,6 @@ backOrExit () {
 <style scoped>
 
 /*                                          */
-
     .myBigBox { height: 100% }
 
 </style>

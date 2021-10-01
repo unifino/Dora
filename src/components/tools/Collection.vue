@@ -1,5 +1,10 @@
 <template>
-<GridLayout class="collectionBox" rows="10,25,5,*,16" columns="12,75,7,*">
+<GridLayout
+    class="collectionBox"
+    rows="10,25,5,*,16"
+    columns="12,75,7,*"
+    :width=collectionWidth
+>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -79,6 +84,7 @@ export default class Folder extends Vue {
 defaultAvatar = "res://dora_default_avatar";
 allGOT = false;
 read = 0;
+collectionWidth = store.state.windowSize.width > 700 ? 309 : "100%";
 
 // -- =====================================================================================
 
@@ -182,7 +188,6 @@ tapAnimator (): Promise<void> {
     .collectionBox {
         border-radius: 5;
         height: 120;
-        width: 300;
         margin: 3;
     }
     .light .collectionBox { background-color: rgba(44, 44, 44, 0.04) }
