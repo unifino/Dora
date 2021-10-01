@@ -12,7 +12,7 @@
         scrollBarIndicatorVisible="false"
     >
 
-        <WrapLayout padding="85% 0 330% 0" horizontalAlignment="center">
+        <WrapLayout ref="myBigRail" padding="85% 0 330% 0" horizontalAlignment="center">
 
             <StackLayout
                 width=309
@@ -92,6 +92,10 @@ mounted () {
     Bus.$off( "Institute_BackOrExit" );
     Bus.$on( "Institute_BackOrExit", this.backOrExit );
 
+    // .. adjust paddingTop of myBigRail
+    ( this.$refs.myBigRail as any ).nativeView.paddingTop =
+        store.state.windowSize.width > 700 ? "44%" : "85%";
+
 }
 
 // -- =====================================================================================
@@ -143,7 +147,7 @@ collector () {
 backOrExit () {
 
     // .. shopping mode
-    if      ( store.state.mode === "shopping" ) shopping.backOrExitShop( this.ins );
+    if ( store.state.mode === "shopping" ) shopping.backOrExitShop( this.ins );
     // .. setting mode
     else if ( store.state.mode === "setting"  ) Bus.$emit( "Panel_ToggleExpansion" );
     // .. exit
