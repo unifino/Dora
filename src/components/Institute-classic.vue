@@ -374,7 +374,7 @@ backOrExit () {
     // = store.state.inHand.path[ this.ins ];
 
     // .. shopping mode
-    if      ( store.state.mode === "shopping" ) shopping.backOrExitShop( this.ins );
+    if ( store.state.mode === "shopping" ) shopping.backOrExitShop( this.ins );
     // .. setting mode
     else if ( store.state.mode === "setting"  ) Bus.$emit( "Panel_ToggleExpansion" );
     // .. idle mode
@@ -399,7 +399,7 @@ backOrExit () {
 
             Promise.all( saveActions )
             .then( () => exit() )
-            .catch( err => { 
+            .catch( err => {
                 tools.toaster( err, "long" );
                 exit();
             } );

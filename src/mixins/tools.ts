@@ -849,7 +849,12 @@ export async function glssDBUpdater ( institute: string ) {
                 if ( !glossar[ word ][ dic ] ) {
                     fuse_A = false;
                     await translator( institute, dic, word )
-                    .then( mean => glossar[ word ][ dic ] = mean )
+                    .then( mean => {
+                        // .. register the meaning
+                        glossar[ word ][ dic ] = mean;
+                        // .. register sync state
+                        glossar[ word ].sync = false;
+                    } )
                     .catch( e => fuse_B = false );
                     limit--;
                 }
