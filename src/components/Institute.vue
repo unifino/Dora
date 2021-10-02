@@ -89,7 +89,7 @@ mounted () {
 
     // .. adjust paddingTop of myBigRail
     ( this.$refs.myBigRail as any ).nativeView.horizontalAlignment =
-        store.state.windowSize.width > 700 ? "center" : "left";
+        store.state.windowSize.width > 500 ? "center" : "left";
 
 }
 

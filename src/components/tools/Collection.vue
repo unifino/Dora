@@ -84,7 +84,7 @@ export default class Folder extends Vue {
 defaultAvatar = "res://dora_default_avatar";
 allGOT = false;
 read = 0;
-collectionWidth = store.state.windowSize.width > 700 ? 309 : "100%";
+collectionWidth = store.state.windowSize.width > 500 ? 309 : "100%";
 
 // -- =====================================================================================
 
