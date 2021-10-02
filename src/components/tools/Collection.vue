@@ -109,7 +109,6 @@ get badge () {
 
     if ( this.ribosome.type === "audio" ) { icon = "f58f"; className += "audio"; }
     if ( this.ribosome.type === "video" ) { icon = "f008"; className += "video"; }
-    if ( this.ribosome.type === "slide" ) { icon = "f43c"; className += "slide"; }
     if ( this.ribosome.type === "comic" ) { icon = "f302"; className += "image"; }
 
     return { icon: icon, class: className }
@@ -247,11 +246,6 @@ tapAnimator (): Promise<void> {
         color: #2b0138;
         padding-top: 2;
         width: 23;
-    }
-
-    .slide {
-        color: #d30606;
-        padding-top: 4;
     }
 
     .image {

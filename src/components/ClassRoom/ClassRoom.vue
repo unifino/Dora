@@ -10,7 +10,6 @@
     <VideoControl   ref="videoControl"  row=2   rowSpan=2   />
 <!---------------------------------------------------------------------------------------->
     <Book           ref="book"                  rowSpan=4   />
-    <AnkiVue        ref="ankiVue"               rowSpan=4   />
     <Subtitle       ref="subtitle"      row=2               />
 <!---------------------------------------------------------------------------------------->
     <SideBar        ref="sideBar"       row=1   rowSpan=3   />
@@ -42,7 +41,6 @@ import Bus                              from "@/mixins/bus"
 import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
 import AudioPlayer                      from "@/components/ClassRoom/AudioPlayer.vue"
 import Book                             from "@/components/ClassRoom/Book/Book.vue"
-import AnkiVue                          from "@/components/ClassRoom/Anki/AnkiVue.vue"
 import CEntrance                        from "@/components/ClassRoom/ClassRoomEntrance.vue"
 import ImageDisplay                     from "@/components/ClassRoom/ImageDisplay.vue"
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
@@ -63,7 +61,6 @@ NSVue.registerElement( "VNSPlayer", () => require( "nativescript-videoplayer" ).
         MiniMenu,
         Tafel,
         Book,
-        AnkiVue,
         ToolBar,
         ImageDisplay,
         AudioPlayer,

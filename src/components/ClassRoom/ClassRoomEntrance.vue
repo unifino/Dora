@@ -47,7 +47,6 @@ import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vu
 import ImageDisplay                     from "@/components/ClassRoom/ImageDisplay.vue"
 import AudioPlayer                      from "@/components/ClassRoom/AudioPlayer.vue"
 import Book                             from "@/components/ClassRoom/Book/Book.vue"
-import AnkiVue                          from "@/components/ClassRoom/Anki/AnkiVue.vue"
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
 import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
 import ToolBar                          from "@/components/ClassRoom/ToolBar.vue"
@@ -71,7 +70,6 @@ loadHindColor = "#168594";
 avatar = 'res://book_cover_' + ( store.state.darkMode ? "dark" : "light" );
 title = "";
 book: Book;
-ankiVue: AnkiVue;
 tafel: Tafel;
 mainBox;
 sideBar: SideBar;
@@ -106,7 +104,6 @@ init () {
     let refs = this.$parent.$parent.$refs;
 
     this.book           = refs.book as Book;
-    this.ankiVue        = refs.ankiVue as AnkiVue;
     this.tafel          = refs.tafel as Tafel;
     this.mainBox        = refs.mainBox as any;
     this.sideBar        = refs.sideBar as SideBar;
@@ -146,11 +143,10 @@ async modelAnalyzer () {
     if (
         model.length !== 2      ||
         model[1] !== "dText"    ||
-        ( 
+        (
             model[0] !== "dVideo" &&
             model[0] !== "dAudio" &&
-            model[0] !== "dImage" &&
-            model[0] !== null
+            model[0] !== "dImage"
         )
     ) { return this.err( "Unknown Lesson Model" ) }
 
@@ -160,8 +156,6 @@ async modelAnalyzer () {
     if ( model.includes( "dVideo" ) ) await this.setup_TV();
     // .. we have known model : TI
     if ( model.includes( "dImage" ) ) await this.setup_TI();
-    // .. we have known model : Slide
-    if ( model[0] === null ) await this.setup_SL();
 
     this.slide_TO = setTimeout( () => this.slide( false ), 100 );
 
@@ -249,29 +243,6 @@ async setup_TI () {
     this.book.init( dText, dText.etikett[z], dText.pinnedPoint || 0 );
     // .. ToolBar
     this.toolBar.init( dText );
-    // .. setting environment properties 
-    store.state.here = "ClassRoom";
-    store.state.mode = "reading";
-
-}
-
-// -- =====================================================================================
-
-async setup_SL () {
-
-    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" );
-    let etikett: number[] = [];
-
-    // .. class Formation
-    this.mainBox.nativeView.rows = "40,auto,*,40";
-    // .. generate etikett
-    for ( let i=0; i < dText.content.length; i++ ) {
-        if ( dText.content[i][1].standoff === "block" ) etikett.push(i);
-    }
-    // .. preparing AnkiVue
-    this.ankiVue.init( dText, etikett, dText.pinnedPoint || 0 );
-    this.miniMenu.controlButtons( "stopped", [ "Speed", "Play", "Pause", "Font", "Confirm" ] );
-    await this.miniMenu.init();
     // .. setting environment properties 
     store.state.here = "ClassRoom";
     store.state.mode = "reading";

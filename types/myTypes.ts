@@ -262,7 +262,7 @@ export type Organelle = {
                                                      
 }
 
-export type LessonType = 'audio'|'video'|'plain'|'comic'|'slide';
+export type LessonType = 'audio'|'video'|'plain'|'comic';
 export type OrganelleType = 
       "dAudio"
     | "dVideo"

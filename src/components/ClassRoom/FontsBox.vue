@@ -189,10 +189,10 @@ confirm ( state: boolean ) {
 
             // .. reset position
             this.$refs.slide[ this.inHand ].nativeView.translateX = -180;
-                
+
             store.state.appConfig.fontFace = appConfig.fontFace;
             store.state.appConfig.fontSize = appConfig.fontSize;
-            
+
             // .. reset position
             this.inHand = allFonts.findIndex( row => row.code === appConfig.fontFace );
             this.$refs.slide[ this.inHand ].nativeView.translateX = 0;

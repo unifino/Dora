@@ -7,7 +7,8 @@ export default {
     android: {
         v8Flags: '--expose_gc',
         markingMode: 'none',
-        codeCache: true
+        codeCache: true,
+        maxLogcatObjectSize: 204800
     },
     ios: {
         codeCache: true

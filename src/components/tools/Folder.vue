@@ -278,7 +278,6 @@ longPressAction () {
 openFolder () {
 
     let path;
-    // let path = store.state.inHand.path[ this.myProp.institute ];
     // .. back-Folder has been Tapped
     if ( this.myProp.title === ".." ) path.pop();
     // .. register current path
@@ -286,14 +285,10 @@ openFolder () {
 
     // .. Generate new Folder-List ()
     if ( store.state.mode === "shopping" ) {
-        if ( path.length ) {
-            // Bus.$emit( "Institute_ShopListCalculator" );
-            return;
-        }
+        // ! do we need this?!
+        if ( path.length ) return;
         else store.state.mode = "idle";
     }
-    // .. Generate new Folder-List
-    // Bus.$emit( "Institute_FolderListCalculator" );
 
 }
 
@@ -387,7 +382,7 @@ coordinator ( place: TS.Place ) {
     store.state.placeTrigger[ place ]  = {
         position: origin.getLocationInWindow(),
         size: origin.getActualSize()
-    } 
+    }
 
 }
 

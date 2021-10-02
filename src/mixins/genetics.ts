@@ -93,12 +93,18 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
 export function saveCell ( cell: TS.cell ): Promise<void> {
 
+    console.log(cell);
+
     return new Promise ( (rs, rx) => {
 
         // .. Build Context
         mutator( cell )
         // .. registration
-        .then( () => store.state.massDB[ cell.chromosome.institute ].push( cell ) )
+        .then( () => {
+            store.state.massDB[ cell.chromosome.institute ].push( cell )
+    console.log(cell);
+        
+        } )
         // .. success
         .then( () => rs() )
         .catch ( () => rx( "Unable To Parse Data!" ) );
@@ -120,12 +126,6 @@ function mutator ( cell: TS.cell ) {
     if ( cell.chromosome.model.includes( "dVideo" ) ) context = mutate_video( cell );
     // .. Handel new Image-Text Lesson
     if ( cell.chromosome.model.includes( "dImage" ) ) context = mutate_image( cell );
-    // ! bad practice
-    // .. Handel new SLIDE Lesson
-    if ( cell.chromosome.model[0] === "rawText" && cell.chromosome.model[1] === "rawText" ) {
-        context = mutate_slide( cell );
-        return context.length ? Promise.resolve() : Promise.reject();
-    }
 
     // .. register sync status
     cell.chromosome.sync = false;
@@ -135,25 +135,6 @@ function mutator ( cell: TS.cell ) {
     tools.glssDBUpdater( cell.chromosome.institute );
 
     return context.length ? Promise.resolve() : Promise.reject();
-
-}
-
-// -- =====================================================================================
-
-function mutate_slide ( cell: TS.cell ) {
-
-    let dRawText = cell.protoplasm[1],
-        context = sCB( dRawText.text );
-
-    if ( context.length ) {
-        dRawText.type = "dText";
-        dRawText.content = context;
-        delete dRawText.text;
-        cell.chromosome.model[0] = null;
-        cell.chromosome.model[1] = "dText";
-    }
-
-    return context;
 
 }
 
@@ -277,44 +258,6 @@ function vCB ( subtitle: string ) {
     else if( subtitle.match( srt ) ) context = tools.srtParser( subtitle );
     // .. Unknown Text!
     else context = [];
-
-    return context;
-
-}
-
-// -- =====================================================================================
-
-function sCB ( rawText: string ) {
-
-    interface card {
-        type: "Text" | "Image",
-        value: string
-    };
-
-    let context: TS.UniText[] = [],
-        crd: { a: card[], b: card[] }[] = [];
-
-    // .. try to read Data
-    try { crd = JSON.parse( rawText ) } catch {};
-
-    // .. convert Data to UniText
-    for ( let i=0; i < crd.length; i++ ) {
-
-        // .. card A
-        for ( let a = 0; a < crd[i].a.length; a++ )
-            context.push( [ crd[i].a[a].value, { isURL: crd[i].a[a].type === "Image" } ] );
-
-        // .. divider
-        context.push( [ null, { isBreakLine: true } ] );
-
-        // .. card B
-        for ( let b = 0; b < crd[i].b.length; b++ )
-            context.push( [ crd[i].b[b].value, { isURL: crd[i].b[b].type === "Image" } ] );
-
-        // .. end of page
-        context.push( [ null, { standoff: "block" } ] );
-
-    }
 
     return context;
 
