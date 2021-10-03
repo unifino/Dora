@@ -836,7 +836,6 @@ snapFinder ( id: number, context: TS.UniText[], duration: number ): number {
 export async function glssDBUpdater ( institute: string ) {
 
     let glossar = store.state.glssDB[ institute ],
-        fuse_A = true, 
         fuse_B = true,
         fuse_C = true,
         limit = 10;
@@ -847,7 +846,8 @@ export async function glssDBUpdater ( institute: string ) {
             // .. get Meaning ( if necessary )
             if ( dic !== institute ) {
                 if ( !glossar[ word ][ dic ] ) {
-                    fuse_A = false;
+                    // ! remove this
+                    toaster( "Glossar ..." );
                     await translator( institute, dic, word )
                     .then( mean => {
                         // .. register the meaning
@@ -860,17 +860,21 @@ export async function glssDBUpdater ( institute: string ) {
                 }
             }
         }
-        if ( !fuse_B || limit < 0 ) break;
+        if ( !fuse_B || limit < 0 ) {
+            // ! remove this
+            if ( !fuse_B ) toaster( "Glossar!" );
+            break;
+        }
     }
 
     // .. is it totally updated?
     for ( let dic of store.state.appConfig.dictionaries ) {
-        if ( dic !== institute ) 
-            if ( Object.keys( glossar ).some( word => !glossar[ word ][ dic ] ) ) 
+        if ( dic !== institute )
+            if ( Object.keys( glossar ).some( word => !glossar[ word ][ dic ] ) )
                 fuse_C = false;
     }
 
-    // .. update again
+    // .. update again if it needs (fuse_C) and could (fuse_B)
     if ( !fuse_C && fuse_B ) setTimeout( () => glssDBUpdater( institute ), 100 );
 
 }

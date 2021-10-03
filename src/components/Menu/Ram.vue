@@ -36,7 +36,7 @@ import * as TS                          from "@/../types/myTypes"
 
 export default class Ram extends Vue {
 
-profiles = {
+profiles: TS.RamProfiles = {
     init:   { name: "init" , icon: "f141", iconColor: "init"   } ,
     empty:  { name: "empty", icon: "f093", iconColor: "blue"   } ,
     full:   { name: "full" , icon: "f019", iconColor: "orange" } ,
@@ -47,7 +47,7 @@ profile = { ...this.profiles.init };
 
 // -- =====================================================================================
 
-getRamStatus (): Promise<void> {
+getRamStatus (): Promise<TS.RamProfile> {
 
     return new Promise ( (rs, rx) => {
 
@@ -69,8 +69,7 @@ getRamStatus (): Promise<void> {
 
                 if ( x.status === 200 ) {
                     let ram = x.answer;
-                    this.profile = ram ? this.profiles.full : this.profiles.empty;
-                    rs();
+                    rs( this.profile = ram ? this.profiles.full : this.profiles.empty );
                 }
                 else rx( this.profile = { ...this.profiles.error } );
 

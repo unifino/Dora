@@ -26,7 +26,7 @@
             </StackLayout>
 
             <StackLayout col=2 orientation="horizontal" horizontalAlignment="right">
-                <Ram />
+                <Ram ref="Ram" />
                 <Battery />
                 <Gear />
             </StackLayout>

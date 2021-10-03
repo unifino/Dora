@@ -376,6 +376,12 @@ export type SSD_Res = {
 }
 
 export type RamActions = "upload"|"download"|"purge";
+export type RamProfiles = { [key in "init" | "empty" | "full" | "error"]: RamProfile };
+export type RamProfile = {
+    name: "init" | "empty" | "full" | "error" ,
+    icon: string,
+    iconColor: string
+}
 
 export type zip = {
     mass: { [key: string]: Lesson[] },
