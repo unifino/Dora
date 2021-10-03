@@ -836,8 +836,10 @@ snapFinder ( id: number, context: TS.UniText[], duration: number ): number {
 export async function glssDBUpdater ( institute: string ) {
 
     let glossar = store.state.glssDB[ institute ],
-        fuse_B = true,
-        fuse_C = true,
+        // .. Quota is not exceeded = true
+        fuse_Quota = true,
+        // .. All words are ready = true
+        fuse_AllSet = true,
         limit = 10;
 
     // .. get meaning of a set
@@ -846,8 +848,6 @@ export async function glssDBUpdater ( institute: string ) {
             // .. get Meaning ( if necessary )
             if ( dic !== institute ) {
                 if ( !glossar[ word ][ dic ] ) {
-                    // ! remove this
-                    toaster( "Glossar ..." );
                     await translator( institute, dic, word )
                     .then( mean => {
                         // .. register the meaning
@@ -855,27 +855,25 @@ export async function glssDBUpdater ( institute: string ) {
                         // .. register sync state
                         glossar[ word ].sync = false;
                     } )
-                    .catch( e => fuse_B = false );
+                    .catch( e => fuse_Quota = false );
                     limit--;
                 }
             }
         }
-        if ( !fuse_B || limit < 0 ) {
-            // ! remove this
-            if ( !fuse_B ) toaster( "Glossar!" );
-            break;
-        }
+        if ( !fuse_Quota || limit < 0 ) break;
     }
 
     // .. is it totally updated?
     for ( let dic of store.state.appConfig.dictionaries ) {
         if ( dic !== institute )
             if ( Object.keys( glossar ).some( word => !glossar[ word ][ dic ] ) )
-                fuse_C = false;
+            fuse_AllSet = false;
     }
 
-    // .. update again if it needs (fuse_C) and could (fuse_B)
-    if ( !fuse_C && fuse_B ) setTimeout( () => glssDBUpdater( institute ), 100 );
+    // .. update again if it needs (!fuse_AllSet) and could (fuse_B)
+    if ( !fuse_AllSet && fuse_Quota ) setTimeout( () => glssDBUpdater( institute ), 100 );
+
+    return ( { fuse_Quota, fuse_AllSet } );
 
 }
 

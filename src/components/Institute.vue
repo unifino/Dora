@@ -39,7 +39,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/mixins/store"
 import Collection                       from "@/components/tools/Collection.vue"
-import Ram                              from "@/components/Menu/Ram.vue"
+import Dictionary                       from "@/components/Menu/Dictionary.vue"
 import MenuPanel                        from "@/components/Menu/Panel.vue"
 import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storageHandler"
@@ -81,9 +81,8 @@ mounted () {
 
     // .. update Glossar
     let menuPanel = this.$parent.$parent.$refs.menuPanel as MenuPanel;
-    let Ram = menuPanel.$refs.Ram as Ram;
-    Ram.getRamStatus()
-    .then( profile => { if( profile.name === "empty" ) tools.glssDBUpdater( this.ins ) } );
+    let Dictionary = menuPanel.$refs.Dictionary as Dictionary;
+    Dictionary.init( this.ins );
 
     // .. check if we have some data from server
     if ( Object.keys( store.state.rbssDB[ this.ins ] ).length ) this.collector();

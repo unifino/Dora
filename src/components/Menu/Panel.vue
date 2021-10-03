@@ -26,6 +26,7 @@
             </StackLayout>
 
             <StackLayout col=2 orientation="horizontal" horizontalAlignment="right">
+                <Dictionary ref="Dictionary" />
                 <Ram ref="Ram" />
                 <Battery />
                 <Gear />
@@ -95,6 +96,7 @@ import Battery                          from "@/components/Menu/Battery.vue"
 import Filter                           from "@/components/Menu/Filter.vue"
 import A                                from "@/components/Menu/A.vue"
 import Ram                              from "@/components/Menu/Ram.vue"
+import Dictionary                       from "@/components/Menu/Dictionary.vue"
 import Archive                          from "@/components/Menu/Archive.vue"
 import Bus                              from "@/mixins/bus"
 import store                            from "@/mixins/store"
@@ -104,8 +106,8 @@ import * as tools                       from "@/mixins/tools"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { SalonFIcon, Gear, Battery, Filter, A, Archive, Ram } 
+@Component ( {
+    components: { SalonFIcon, Gear, Battery, Filter, A, Archive, Ram, Dictionary }
 } )
 
 // -- =====================================================================================

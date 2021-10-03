@@ -376,7 +376,7 @@ export type SSD_Res = {
 }
 
 export type RamActions = "upload"|"download"|"purge";
-export type RamProfiles = { [key in "init" | "empty" | "full" | "error"]: RamProfile };
+export type RamProfiles = { [key in "init"|"empty"|"full"|"error"]: RamProfile };
 export type RamProfile = {
     name: "init" | "empty" | "full" | "error" ,
     icon: string,
@@ -388,3 +388,15 @@ export type zip = {
     flss: { [key: string]: Flashcard[] },
     glss: { [key: string]: Glossar }
 }
+
+// -- =====================================================================================
+
+export type DictionaryProfiles = {
+    [key in "init"|"ready"|"updating"|"exceedQuota"|"error"]: DictionaryProfile 
+};
+export type DictionaryProfile = {
+    name: "init"|"ready"|"updating"|"exceedQuota"|"error" ,
+    icon: string,
+    iconColor: string
+}
+
