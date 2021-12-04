@@ -93,18 +93,14 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
 export function saveCell ( cell: TS.cell ): Promise<void> {
 
-    console.log(cell);
+    // console.log(cell);
 
     return new Promise ( (rs, rx) => {
 
         // .. Build Context
         mutator( cell )
         // .. registration
-        .then( () => {
-            store.state.massDB[ cell.chromosome.institute ].push( cell )
-    console.log(cell);
-        
-        } )
+        .then( () => store.state.massDB[ cell.chromosome.institute ].push( cell ) )
         // .. success
         .then( () => rs() )
         .catch ( () => rx( "Unable To Parse Data!" ) );
@@ -121,11 +117,13 @@ function mutator ( cell: TS.cell ) {
     let context: TS.UniText[];
 
     // .. Handel new Audio-Text Lesson
-    if ( cell.chromosome.model.includes( "dAudio" ) ) context = mutate_audio( cell );
+    if ( cell.chromosome.model.includes( "dAudio" ) )  context = mutate_audio( cell );
     // .. Handel new Video-Subtitle Lesson
-    if ( cell.chromosome.model.includes( "dVideo" ) ) context = mutate_video( cell );
+    if ( cell.chromosome.model.includes( "dVideo" ) )  context = mutate_video( cell );
     // .. Handel new Image-Text Lesson
-    if ( cell.chromosome.model.includes( "dImage" ) ) context = mutate_image( cell );
+    if ( cell.chromosome.model.includes( "dImage" ) )  context = mutate_image( cell );
+    // .. Handel new Image-Text Lesson
+    if ( cell.chromosome.model.includes( "hypText" ) ) context = mutate_hyperText( cell );
 
     // .. register sync status
     cell.chromosome.sync = false;
@@ -174,6 +172,23 @@ function mutate_video ( cell: TS.cell ) {
 
 }
 
+// -- =====================================================================================
+
+function mutate_hyperText ( cell: TS.cell ) {
+
+    let hyperText = cell.protoplasm.find( x => x.type === "hypText" ),
+        context:TS.UniText[] = [],
+        words: string[];
+
+    // .. this context is temporary and just serves for glss
+    for ( let line of hyperText.content ) {
+        words = line[0].split( ' ' );
+        for ( const word of words ) if ( word ) context.push( [ word, {} ] );
+    }
+
+    return context;
+
+}
 
 // -- =====================================================================================
 
@@ -264,3 +279,28 @@ function vCB ( subtitle: string ) {
 }
 
 // -- =====================================================================================
+
+export function modelIsAcceptable( model: TS.OrganelleType[] ) {
+
+    // .. check geneModels based on 1 Organs
+    if ( model.length === 1 && model[0] === "hypText" ) return true;
+
+    // .. check geneModels based on 2 Organs
+    else if ( model.length === 2 ) {
+        // .. acceptable models based on 2 Organs
+        if (
+            ( model[0] === "dAudio"  && model[1] === "dText"   ) ||
+            ( model[0] === "dVideo"  && model[1] === "dText"   ) ||
+            ( model[0] === "dImage"  && model[1] === "dText"   ) ||
+            ( model[0] === "rawText" && model[1] === "rawText" )
+        )
+            return true;
+    }
+
+    // .. other models are not acceptable
+    else return false;
+
+}
+
+// -- =====================================================================================
+

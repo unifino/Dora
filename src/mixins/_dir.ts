@@ -21,8 +21,9 @@ _category ( ins: string, type: TS.LessonType ): TS.FolderProperty {
     switch (type) {
         case "audio": icon = "f58f"; label = "Audio";       break;
         case "video": icon = "f008"; label = "Video";       break;
-        case "comic": icon = "f03e"; label = "Comics";      break;
-        case "plain": icon = "f06c"; label = "Lilliputy";   break;
+        case "mixed": icon = "f06c"; label = "Mixed";       break;
+        // case "comic": icon = "f03e"; label = "Comics";      break;
+        // case "plain": icon = "f06c"; label = "Lilliputy";   break;
     }
 
     return { 

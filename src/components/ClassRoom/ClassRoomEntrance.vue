@@ -42,11 +42,13 @@ import store                            from "@/mixins/store"
 import Bus                              from "@/mixins/bus"
 import * as storage                     from "@/mixins/storageHandler"
 import * as tools                       from "@/mixins/tools"
+import * as genetics                    from "@/mixins/genetics"
 import Tafel                            from "@/components/ClassRoom/Tafel.vue"
 import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
 import ImageDisplay                     from "@/components/ClassRoom/ImageDisplay.vue"
 import AudioPlayer                      from "@/components/ClassRoom/AudioPlayer.vue"
-import Book                             from "@/components/ClassRoom/Book/Book.vue"
+import Book                             from "@/components/ClassRoom/Books/Book.vue"
+import HypBook                          from "@/components/ClassRoom/Books/HypBook.vue"
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
 import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
 import ToolBar                          from "@/components/ClassRoom/ToolBar.vue"
@@ -70,6 +72,7 @@ loadHindColor = "#168594";
 avatar = 'res://book_cover_' + ( store.state.darkMode ? "dark" : "light" );
 title = "";
 book: Book;
+hypBook: HypBook;
 tafel: Tafel;
 mainBox;
 sideBar: SideBar;
@@ -104,6 +107,7 @@ init () {
     let refs = this.$parent.$parent.$refs;
 
     this.book           = refs.book as Book;
+    this.hypBook        = refs.hypBook as HypBook;
     this.tafel          = refs.tafel as Tafel;
     this.mainBox        = refs.mainBox as any;
     this.sideBar        = refs.sideBar as SideBar;
@@ -140,22 +144,16 @@ async modelAnalyzer () {
     let model = store.state.inHand.lesson.chromosome.model;
 
     // .. opt out unknown models
-    if (
-        model.length !== 2      ||
-        model[1] !== "dText"    ||
-        (
-            model[0] !== "dVideo" &&
-            model[0] !== "dAudio" &&
-            model[0] !== "dImage"
-        )
-    ) { return this.err( "Unknown Lesson Model" ) }
+    if ( !genetics.modelIsAcceptable( model ) ) return this.err( "Unknown Lesson Model" );
 
     // .. we have known model : TA
-    if ( model.includes( "dAudio" ) ) await this.setup_TA();
+    if ( model.includes( "dAudio" ) )  await this.setup_TA();
     // .. we have known model : TV
-    if ( model.includes( "dVideo" ) ) await this.setup_TV();
+    if ( model.includes( "dVideo" ) )  await this.setup_TV();
     // .. we have known model : TI
-    if ( model.includes( "dImage" ) ) await this.setup_TI();
+    if ( model.includes( "dImage" ) )  await this.setup_TI();
+    // .. we have known model : HT
+    if ( model.includes( "hypText" ) ) await this.setup_HT();
 
     this.slide_TO = setTimeout( () => this.slide( false ), 100 );
 
@@ -246,6 +244,47 @@ async setup_TI () {
     // .. setting environment properties 
     store.state.here = "ClassRoom";
     store.state.mode = "reading";
+
+}
+
+
+// -- =====================================================================================
+
+async setup_HT () {
+
+    let hypText = store.state.inHand.lesson.protoplasm.find( x => x.type === "hypText" );
+
+    // .. class Formation
+    this.mainBox.nativeView.rows = "40,auto,*,40";
+    // .. miniMenu
+    this.miniMenu.controlButtons( "stopped", [ "Speed", "Play", "Pause" ] );
+    await this.miniMenu.init();
+    // .. touch etikett
+    hypText.etikett = hypText.etikett || {};
+    // .. provide etikett
+    if ( !hypText.etikett[ "any" ] )
+        hypText.etikett[ "any" ] = this.hypEtikett( hypText.content );
+    // .. preparing Book
+    this.hypBook.init( hypText, hypText.etikett[ "any" ], hypText.pinnedPoint || 0 );
+    // .. ToolBar
+    this.toolBar.init( hypText );
+    // .. setting environment properties 
+    store.state.here = "ClassRoom";
+    store.state.mode = "reading";
+
+}
+
+// -- =====================================================================================
+
+hypEtikett ( content: TS.UniText[] ) {
+
+    let etikett: number[] = [];
+
+    for ( let i in content )
+        if ( content[i][1].standoff === "block" || Number(i) === content.length )
+            etikett.push( Number(i) );
+
+    return etikett;
 
 }
 

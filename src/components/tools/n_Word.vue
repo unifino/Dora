@@ -50,7 +50,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/mixins/store"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
-import PageMargin                       from "@/components/ClassRoom/Book/PageMargin.vue"
+import PageMargin                       from "@/components/ClassRoom/Books/PageMargin.vue"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================

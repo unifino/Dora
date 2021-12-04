@@ -1,75 +1,75 @@
 export enum Languages {
-    en = "English" ,
-    de = "Deutsch" ,
-    it = "Italiano" ,
-    tr = "Türkçe" ,
-    fr = "Français" ,
-    fa = "فارسی" ,
+    en = "English",
+    de = "Deutsch",
+    it = "Italiano",
+    tr = "Türkçe",
+    fr = "Français",
+    fa = "فارسی",
 }
 
 export type Lng = "en"|"de"|"it"|"tr"|"fr"|"fa";
 
-export let RTL_List = [ Languages.fa ]; 
+export let RTL_List = [ Languages.fa ];
 
 // -- =====================================================================================
 
 export type ThemaName = 
-      'White' 
-    | 'Smoky' 
-    | 'Milky' 
-    | 'Black' 
-    | 'DarkGreen' 
-    | 'WarmBlue' 
-    | 'CozyBlue' 
-    | 'AppBlue' 
+      'White'
+    | 'Smoky'
+    | 'Milky'
+    | 'Black'
+    | 'DarkGreen'
+    | 'WarmBlue'
+    | 'CozyBlue'
+    | 'AppBlue'
     ;
 
-export type ThemaName_Light = 
+export type ThemaName_Light =
       'White'
     | 'Smoky'
     | 'Milky'
     ;
 
-export type ThemaName_Dark = 
+export type ThemaName_Dark =
       'Black'
-    | 'DarkGreen' 
-    | 'GreatGray' 
-    | 'WarmBlue' 
-    | 'CozyBlue' 
+    | 'DarkGreen'
+    | 'GreatGray'
+    | 'WarmBlue'
+    | 'CozyBlue'
     | 'AppBlue'
     ;
 
-export enum BGColors { 
+export enum BGColors {
 
-    White       = "#FFFFFF" ,
-    Smoky       = "#e6e6e6" ,
-    Milky       = "#fcefe6" ,
-    Black       = "#000000" ,
-    DarkGreen   = "#0a1c20" ,
-    GreatGray   = "#1e2c2f" ,
-    WarmBlue    = "#125689" ,
-    CozyBlue    = "#3181a6" ,
-    AppBlue     = "#135f82" ,
+    White       = "#FFFFFF",
+    Smoky       = "#e6e6e6",
+    Milky       = "#fcefe6",
+    Black       = "#000000",
+    DarkGreen   = "#0a1c20",
+    GreatGray   = "#1e2c2f",
+    WarmBlue    = "#125689",
+    CozyBlue    = "#3181a6",
+    AppBlue     = "#135f82",
 
 }
 
 // .. the value use for className
-export enum B_W { 
-    Black = "light", 
-    White = "dark" 
+export enum B_W {
+    Black = "light",
+    White = "dark"
 }
 
-export enum contentColorType { 
+export enum contentColorType {
 
-    White       = B_W.Black ,
-    Smoky       = B_W.Black ,
-    Milky       = B_W.Black ,
-    Black       = B_W.White ,
-    DarkGreen   = B_W.White ,
-    GreatGray   = B_W.White ,
-    WarmBlue    = B_W.White ,
-    CozyBlue    = B_W.White ,
-    AppBlue     = B_W.White ,
+    White       = B_W.Black,
+    Smoky       = B_W.Black,
+    Milky       = B_W.Black,
+    Black       = B_W.White,
+    DarkGreen   = B_W.White,
+    GreatGray   = B_W.White,
+    WarmBlue    = B_W.White,
+    CozyBlue    = B_W.White,
+    AppBlue     = B_W.White,
 
 }
 
@@ -96,8 +96,8 @@ export interface appConfig {
 // -- =====================================================================================
 
 export interface preinstalled_Lesson_subData {
-    name      : string ,
-    dataFile  : string ,
+    name      : string,
+    dataFile  : string,
 }
 
 export interface preinstalled_Lesson {
@@ -108,9 +108,9 @@ export interface preinstalled_Lesson {
 
 export interface travelInfo {
 
-    transitionName  : string , 
-    institute       : string ,
-    duration        : number 
+    transitionName  : string,
+    institute       : string,
+    duration        : number
 
 }
 
@@ -119,16 +119,16 @@ export enum TravelBack {
     fromBottom  = "fromBottom"
 }
 
-export type here = 
-      'Entrance' 
-    | 'Institute' 
-    | 'ClassRoomEntrance' 
-    | 'ClassRoom' 
-    | 'Salon_F' 
-    | 'IPanel' 
+export type here =
+      'Entrance'
+    | 'Institute'
+    | 'ClassRoomEntrance'
+    | 'ClassRoom'
+    | 'Salon_F'
+    | 'IPanel'
     ;
 
-export type AppMode = 
+export type AppMode =
       "reading"
     | "snapping"
     | "selective"
@@ -146,16 +146,16 @@ export type Place = "Class"|"Salon_F";
 // -- =====================================================================================
 
 export enum SortPhase {
-    Random ,
-    Short ,
-    Long ,
+    Random,
+    Short,
+    Long,
 }
 
 // -- =====================================================================================
 
-export interface FolderProperty { 
-    title       : string, 
-    icon        : string, 
+export interface FolderProperty {
+    title       : string,
+    icon        : string,
     type        : FolderType,
     path        : string[],
     institute   : string,
@@ -164,8 +164,8 @@ export interface FolderProperty {
     ribosome?   : Ribosome,
 }
 
-export type FolderType = 
-      "ordinary" 
+export type FolderType =
+      "ordinary"
     | "special"
     | "shortLink"
     | "divider"
@@ -176,7 +176,7 @@ export type FolderType =
 
 // -- =====================================================================================
 
-export interface cell { 
+export interface cell {
     chromosome      : Chromosome                    ,
     protoplasm      : Organelle[]                   ,
 }
@@ -186,9 +186,10 @@ export interface rawSnap { [key: string]: string }
 // -- =====================================================================================
 
 export interface UniText {
-    [0]: string,
-    [1]: UniTextFlags,
-    length : 2,
+    [0]:  string,
+    [1]:  UniTextFlags,
+    [2]?: LinkedMaterials,
+    length : 2|3,
 }
 export interface UniTextFlags {
     isDeleted?      : boolean                       ,
@@ -199,6 +200,7 @@ export interface UniTextFlags {
     isBreakLine?    : boolean                       ,
     isURL?          : boolean                       ,
 }
+export type LinkedMaterials = Organelle[];
 
 // -- =====================================================================================
 
@@ -216,7 +218,7 @@ export interface Ribosome {
 
 export interface Ribosomes { [key: string]: Ribosome }
 
-export interface ChromosomeCode {                           
+export interface ChromosomeCode {                    
     ribosome    : string                            ,
     idx         : string                            ,
 }                                                    
@@ -255,6 +257,7 @@ export type Organelle = {
                                                      
     isYouTube?      : boolean                       ,
                                                      
+    location?       : "before"|"after"              ,
     pinnedPoint?    : number                        ,
     position?       : number                        ,
                                                      
@@ -262,12 +265,13 @@ export type Organelle = {
                                                      
 }
 
-export type LessonType = 'audio'|'video'|'plain'|'comic';
-export type OrganelleType = 
+export type LessonType = 'audio'|'video'|'mixed'|"plain";
+export type OrganelleType =
       "dAudio"
     | "dVideo"
     | "dImage"
     | "dText"
+    | "hypText"
     | "dAvatar"
     | "subtitle"
     | "rawText"

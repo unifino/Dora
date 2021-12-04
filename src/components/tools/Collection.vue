@@ -109,7 +109,8 @@ get badge () {
 
     if ( this.ribosome.type === "audio" ) { icon = "f58f"; className += "audio"; }
     if ( this.ribosome.type === "video" ) { icon = "f008"; className += "video"; }
-    if ( this.ribosome.type === "comic" ) { icon = "f302"; className += "image"; }
+    // if ( this.ribosome.type === "comic" ) { icon = "f302"; className += "image"; }
+    if ( this.ribosome.type === "mixed" ) { icon = "f302"; className += "mixed"; }
 
     return { icon: icon, class: className }
 
@@ -248,7 +249,13 @@ tapAnimator (): Promise<void> {
         width: 23;
     }
 
-    .image {
+    /* .image {
+        color: #219205;
+        font-size: 17;
+        padding-top: 4;
+    } */
+
+    .mixed {
         color: #219205;
         font-size: 17;
         padding-top: 4;

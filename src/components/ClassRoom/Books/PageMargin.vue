@@ -27,7 +27,7 @@ import * as NS                          from "@nativescript/core"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import Bus                              from "@/mixins/bus"
-import Book                             from "@/components/ClassRoom/Book/Book.vue"
+import Book                             from "@/components/ClassRoom/Books/Book.vue"
 
 // -- =====================================================================================
 

@@ -87,7 +87,7 @@ import nButton                          from "@/components/tools/n_Button.vue"
 import * as tools                       from "@/mixins/tools"
 // * tns plugin add nativescript-clipboard
 import { setText }                      from "nativescript-clipboard"
-import BookModule                       from "@/components/ClassRoom/Book/Book.vue"
+import BookModule                       from "@/components/ClassRoom/Books/Book.vue"
 import Bus                              from "@/mixins/bus"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 

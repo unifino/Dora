@@ -91,8 +91,8 @@ result ( err: string|false ) {
         let ex = err.toString();
 
         if ( ex.includes( "No address associated with hostname" ) ) err = "no conn.";
-        if ( ex.includes( "Unknown Lesson's Pre-Model" ) ) err = "Not Compatible";
-        if ( ex.includes( "context is not iterable" ) ) err = "Not Compatible";
+        // if ( ex.includes( "Unknown Lesson's Pre-Model" ) ) err = "Not Compatible";
+        // if ( ex.includes( "context is not iterable" ) ) err = "Not Compatible";
         if ( ex.includes( "No News" ) ) err = "No News";
         if ( ex.includes( "No more News" ) ) err = "No more News";
         // .. if "contains" reports more than actual provided lessons
