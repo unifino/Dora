@@ -2,7 +2,7 @@
 <GridLayout
     ref="bookCover"
     class="bookCover"
-    rows="*,auto,*"
+    rows="150,*,150"
     columns="50,*,50"
     visibility="collapsed"
     @swipe="swipeControl"
@@ -10,32 +10,20 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <!-- <GridLayout row=1 colSpan=3 rows="auto" class="pagesBox" >
-        <WrapLayout
-            ref="page"
-            class="page"
-            v-for="(page,x) in book"
-            :key="x"
-            :translateX="x===inx ? 0 : $store.state.windowSize.width"
-        >
-            <nWord
-                v-for="word in page"
-                :key=word.refId
-                :ref="'word_' + word.refId"
-                :onPage=x
-                :myText=word.data[0]
-                :snap=word.data[4]
-                :myClass=word.class
-                :refId=word.refId
-                :autoTranslate=true
-                :editMode="false"
-                @myTap=nWordTapped
-                @myLongPress=nWordLongPressed
-                @newText=editor
-            />
-        </WrapLayout>
-    </GridLayout> -->
-    <Label background="green" row=1 colSpan=3 rows="auto" class="pagesBox" :text="test" />
+    <ScrollView row=1 colSpan=3 class="pagesBox" orientation="vertical"  >
+
+        <StackLayout width="100%" >
+            <StackLayout
+                v-for="(word,i) in this.hypText.content"
+                :key=i
+                class="hypRow"
+                @tap=playThisOne(word[2])
+            >
+                <label :text=word[0] textWrap=true whiteSpace=wrap />
+            </StackLayout>
+        </StackLayout>
+
+    </ScrollView>
 
 <!---------------------------------------------------------------------------------------->
 
@@ -44,7 +32,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Indicator ref="indicator" colSpan=3 row=2 :dots=dots :currentIndex="inx +1" />
+    <!-- <Indicator ref="indicator" colSpan=3 row=2 :dots=dots :currentIndex="inx +1" /> -->
 
 </GridLayout>
 </template>
@@ -79,7 +67,7 @@ export default class HypBook extends Vue {
 
 // -- =====================================================================================
 
-hypText: TS.Organelle;
+hypText: TS.Organelle = {} as any;
 book: { data: TS.UniText, class: string, refId: number }[][] = [];
 pagesInHand: number[] = [];
 inx: number = -1;
@@ -88,7 +76,6 @@ exitPermission = false;
 tapHasBeenHandled = false;
 maxAttempt = 100;
 etikett: number[];
-test: string;
 
 // -- =====================================================================================
 
@@ -113,13 +100,26 @@ init ( hypText: TS.Organelle, etikett: number[], bookmark: number ) {
     this.etikett = etikett;
     this.dots = ( this.etikett ).length;
 
-    console.log(etikett);
-    
-    this.test = this.hypText.content[0][0]
     // // .. get needed-page-ids ready
     // this.bookmarkValidator( bookmark );
     // // .. type the book & publish some page(s)
     // this.bookPublisher();
+
+}
+
+// -- =====================================================================================
+
+playThisOne ( materials: TS.LinkedMaterials ) {
+
+    // .. find audio file
+    let audio = materials.find( x => x.type === "dAudio" );
+    // .. play it (online) in case of presence of audio file
+    if ( audio ) {
+        if ( tnsPLY.playerOptions.audioFile !== audio.sourceURL )
+            tnsPLY.init( audio.sourceURL );
+        // .. wait a bit
+        setTimeout( () => tnsPLY.play(), 500 );
+    }
 
 }
 
@@ -165,18 +165,18 @@ bookmarkValidator( bookmark: number ) {
 
 async swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    // TODO animation cause problem in Editing Mode
-    if ( store.state.mode === "editing" ) return 0;
+    // // TODO animation cause problem in Editing Mode
+    // if ( store.state.mode === "editing" ) return 0;
 
-    Bus.$emit( "ToolBar_Fade", 0, false, false, 150 )
+    // Bus.$emit( "ToolBar_Fade", 0, false, false, 150 )
 
-    if ( store.state.mode === "snapping" ) Bus.$emit( "ToolBar_Snap", false );
+    // if ( store.state.mode === "snapping" ) Bus.$emit( "ToolBar_Snap", false );
 
-    await new Promise( _ => setTimeout( _ , 0 ) );
+    // await new Promise( _ => setTimeout( _ , 0 ) );
 
-    let d = args.direction;
-    if ( d === NS.SwipeDirection.left ) this.blattern( "next" );
-    if ( d === NS.SwipeDirection.right ) this.blattern( "previous" );
+    // let d = args.direction;
+    // if ( d === NS.SwipeDirection.left ) this.blattern( "next" );
+    // if ( d === NS.SwipeDirection.right ) this.blattern( "previous" );
 
 }
 
@@ -853,5 +853,15 @@ destroyed () {
 
     .page { width: 510 }
     /* ! should be same as Tafel.vue */
+
+    .hypRow{
+        border-width: 1;
+        border-color: white;
+        border-radius: 5;
+        margin: 4;
+        padding: 4 7;
+        font-family: Farsan-Regular;
+        font-size: 15;
+    }
 
 </style>

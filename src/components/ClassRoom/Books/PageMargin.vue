@@ -3,11 +3,11 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label 
-     row=1 
-     ref="panel" 
-     :class="'panel fas ' + this.location" 
-     :text="String.fromCharCode( '0x' + ( this.location==='left' ? 'f104':'f105' ) )" 
+    <Label
+        row=1
+        ref="panel"
+        :class="'panel fas ' + this.location"
+        :text="String.fromCharCode( '0x' + ( this.location==='left' ? 'f104':'f105' ) )"
     />
 
 <!---------------------------------------------------------------------------------------->

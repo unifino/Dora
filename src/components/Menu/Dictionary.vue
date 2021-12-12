@@ -65,13 +65,9 @@ init ( ins: string ) {
             .then( stats => {
                 if ( !stats.fuse_Quota ) this.profile = this.profiles.exceedQuota;
                 else if ( stats.fuse_AllSet ) this.profile = this.profiles.ready;
-                else {
-                    console.log(stats);
-                    tools.toaster( stats+"", "long" );
-                }
+                else tools.toaster( stats+"", "long" );
             } ).catch( e => {
                 this.profile = this.profiles.error;
-                console.log(e);
                 tools.toaster( e+"", "long" );
             } );
         }

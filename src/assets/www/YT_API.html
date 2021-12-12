@@ -4,15 +4,15 @@
 <head>
 
     <script src="./lib/nativescript-webview-interface.js"></script>
-    
-    <style> 
-        * { 
-            margin:0; 
-            padding:0; 
-            border:0; 
-            background-color:black; 
-            white-space: nowrap; 
-        } 
+
+    <style>
+        * {
+            margin:0;
+            padding:0;
+            border:0;
+            background-color:black;
+            white-space: nowrap;
+        }
     </style>
 
 </head>
@@ -20,13 +20,13 @@
 <body>
 
     <div id="player"></div>
-    
+
     <script>
 
 // -- =====================================================================================
 
         var oWebViewInterface = window.nsWebViewInterface;
-        
+
         window.whereAreYou = ()   => parseFloat( player.getCurrentTime().toFixed(1) );
         window.play        = ()   => player.playVideo();
         window.pause       = ()   => player.pauseVideo();
