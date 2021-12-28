@@ -17,6 +17,7 @@
 
     <Frame id="salon_F" ref="salon_F" ><Page/></Frame>
     <Frame id="room" ref="room" ><Page/></Frame>
+    <SearchPanel ref="SearchPanel" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -66,6 +67,7 @@ import Welcome                          from "@/components/Welcome.vue"
 import Bus                              from "@/mixins/bus"
 import BeautyBG                         from "@/components/tools/BeautyBG.vue"
 import MenuPanel                        from "@/components/Menu/Panel.vue"
+import SearchPanel                      from "@/components/Salon/S/SearchPanel.vue"
 import { myPurchasedItems }             from "@/mixins/user"
 import Scope                            from "@/components/Scope/Scope.vue"
 import * as shopping                    from "@/mixins/shopping"
@@ -81,7 +83,8 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
         Welcome,
         Downloading,
         BeautyBG,
-        Scope
+        Scope,
+        SearchPanel
     }
 } )
 

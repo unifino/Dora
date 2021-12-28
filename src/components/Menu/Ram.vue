@@ -121,7 +121,7 @@ ram () {
         // .. beautifying
         await new Promise( _ => setTimeout( _ , 180 ) );
 
-        // .. ram data is downloaded
+        // .. if : ram data is downloaded
         if ( ram ) {
             // .. data is implanted successfully
             if ( _ram(ram) ) {
@@ -132,7 +132,7 @@ ram () {
             // .. data is corrupted!
             else this.profile = this.profiles.error;
         }
-        // .. data is uploaded to the Ram
+        // .. if : data is uploaded to the Ram
         else this.profile = this.profiles.full;
 
         // .. confirm everything is synced
@@ -147,6 +147,7 @@ ram () {
 
 longPressed () {
 
+    // .. purge it if it full
     if ( this.profile.name === "full" ) {
         myRam( "purge" )
         .then( ram => {
@@ -156,6 +157,7 @@ longPressed () {
         .catch ( e => Bus.$emit( "IPanel_Result", e.reason || e ) );
     }
 
+    // .. just report it if it not full
     else this.getRamStatus();
 
 }

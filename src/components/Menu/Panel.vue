@@ -1,5 +1,5 @@
 <template>
-<GridLayout ref="cotton" class="fx" rows="*,auto">
+<GridLayout ref="curtain" class="fx" rows="*,auto">
 
 <!---------------------------------------------------------------------------------------->
 
@@ -21,7 +21,9 @@
 
             <StackLayout col=1 orientation="horizontal" horizontalAlignment="left">
                 <Archive />
-                <A />
+                <!-- <Filter /> -->
+                <Search />
+                <!-- <FilterButtons /> -->
                 <SalonFIcon />
             </StackLayout>
 
@@ -31,8 +33,6 @@
                 <Battery />
                 <Gear />
             </StackLayout>
-
-            <!-- <Filter /> -->
 
         </GridLayout>
 
@@ -93,8 +93,9 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import SalonFIcon                       from "@/components/Salon/F/Salon_F_Icon.vue"
 import Gear                             from "@/components/Menu/Gear.vue"
 import Battery                          from "@/components/Menu/Battery.vue"
+import FilterButtons                    from "@/components/Menu/FilterButtons.vue"
 import Filter                           from "@/components/Menu/Filter.vue"
-import A                                from "@/components/Menu/A.vue"
+import Search                           from "@/components/Menu/Search.vue"
 import Ram                              from "@/components/Menu/Ram.vue"
 import Dictionary                       from "@/components/Menu/Dictionary.vue"
 import Archive                          from "@/components/Menu/Archive.vue"
@@ -107,7 +108,17 @@ import * as tools                       from "@/mixins/tools"
 // -- =====================================================================================
 
 @Component ( {
-    components: { SalonFIcon, Gear, Battery, Filter, A, Archive, Ram, Dictionary }
+    components: {
+        SalonFIcon,
+        Gear,
+        Battery,
+        FilterButtons,
+        Filter,
+        Archive,
+        Ram,
+        Dictionary,
+        Search
+    }
 } )
 
 // -- =====================================================================================
@@ -140,7 +151,7 @@ toggleExpansion (): Promise<void> {
 
         store.state.mode = this.expanded ? "setting" : "idle";
 
-        ( this.$refs.cotton as any ).nativeView.animate( { 
+        ( this.$refs.curtain as any ).nativeView.animate( {
             backgroundColor: this.expanded ? "rgba(0,0,0,.7)" : "rgba(25,25,25,0)",
         } );
 
@@ -172,9 +183,9 @@ toggleInstitute ( ins ) {
     let i = store.state.appConfig.activeInstitutes.indexOf( ins );
 
     if ( i > -1 ) {
-        if ( store.state.appConfig.activeInstitutes.length === 1 ) 
+        if ( store.state.appConfig.activeInstitutes.length === 1 )
             tools.toaster( "Keep at-least one Institute active!" );
-        else 
+        else
             store.state.appConfig.activeInstitutes.splice( i,1 );
     }
 

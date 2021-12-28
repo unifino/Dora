@@ -4,10 +4,10 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label 
-     :visibility="isWaiting ? 'visible' : 'collapsed'"
-     class="waitingCotton"
-     text="Calculating ..."
+    <Label
+        :visibility="isWaiting ? 'visible' : 'collapsed'"
+        class="waitingCurtain"
+        text="Calculating ..."
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -56,9 +56,9 @@ export default class Salon_F extends Vue {
 
 // -- =====================================================================================
 
-sortPhase: { code:TS.SortPhase, name: string } = { 
-    code: store.state.appConfig.sortCode , 
-    name: TS.SortPhase[ store.state.appConfig.sortCode ] 
+sortPhase: { code:TS.SortPhase, name: string } = {
+    code: store.state.appConfig.sortCode ,
+    name: TS.SortPhase[ store.state.appConfig.sortCode ]
 };
 
 myVIP: TS.VIPSentence = [ "No more sentences.", { isFake: true } as any ];
@@ -104,7 +104,7 @@ init () {
 doorCtl ( act: 'open' | 'close' ) {
 
     let place = this.$root.$children[0].$refs.salon_F;
-    
+
     let callBack = () => {
         if ( act === "open" ) {
             this.init();
@@ -128,7 +128,7 @@ dataChangingController () {
             this.isWaiting = newVal;
             if ( this.isWaiting ) this.myUIRefresher();
         },
-    
+
     );
 
 }
@@ -145,7 +145,7 @@ myUIRefresher () {
 
     if ( store.state.here === "Salon_F" ) this.init();
     else this.myUIRefresher_TO = setTimeout( () => this.myUIRefresher() , 100 );
-    
+
 }
 
 // -- =====================================================================================
@@ -162,9 +162,9 @@ swipeControl ( args: NS.SwipeGestureEventData ) {
 // -- =====================================================================================
 
 sortToggler () {
- 
+
     let modes = Object.keys( TS.SortPhase ).length / 2;
-    
+
     let nextMode = ( this.sortPhase.code +1 ) % modes;
 
     this.sortPhase = {
@@ -258,7 +258,7 @@ async oneSentence () {
     tnsPLY.stop();
 
     this.myVIP = [ "Searching ...", { isFake: true } as any ];
-    
+
     let myId: number ,
         min: number = -1 ,
         max: number = store.state.activeBox[ store.state.inHand.institute ].length ;
@@ -327,7 +327,7 @@ destroyed () {
         padding: 20 0;
     }
 
-    .waitingCotton {
+    .waitingCurtain {
         text-align: center;
         vertical-align: middle;
         font-size: 17px;

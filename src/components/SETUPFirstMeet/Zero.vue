@@ -1,39 +1,39 @@
 <template>
 <GridLayout row=1 rows="auto,*,auto,30,auto,7*,auto,20" columns="*,10,*" >
-        
-    <Label 
-        :text="text" 
-        row=0 
-        colSpan=3 
-        class="format_1 centeredText" 
-        textWrap="true"  
+
+    <Label
+        :text="text"
+        row=0
+        colSpan=3
+        class="format_1 centeredText"
+        textWrap="true"
     />
 
-    <TextField 
-        ref="email" 
-        row=2 
-        colSpan=3 
-        hint="Email Address" 
-        class="email" 
-        @textChange="emailChanged" 
+    <TextField
+        ref="email"
+        row=2
+        colSpan=3
+        hint="Email Address"
+        class="email"
+        @textChange="emailChanged"
     />
 
-    <TextField 
-        ref="code" 
-        row=2 
-        colSpan=3 
-        hint="-----" 
+    <TextField
+        ref="code"
+        row=2
+        colSpan=3
+        hint="-----"
         class="code"
-        keyboardType="number" 
+        keyboardType="number"
         @textChange="codeChanged"
     />
-    
-    <!-- <nButton 
+
+    <!-- <nButton
         col=2
         row=2
-        myLabel="Get code" 
-        myClass="inlineButton" 
-        @tap="getCode()" 
+        myLabel="Get code"
+        myClass="inlineButton"
+        @tap="getCode()"
         horizontalAlignment="right"
         :visibility=" ? 'visible' : 'collapsed'"
     /> -->
@@ -65,8 +65,8 @@ import * as user                        from "@/mixins/user"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { nButton } 
+@Component ( {
+    components: { nButton }
 } )
 
 // -- =====================================================================================
@@ -100,7 +100,7 @@ emailChanged ( event ) {
             } )
             .catch( err => this.$emit( "stateUpdate", "ERR" ) );
         }, 350 );
-    
+
     }
 
 }
@@ -112,17 +112,17 @@ getCode () {
     this.text = "Please Wait!\n\n\nRequesting verification code ...";
     this.$emit( "stateUpdate", "requestingCode" );
     this.code = tools.randomCode();
-    
+
     ( this.$refs.email as any ).nativeView.dismissSoftInput();
     ( this.$refs.email as any ).nativeView.visibility = "collapsed";
-    
+
     user.verificationRequest( this.email, this.code )
     .then( () => {
         ( this.$refs.code as any ).nativeView.visibility = "visible";
         this.text = "Verification Code has been sent!";
     } )
     .catch( err => this.text = "Error!: " + err );
-    
+
 }
 
 // -- =====================================================================================
@@ -130,11 +130,11 @@ getCode () {
 codeChanged ( event ) {
 
     let code = ( this.$refs.code as any ).nativeView;
-    
+
     if ( event.object.text.length === 5 ) {
-        
+
         if ( event.object.text === this.code ) {
-            
+
             code.color = "#3b900a";
             ( this.$refs.code as any ).nativeView.dismissSoftInput();
             ( this.$refs.code as any ).nativeView.visibility = "collapsed";
@@ -143,7 +143,7 @@ codeChanged ( event ) {
 
         }
         else code.color = "#b8343a";
-    
+
     }
     else code.color = "#a8a8a8";
 
@@ -182,7 +182,7 @@ register () {
 /*                                          */
 
     .format_1 {
-        font-family: 'CutiveMono-Regular';      
+        font-family: 'CutiveMono-Regular';
         font-size: 13;
     }
 

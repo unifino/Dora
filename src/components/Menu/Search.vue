@@ -1,13 +1,11 @@
 <template>
-<GridLayout>
 
-<!---------------------------------------------------------------------------------------->
+    <nButton
+        myClass="opt-item search fas"
+        :myLabel="String.fromCharCode( '0x' + 'f002' )"
+        @tap="lunchSearchPanel"
+    />
 
-    <Label text=" --------- test --------- " />
-
-<!---------------------------------------------------------------------------------------->
-
-</GridLayout>
 </template>
 
 // -- =====================================================================================
@@ -18,38 +16,29 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
-import * as NS                          from "@nativescript/core"
-import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
-import * as tools                       from "@/mixins/tools"
-import * as storage                     from "@/mixins/storageHandler"
+import nButton                          from "@/components/tools/n_Button.vue"
 import Bus                              from "@/mixins/bus"
+import SearchPanel                      from "@/components/Salon/S/SearchPanel.vue"
 
 // -- =====================================================================================
 
 @Component ( {
-    components: { }
+    components: { nButton }
 } )
 
 // -- =====================================================================================
 
-export default class template extends Vue {
+export default class Search extends Vue {
 
 // -- =====================================================================================
 
+lunchSearchPanel () {
 
+    let SearchPanel = this.$root.$children[0].$refs.SearchPanel as SearchPanel;
+    SearchPanel.curtain( "show" );
 
-// -- =====================================================================================
-
-mounted () {}
-
-// -- =====================================================================================
-
-beforeDestroy () {}
-
-// -- =====================================================================================
-
-destroyed () {}
+}
 
 // -- =====================================================================================
 
@@ -64,5 +53,12 @@ destroyed () {}
 <style scoped>
 
 /*                                          */
+    .light .search { color: #287ccf }
+    .dark  .search { color: #1f728b }
+
+    .search {
+        font-size: 29;
+        transform: scaleX(-1);
+    }
 
 </style>

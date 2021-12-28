@@ -191,6 +191,9 @@ export interface UniText {
     [2]?: LinkedMaterials,
     length : 2|3,
 }
+export interface UniWord extends UniText {
+    [1]: UniWordFlags,
+}
 export interface UniTextFlags {
     isDeleted?      : boolean                       ,
     phrased?        : "blue"|"red"                  ,
@@ -199,6 +202,11 @@ export interface UniTextFlags {
     standoff?       : "block"|"bridge"|"depart"     ,
     isBreakLine?    : boolean                       ,
     isURL?          : boolean                       ,
+}
+export interface UniWordFlags extends UniTextFlags{
+    level?          : CEF                           ,
+    type?           : "regular"|"irregular"         ,
+    auxiliary?      : "sein"|"haben"                ,
 }
 export type LinkedMaterials = Organelle[];
 

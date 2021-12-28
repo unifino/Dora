@@ -1,10 +1,13 @@
 <template>
+<GridLayout class="fx">
 
-    <nButton
-        myClass="opt-item filter fas"
-        :myLabel="String.fromCharCode( '0x' + 'f0b0' )"
-    />
+<!---------------------------------------------------------------------------------------->
 
+    
+
+<!---------------------------------------------------------------------------------------->
+
+</GridLayout>
 </template>
 
 // -- =====================================================================================
@@ -15,21 +18,38 @@
 
 // * npm i --save vue-class-component vue-property-decorator
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as NS                          from "@nativescript/core"
+import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
-import nButton                          from "@/components/tools/n_Button.vue"
+import * as tools                       from "@/mixins/tools"
+import * as storage                     from "@/mixins/storageHandler"
 import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { nButton } 
+@Component ( {
+    components: { }
 } )
 
 // -- =====================================================================================
 
-export default class A extends Vue {
+export default class Local extends Vue {
 
 // -- =====================================================================================
+
+
+
+// -- =====================================================================================
+
+mounted () {}
+
+// -- =====================================================================================
+
+beforeDestroy () {}
+
+// -- =====================================================================================
+
+destroyed () {}
 
 // -- =====================================================================================
 
@@ -44,11 +64,5 @@ export default class A extends Vue {
 <style scoped>
 
 /*                                          */
-    /* .light .filter { color: #c2c3c4 }
-    .dark  .filter { color: #172124 } */
-
-    .filter {
-        font-size: 29;
-    }
 
 </style>

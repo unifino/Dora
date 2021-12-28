@@ -21,13 +21,13 @@ import Institute                        from "@/components/Institute.vue"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { nButton } 
+@Component ( {
+    components: { nButton }
 } )
 
 // -- =====================================================================================
 
-export default class B extends Vue {
+export default class Archive extends Vue {
 
 // -- =====================================================================================
 

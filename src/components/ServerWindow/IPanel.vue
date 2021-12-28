@@ -1,31 +1,31 @@
 <template>
 <Page>
-<GridLayout ref="panelCotton" id="cotton" columns="*,auto,*" rows="*,50,auto,50,*" >
+<GridLayout ref="panelCurtain" id="curtain" columns="*,auto,*" rows="*,50,auto,50,*" >
 
 <!---------------------------------------------------------------------------------------->
 
     <Label class="fas endPoint" col=1 row=1 :text="String.fromCharCode( '0x' + 'f0c2' )" />
 
     <StackLayout orientation="vertical" col=1 row=2 margin="60 0" >
-    
-        <Dot 
-            v-for="x in [1,2,3,4,5,6,7,8,9]" 
-            :key=x 
-            :isOn="false" 
-            :isFullFil="false" 
-            ref="dot" 
+
+        <Dot
+            v-for="x in [1,2,3,4,5,6,7,8,9]"
+            :key=x
+            :isOn="false"
+            :isFullFil="false"
+            ref="dot"
         />
 
     </StackLayout>
-    
+
     <Label class="fas endPoint" col=1 row=3 :text="String.fromCharCode( '0x' + 'f49e' )" />
 
-    <Label 
-        class="fas middlePoint" 
-        col=1 
-        rowSpan=5 
+    <Label
+        class="fas middlePoint"
+        col=1
+        rowSpan=5
         :visibility="errIcon ? 'visible' : 'collapsed'"
-        :text="String.fromCharCode( '0x' + errIcon )" 
+        :text="String.fromCharCode( '0x' + errIcon )"
     />
 
 <!---------------------------------------------------------------------------------------->
@@ -163,15 +163,15 @@ result ( err: string|false ) {
 door_TO: NodeJS.Timeout | any;
 async doorCtr ( act: 'open' | 'close' ) {
 
-    let cotton = ( this.$refs.panelCotton as any ).nativeView;
+    let curtain = ( this.$refs.panelCurtain as any ).nativeView;
 
     if ( act === "close" ) {
-        cotton.animate( { opacity: 0 } );
+        curtain.animate( { opacity: 0 } );
         this.dots( false );
         this.errIcon = null;
     }
 
-    if ( act === "open" ) setTimeout( () => cotton.animate( { opacity: 1 } ), 200 );
+    if ( act === "open" ) setTimeout( () => curtain.animate( { opacity: 1 } ), 200 );
 
     // .. after fully expanded and maximized to borders
     let myCallBack = async () => {
@@ -234,7 +234,7 @@ destroyed () {
 /*                                          */
 
     /* // TODO all class tarnsforms to id if possible */
-    #cotton {
+    #curtain {
        background-color: rgba(24, 23, 23, 0.985);
        opacity: 0;
     }
