@@ -104,15 +104,20 @@ mounted () {
 
     this.init();
 
+    console.log( NS.Device.uuid );
+    console.log( NS.Device.manufacturer + " | " + NS.Device.model );
+    // 6876e8d960e83144
+    // samsung | SM-N970F
+
     // .. back Button Ctl
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityBackPressedEvent, 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityBackPressedEvent,
         e => this.backButtonCtl(e),
     );
 
     // .. suspend Ctl
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityPausedEvent, 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityPausedEvent,
         () => {
             // .. pause
             tnsPLY.stopAt(0);
@@ -127,8 +132,8 @@ mounted () {
     );
 
     // .. resume Ctl
-    NS.Application.android.on( 
-        NS.AndroidApplication.activityResumedEvent, 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityResumedEvent,
         () => this.resumeCtl(),
     );
 
