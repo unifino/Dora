@@ -104,8 +104,8 @@ mounted () {
 
     this.init();
 
-    console.log( NS.Device.uuid );
-    console.log( NS.Device.manufacturer + " | " + NS.Device.model );
+    // console.log( NS.Device.uuid );
+    // console.log( NS.Device.manufacturer + " | " + NS.Device.model );
     // 6876e8d960e83144
     // samsung | SM-N970F
 
