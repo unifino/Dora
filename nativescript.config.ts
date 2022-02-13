@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core'
 
 export default {
-    id: 'com.fitored.dora',
+    id: 'ir.fitored.dora',
     appPath: 'src',
     appResourcesPath: 'App_Resources',
     android: {
