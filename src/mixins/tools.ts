@@ -618,7 +618,7 @@ export function toaster ( msg: string ="" , duration: "short" | "long" = "short"
     if ( msg.length < 7 ) for( let i=0; i< 7-msg.length; i++ ) pad += " ";
 
     if ( pad ) msg = '\n' + pad + msg.replace( "\n", "" ) + pad + '\n';
-    else msg = '\n' + pad + msg + pad + '\n';
+    // else msg = '\n' + pad + msg + pad + '\n';
 
     toasty = Toast.makeText( msg, duration );
 

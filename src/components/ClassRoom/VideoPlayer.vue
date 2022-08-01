@@ -62,7 +62,8 @@ init () {
     this.player = ( this.$refs.player as any ).nativeView;
     this.player.visibility = "visible";
     this.player.src = store.state.inHand.mediaPath;
-
+    console.log( this.player.src );
+    
     this.player.on( Video.currentTimeUpdatedEvent, this.reportCurrentTime );
     this.player.on( Video.playbackStartEvent, () => store.state.mediaState = 'playing' );
     this.player.on( Video.pausedEvent, () => store.state.mediaState = 'paused' );

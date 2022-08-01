@@ -6,6 +6,7 @@ import store                            from "@/mixins/store"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import { x007 }                         from '@/mixins/android007Agent'
+import path from "path";
 
 // -- =====================================================================================
 
@@ -13,6 +14,7 @@ const exStorage = android.os.Environment.getExternalStorageDirectory();
 export const SDCard: string = exStorage.getAbsolutePath().toString();
 
 export let baseFolder   : NS.Folder; // * do not initiate it
+export let OffRoad_dir  : NS.Folder; // * do not initiate it
 export let Avatars_dir  : NS.Folder; // * do not initiate it
 export let Audios_dir   : NS.Folder; // * do not initiate it
 export let Videos_dir   : NS.Folder; // * do not initiate it
@@ -78,6 +80,7 @@ export function pathCtr () {
     // .. permission policy has been meet, so assign necessarily Folders!
     baseFolder  = NS.Folder.fromPath( NS.path.join( SDCard, "Dora" ) );
     let bp      = baseFolder.path;
+    OffRoad_dir = NS.Folder.fromPath( NS.path.join( bp, "Off Road"              ) );
     Avatars_dir = NS.Folder.fromPath( NS.path.join( bp, ".files", "avatars"     ) );
     Audios_dir  = NS.Folder.fromPath( NS.path.join( bp, ".files", "audios"      ) );
     Videos_dir  = NS.Folder.fromPath( NS.path.join( bp, ".files", "videos"      ) );
@@ -96,6 +99,7 @@ export function pathCtr () {
         rbssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "r.db"  ) );
         bigKeyFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "key"   ) );
     }
+
 }
 
 // -- =====================================================================================
@@ -191,6 +195,9 @@ export function putLessonsInBox () {
 
     store.state.massDB = tools.mDBValidator( mDB, getBigKey() );
 
+    // .. Add OffRoad Lessons
+    OffRoadDriver();
+
 }
 
 // -- =====================================================================================
@@ -235,6 +242,8 @@ export function putRibosomesInBox () {
     for ( let ins of store.state.appConfig.institutes ) if ( !(ins in rDB) ) rDB[ins] = {};
 
     store.state.rbssDB = rDB;
+
+    offRoadStarter();
 
 }
 
@@ -487,7 +496,7 @@ export async function getMedia ( path: string ) {
         // TODO support all formats
         for ( const e of entities ) 
             if( NS.File.exists( e.path ) )
-                if 
+                if
                 (
                     NS.File.fromPath( e.path ).extension === ".mp3" ||
                     NS.File.fromPath( e.path ).extension === ".mp4"
@@ -518,7 +527,7 @@ export async function avatar ( name: string, folderPath: string, avatarURL: stri
 
 // -- =====================================================================================
 
-export async function 
+export async function
 media ( name: string, folderPath: string, mediaURL: string, ext: ".mp3"|".mp4" ) {
 
     // TODO other formats?
@@ -554,3 +563,89 @@ export function have_these_on_local ( ribosome: TS.Ribosome ) {
 }
 
 // -- =====================================================================================
+
+function OffRoadDriver () {
+
+    // .. get valid OffRoads Data
+    let OffRoads = OffRoadReader();
+
+    let n = 0;
+    // .. convert data to lessons
+    for ( let lesson of OffRoads ) {
+        n++;
+
+        let video = NS.Folder.fromPath( lesson.path ).getEntitiesSync().filter( x => (<any>x).extension === ".mp4" )[0].name;
+
+        let newData: TS.Lesson = { chromosome: null, protoplasm: null };
+        newData.chromosome = {
+            institute       : "de"                                          ,
+            model           : [ "dVideo", "dText" ]                         ,
+            code            : { ribosome: "OFFROAD", idx: (n++).toString() },
+            level           : "C1"                                          ,
+            title           : lesson.name                                   ,
+            hPath           : [ "Off Road", lesson.name, video ]             ,
+            vPath           : null                                          ,
+            status          : "reading"                                     ,
+            sync            : false                                         ,
+        }
+        newData.protoplasm = [
+            {
+                type        : "dVideo"                                      ,
+                address     : newData.chromosome.hPath.join( "/" )          ,
+                sourceURL   : newData.chromosome.hPath.join( "/" )          ,
+                isYouTube   : false                                         ,
+            },
+            {
+                type        : "dText"                                       ,
+                content     : [ ]                                            ,
+            }
+        ];
+        store.state.massDB[ "de" ].push( newData );
+        // .. remove raw data
+    }
+
+}
+
+// -- =====================================================================================
+
+function OffRoadReader () {
+
+    let contents = OffRoad_dir.getEntitiesSync();
+    // .. pick just Folders
+    contents = contents.filter( item => NS.Folder.exists( item.path ) );
+    // .. check Folder has its mandatory data
+    contents = contents.filter( folder => {
+        let pass_code = 1;
+        let junk_code = 0;
+        for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
+            if( (<any>item).extension === ".mp4" )      pass_code += 700;
+            else if( (<any>item).extension === ".str" ) pass_code += 70;
+            else junk_code++;
+        }
+        // .. accepts only folders with one video and one str file!
+        return pass_code === 771 && junk_code === 0; 
+    } );
+
+    return contents; 
+
+}
+
+// -- =====================================================================================
+
+export function offRoadStarter() {
+
+    store.state.rbssDB[ "de" ][ "OFFROAD" ] = {
+
+        institute       : "de"                  ,
+        code            : "OFFROAD"             ,
+        type            : "video"               ,
+        level           : "C1"                  ,
+        title           : "My Personal Lessons" ,
+        avatar          : null                  ,
+        source          : "sd"                  ,
+        contains        : "∞"                  ,
+        readMode        : "start"               ,
+
+    }
+
+}

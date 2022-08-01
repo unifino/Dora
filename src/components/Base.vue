@@ -17,7 +17,7 @@
 
     <Frame id="salon_F" ref="salon_F" ><Page/></Frame>
     <Frame id="room" ref="room" ><Page/></Frame>
-    <SearchPanel ref="SearchPanel" />
+    <!-- <SearchPanel ref="SearchPanel" /> -->
 
 <!---------------------------------------------------------------------------------------->
 
@@ -257,14 +257,14 @@ appConfiguration (): Promise<void> {
 
             await new Promise( _ => setTimeout( _, 100 ) );
 
+            // .. retrieve Ribosomes
+            setTimeout( () => storage.putRibosomesInBox(), 0 );
             // .. retrieve Lessons
             setTimeout( () => storage.putLessonsInBox(), 0 );
             // .. retrieve Glossaries
             setTimeout( () => storage.putGlossariesInBox(), 0 );
             // .. retrieve FlashCards
             setTimeout( () => storage.putFlashcardsInBox(), 0 );
-            // .. retrieve Ribosomes
-            setTimeout( () => storage.putRibosomesInBox(), 0 );
 
             await new Promise( _ => setTimeout( _, 100 ) );
 

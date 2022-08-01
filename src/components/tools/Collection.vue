@@ -24,11 +24,11 @@
     <ScrollView row=3 col=3 orientation="horizontal" scrollBarIndicatorVisible="false">
         <StackLayout orientation="horizontal" >
 
-            <Lesson 
-                v-for="x of inHand" 
-                :key="x.chromosome.code.idx" 
-                class="Lesson" 
-                :lesson="x" 
+            <Lesson
+                v-for="x of inHand"
+                :key="x.chromosome.code.idx"
+                class="Lesson"
+                :lesson="x"
             />
 
             <Image
@@ -136,6 +136,8 @@ get inHand () {
 
     // .. determine if all Lessons has been Downloaded already!
     if ( inLocal === this.ribosome.contains ) this.allGOT = true;
+    // .. OFFROAD is OFF
+    if ( this.ribosome.code === "OFFROAD" ) this.allGOT = true;
 
     return inHands;
 

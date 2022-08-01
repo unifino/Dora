@@ -2,16 +2,16 @@
 <GridLayout
     ref="myFolder"
     :class="myClass"
-    :backgroundImage="myAvatar" 
+    :backgroundImage="myAvatar"
     @tap="tapAction"
     @longPress="longPressAction"
 >
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label 
+    <Label
         :class="myIcon.class"
-        :text="String.fromCharCode( '0x' + myIcon.icon )" 
+        :text="String.fromCharCode( '0x' + myIcon.icon )"
         :fontSize="myIcon.size"
     />
 
@@ -19,13 +19,13 @@
 
     <Label 
         :class="myLabelClass"
-        :text="myProp.title === '..' ? '' : myProp.title" 
+        :text="myProp.title === '..' ? '' : myProp.title"
     />
 
 <!---------------------------------------------------------------------------------------->
 
     <stackLayout class="managingBox" ref="managingBox" >
-        <nButton 
+        <nButton
             myClass="fas deleteButton"
             :myLabel="String.fromCharCode( '0x' + 'f2ed' )"
             @tap="deleteMe"
