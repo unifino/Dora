@@ -224,8 +224,6 @@ export interface Ribosome {
     readMode        : "start"|"random"|"end"        ,
 }
 
-export interface Ribosomes { [key: string]: Ribosome }
-
 export interface ChromosomeCode {                    
     ribosome    : string                            ,
     idx         : string                            ,

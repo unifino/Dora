@@ -50,7 +50,7 @@ export interface state {
         massDB              : { [key: string]: TS.Lesson[]      }   ,
         flssDB              : { [key: string]: TS.Flashcard[]   }   ,
         glssDB              : { [key: string]: TS.Glossar       }   ,
-        rbssDB              : { [key: string]: TS.Ribosomes     }   ,
+        rbssDB              : { [key: string]: TS.Ribosome[]    }   ,
         activeBox           : { [key: string]: TS.VIPSentence[] }   ,
         sentenceBox         : { [key: string]: TS.VIPSentence[] }   ,
         numberBox           : { [key: string]: TS.VIPSentence[] }   ,

@@ -196,7 +196,7 @@ export function putLessonsInBox () {
     store.state.massDB = tools.mDBValidator( mDB, getBigKey() );
 
     // .. Add OffRoad Lessons
-    OffRoadDriver();
+    // OffRoadDriver();
 
 }
 
@@ -234,16 +234,14 @@ export function putFlashcardsInBox () {
 
 export function putRibosomesInBox () {
 
-    let rDB: { [key: string]: TS.Ribosomes } = {};
+    let rDB: { [key: string]: TS.Ribosome[] } = {};
 
     try { rDB = JSON.parse( rbssDBFile.readTextSync() ) }
     catch { rDB = tryToRescue( rbssDBFile ) }
 
-    for ( let ins of store.state.appConfig.institutes ) if ( !(ins in rDB) ) rDB[ins] = {};
+    for ( let ins of store.state.appConfig.institutes ) if ( !(ins in rDB) ) rDB[ins] = [];
 
     store.state.rbssDB = rDB;
-
-    offRoadStarter();
 
 }
 
@@ -626,26 +624,8 @@ function OffRoadReader () {
         return pass_code === 771 && junk_code === 0; 
     } );
 
-    return contents; 
+    return contents;
 
 }
 
 // -- =====================================================================================
-
-export function offRoadStarter() {
-
-    store.state.rbssDB[ "de" ][ "OFFROAD" ] = {
-
-        institute       : "de"                  ,
-        code            : "OFFROAD"             ,
-        type            : "video"               ,
-        level           : "C1"                  ,
-        title           : "My Personal Lessons" ,
-        avatar          : null                  ,
-        source          : "sd"                  ,
-        contains        : "∞"                  ,
-        readMode        : "start"               ,
-
-    }
-
-}

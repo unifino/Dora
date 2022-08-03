@@ -133,15 +133,27 @@ collector () {
 
     }
 
-    // .. remove Duplicates
-    codes = [ ...new Set( codes ) ];
-
-    // .. put OFFROAD at the beginning
-    // codes = codes.filter( x => x !== "OFFROAD" );
-    // codes = [ "OFFROAD", ...codes ];
+    codes = this.sorter( codes );
 
     // .. register codes
     this.rbssCodes = codes;
+
+}
+
+// -- =====================================================================================
+
+sorter ( codes: string[] ) {
+
+    // .. remove Duplicates
+    codes = [ ...new Set( codes ) ];
+
+    // .. put OFFROAD at the beginning if exists
+    if ( codes.includes( "OFFROAD" ) ) {
+        codes = codes.filter( x => x !== "OFFROAD" );
+        codes = [ "OFFROAD", ...codes ];
+    }
+
+    return codes;
 
 }
 
