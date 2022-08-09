@@ -196,7 +196,8 @@ export function putLessonsInBox () {
     store.state.massDB = tools.mDBValidator( mDB, getBigKey() );
 
     // .. Add OffRoad Lessons
-    OffRoadDriver();
+    //! just for de
+    OffRoadDriver( "de" );
 
 }
 
@@ -450,7 +451,7 @@ function get_org_media ( org: TS.Organelle ): Promise<string> {
         if ( org.type === "dAvatar" || org.type === "dImage" ) {
             // ! PNG???
             NS.Http.getImage( org.sourceURL ).then( imageSource => {
-                if ( imageSource.saveToFile( path, "jpg" ) ) 
+                if ( imageSource.saveToFile( path, "jpg" ) )
                     org.address = path.replace( baseFolder.path, "" );
                 rs( NS.path.join( baseFolder.path, org.address ) );
             } );
@@ -562,51 +563,73 @@ export function have_these_on_local ( ribosome: TS.Ribosome ) {
 
 // -- =====================================================================================
 
-function OffRoadDriver () {
+function OffRoadDriver ( ins: string ) {
 
     // .. get valid OffRoads Data
     let OffRoads = OffRoadReader();
 
-    let n = store.state.massDB["de"].filter( x => x.chromosome.code.ribosome === "OFFROAD" ).length;
+    let n = store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "OFFROAD" ).length;
 
     // .. convert data to lessons
     for ( let lesson of OffRoads ) {
 
         let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
         let videos = materials.filter( x => (<any>x).extension === ".mp4" );
+        //! just for JPG formats??
+        let avatars = materials.filter( x => (<any>x).extension === ".jpg" );
+        //! just for SRT formats??
+        let subtitles = materials.filter( x => (<any>x).extension === ".srt" );
         let stringPath = JSON.stringify( [ "Off Road", lesson.name, videos[0].name ] );
 
-        //! just for de???
         // .. add new Lessons
-        if ( !store.state.massDB["de"].find( x => JSON.stringify( x.chromosome.hPath ) === stringPath ) ) {
+        if ( !store.state.massDB[ ins ].find( x => JSON.stringify( x.chromosome.hPath ) === stringPath ) ) {
+
+            let content: TS.UniText[];
+            // .. try to get subtitle in format of SRT
+            if ( subtitles.length ) {
+                let srt = NS.File.fromPath( subtitles[0].path ).readTextSync();
+                content = tools.srtParser( srt );
+            }
 
             let newData: TS.Lesson = { chromosome: null, protoplasm: null };
 
             newData.chromosome = {
-                institute       : "de"                                          ,
-                model           : [ "dVideo", "dText" ]                         ,
-                code            : { ribosome: "OFFROAD", idx: (n++).toString() },
-                level           : "C1"                                          ,
-                title           : lesson.name                                   ,
-                hPath           : [ "Off Road", lesson.name, videos[0].name ]   ,
-                vPath           : null                                          ,
-                status          : "reading"                                     ,
-                sync            : false                                         ,
+                institute       : ins                                               ,
+                model           : [ "dVideo", "dText" ]                             ,
+                code            : { ribosome: "OFFROAD", idx: (n++).toString() }    ,
+                level           : "C1"                                              ,
+                title           : lesson.name                                       ,
+                hPath           : [ "Off Road", lesson.name, videos[0].name ]       ,
+                vPath           : null                                              ,
+                status          : "reading"                                         ,
+                sync            : false                                             ,
             }
             newData.protoplasm = [
                 {
-                    type        : "dVideo"                                      ,
-                    address     : newData.chromosome.hPath.join( "/" )          ,
-                    sourceURL   : newData.chromosome.hPath.join( "/" )          ,
+                    type        : "dVideo"                                          ,
+                    address     : newData.chromosome.hPath.join( "/" )              ,
+                    sourceURL   : newData.chromosome.hPath.join( "/" )              ,
                 },
                 {
-                    type        : "dText"                                       ,
-                    content     : null                                          ,
+                    type        : "dText"                                           ,
+                    content     : content                                           ,
                 }
             ];
-            store.state.massDB[ "de" ].push( newData );
+
+            // .. add avatar if exists - path need to be trimmed
+            if ( avatars.length ) {
+                newData.protoplasm.push(
+                    {
+                        type        : "dAvatar"                                     ,
+                        address     : avatars[0].path.split("/").slice(5).join("/") ,
+                    }
+                )
+            }
+
+            store.state.massDB[ ins ].push( newData );
 
         }
+
         // .. remove raw data
 
     }
@@ -626,11 +649,13 @@ function OffRoadReader () {
         let junk_code = 0;
         for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
             if( (<any>item).extension === ".mp4" )      pass_code += 700;
-            else if( (<any>item).extension === ".str" ) pass_code += 70;
+            else if( (<any>item).extension === ".srt" ) pass_code += 70;
+            else if( (<any>item).extension === ".jpg" ) pass_code += 0;
+            // else if( (<any>item).extension === ".png" ) pass_code += 0;
             else junk_code++;
         }
         // .. accepts only folders with one video and|without one str file!
-        return (pass_code === 771 || pass_code === 701) && junk_code === 0; 
+        return (pass_code === 771 || pass_code === 701) && junk_code === 0;
     } );
 
     return contents;

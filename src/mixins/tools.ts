@@ -1108,6 +1108,10 @@ export function srtParser ( data: string ) {
                 n++;
             }
 
+            // .. remove i tags
+            text = text.replace( /<i>/g, '' );
+            text = text.replace( /<\/i>/g, '' );
+
             str2UnifiedText( text, begin, end, subtitle );
 
             n += 3;
