@@ -196,7 +196,7 @@ export function putLessonsInBox () {
     store.state.massDB = tools.mDBValidator( mDB, getBigKey() );
 
     // .. Add OffRoad Lessons
-    // OffRoadDriver();
+    OffRoadDriver();
 
 }
 
@@ -567,39 +567,48 @@ function OffRoadDriver () {
     // .. get valid OffRoads Data
     let OffRoads = OffRoadReader();
 
-    let n = 0;
+    let n = store.state.massDB["de"].filter( x => x.chromosome.code.ribosome === "OFFROAD" ).length;
+
     // .. convert data to lessons
     for ( let lesson of OffRoads ) {
-        n++;
 
-        let video = NS.Folder.fromPath( lesson.path ).getEntitiesSync().filter( x => (<any>x).extension === ".mp4" )[0].name;
+        let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
+        let videos = materials.filter( x => (<any>x).extension === ".mp4" );
+        let stringPath = JSON.stringify( [ "Off Road", lesson.name, videos[0].name ] );
 
-        let newData: TS.Lesson = { chromosome: null, protoplasm: null };
-        newData.chromosome = {
-            institute       : "de"                                          ,
-            model           : [ "dVideo", "dText" ]                         ,
-            code            : { ribosome: "OFFROAD", idx: (n++).toString() },
-            level           : "C1"                                          ,
-            title           : lesson.name                                   ,
-            hPath           : [ "Off Road", lesson.name, video ]             ,
-            vPath           : null                                          ,
-            status          : "reading"                                     ,
-            sync            : false                                         ,
-        }
-        newData.protoplasm = [
-            {
-                type        : "dVideo"                                      ,
-                address     : newData.chromosome.hPath.join( "/" )          ,
-                sourceURL   : newData.chromosome.hPath.join( "/" )          ,
-                isYouTube   : false                                         ,
-            },
-            {
-                type        : "dText"                                       ,
-                content     : [ ]                                            ,
+        //! just for de???
+        // .. add new Lessons
+        if ( !store.state.massDB["de"].find( x => JSON.stringify( x.chromosome.hPath ) === stringPath ) ) {
+
+            let newData: TS.Lesson = { chromosome: null, protoplasm: null };
+
+            newData.chromosome = {
+                institute       : "de"                                          ,
+                model           : [ "dVideo", "dText" ]                         ,
+                code            : { ribosome: "OFFROAD", idx: (n++).toString() },
+                level           : "C1"                                          ,
+                title           : lesson.name                                   ,
+                hPath           : [ "Off Road", lesson.name, videos[0].name ]   ,
+                vPath           : null                                          ,
+                status          : "reading"                                     ,
+                sync            : false                                         ,
             }
-        ];
-        store.state.massDB[ "de" ].push( newData );
+            newData.protoplasm = [
+                {
+                    type        : "dVideo"                                      ,
+                    address     : newData.chromosome.hPath.join( "/" )          ,
+                    sourceURL   : newData.chromosome.hPath.join( "/" )          ,
+                },
+                {
+                    type        : "dText"                                       ,
+                    content     : null                                          ,
+                }
+            ];
+            store.state.massDB[ "de" ].push( newData );
+
+        }
         // .. remove raw data
+
     }
 
 }
@@ -620,8 +629,8 @@ function OffRoadReader () {
             else if( (<any>item).extension === ".str" ) pass_code += 70;
             else junk_code++;
         }
-        // .. accepts only folders with one video and one str file!
-        return pass_code === 771 && junk_code === 0; 
+        // .. accepts only folders with one video and|without one str file!
+        return (pass_code === 771 || pass_code === 701) && junk_code === 0; 
     } );
 
     return contents;

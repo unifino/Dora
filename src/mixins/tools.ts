@@ -1031,14 +1031,14 @@ export function subParser ( data: string ) {
 
             // ------- time Parsing
             begin  = begin.split( ':' );
-            begin  = Number( begin[2].replace( /,/g , '.' ) ) + 
-                     Number( begin[1] ) *60 + 
+            begin  = Number( begin[2].replace( /,/g , '.' ) ) +
+                     Number( begin[1] ) *60 +
                      Number( begin[0] ) *60*60 ;
             begin  = Number( begin.toFixed(1) );
 
             end    = end.split( ':' );
-            end    = Number( end[2].replace( /,/g , '.' ) ) + 
-                     Number( end[1] ) *60 + 
+            end    = Number( end[2].replace( /,/g , '.' ) ) +
+                     Number( end[1] ) *60 +
                      Number( end[0] ) *60*60;
             end    = Number( end.toFixed(1) );
 
@@ -1140,6 +1140,7 @@ function str2UnifiedText (
         if ( words[i] === "\n" ) row[1].isBreakLine = true;
         else row[0] = words[i];
         if ( i === 0 ) {
+            // ! there is a bug for just "one word" lines
             row[1].snap = begin;
             row[1].standoff = "depart";
         }

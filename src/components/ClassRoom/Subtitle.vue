@@ -36,7 +36,7 @@ import * as tools                       from "@/mixins/tools"
 import nWord                            from "@/components/tools/n_Word.vue"
 import Bus                              from "@/mixins/bus"
 import Scope                            from "@/components/Scope/Scope.vue"
-
+import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
 
@@ -79,7 +79,52 @@ mounted () {
 // -- =====================================================================================
 
 init () {
+
     ( this.$refs.subtitleBox as any ).nativeView.visibility = "visible";
+
+    this.subtitleChecker();
+
+}
+
+// -- =====================================================================================
+
+subtitleChecker () {
+    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" );
+    if ( !dText.content || !dText.content.length ) this.virtualStrGenerator();
+}
+
+// -- =====================================================================================
+
+virtualStrGenerator () {
+
+    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" );
+
+        tnsPLY.init( store.state.inHand.mediaPath );
+        tnsPLY.getDuration().then( secs => {
+
+            let str = "",
+                step = 3,
+                h,m,s,j;
+
+            for ( let i=0; i<secs; i+=step ) {
+                str += (i+1) + "\n";
+                j = i;
+                h = (j/(60*60))|0;
+                m = ((j-h*60*60)/60)|0;
+                s = (j-h*60*60-m*60);
+                str += h + ":" + m + ":" + s + " --> " ;
+                j = i + step;
+                h = (j/(60*60))|0;
+                m = ((j-h*60*60)/60)|0;
+                s = (j-h*60*60-m*60);
+                str += h + ":" + m + ":" + s + "\n"
+                str += i + " ..." + "\n\n";
+            }
+
+            dText.content = tools.srtParser( str );
+
+        } );
+
 }
 
 // -- =====================================================================================
@@ -99,11 +144,11 @@ presentPerTime ( time: number ) {
         b = i;
         if ( subtitle[i][1].standoff === "block" && subtitle[i][1].snap >= time ) break;
     }
-
+    
     if ( subtitle[a][1].snap <= time && time <= subtitle[b][1].snap )
         for ( let i = a; i<= b; i++ )
             store.state.preserve.selected.push(i);
-    
+
     // .. register this time as PinnedPoint!
     dVideo.pinnedPoint = time;
 
