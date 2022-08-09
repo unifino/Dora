@@ -49,7 +49,11 @@
 
 <!---------------------------------------------------------------------------------------->
 
-        <StackLayout row=1 class="divider"></StackLayout>
+        <StackLayout
+            row=1 class="divider"
+            :visibility="expanded ? 'visible':'hidden'"
+        >
+        </StackLayout>
 
 <!---------------------------------------------------------------------------------------->
 

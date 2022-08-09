@@ -1,5 +1,5 @@
 <template>
-<GridLayout ref="rail" rows="*" >
+<GridLayout ref="rail" rows="*">
 
     <GridLayout ref="desk" class="desk" rows="12,auto,25,auto,25,auto,*" @pan="dragMe" >
 
@@ -66,7 +66,7 @@ init () {
         setTimeout ( () => this.init(), 100 );
         return 0;
     }
-    
+
     this.desk.height = store.state.windowSize.height;
     this.desk.translateY = store.state.windowSize.height +1;
     this.desk.visibility = "visible";
@@ -79,10 +79,10 @@ setMyWebSrc ( str="" ) {
 
     let myWeb = ( this.$refs.myWeb as any ).nativeView;
     myWeb.android.getSettings().setBuiltInZoomControls(false);
-    
+
     str = "https://duckduckgo.com/?q=" + str;
     if ( str.split( " " ).length < 3 ) str += "&iax=images&ia=images";
-    
+
     myWeb.src = "";
     myWeb.src = encodeURI( str );
     if ( !str ) myWeb.height = 1; 

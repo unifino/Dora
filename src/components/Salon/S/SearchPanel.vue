@@ -19,7 +19,7 @@
 
     </GridLayout>
 
-    <GridLayout row=1  @tap="curtain('hide')" ba></GridLayout>
+    <GridLayout row=1 @tap="curtain('hide')" ba></GridLayout>
 
 <!---------------------------------------------------------------------------------------->
 

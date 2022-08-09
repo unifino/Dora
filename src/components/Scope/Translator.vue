@@ -4,11 +4,11 @@
 <!---------------------------------------------------------------------------------------->
 
     <StackLayout>
-        <Label 
+        <Label
             :visibility="translatorResponded ? 'visible' : 'collapsed'"
             textWrap=true
             class="translationSlot"
-            v-for="slot of slots" 
+            v-for="slot of slots"
             :key=slot
             :text=slot
             :padding="slot ? '10 15' : 0"
