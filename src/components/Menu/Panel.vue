@@ -44,7 +44,7 @@
             :visibility="app_mode === 'production' ? 'visible' : 'collapsed'"
         >
             <SalonFIcon col=1 rowSpan=3 />
-            <Label row=1 col=3 text="Dora - Deutsche - A1 - Student Version" />
+            <!-- <Label row=1 col=3 text="Dora - Deutsche - A1 - Student Version" /> -->
         </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -65,7 +65,7 @@
             </StackLayout>
 
             <StackLayout col=2 id="instituteRail" orientation="horizontal" >
-                <Image 
+                <Image
                     v-for="x of $store.state.appConfig.institutes"
                     :key=x
                     class="flag"

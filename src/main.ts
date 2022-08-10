@@ -7,7 +7,7 @@ import * as NS                          from "@nativescript/core"
 store.state.appConfig = {
 	appConfigVersion    : "2.0.1"               ,
     // institutes          : [ "de", "en", "it" ]  ,
-    institutes          : [ "de" ]              ,
+    institutes          : [ "de", "en" ]        ,
     instituteBookmark   : null                  ,
 	activeInstitutes    : []                    ,
 	theme               : "Milky"               ,

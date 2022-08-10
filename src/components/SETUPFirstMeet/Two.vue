@@ -84,7 +84,7 @@ institutes = [
 
     { name: "English", code: "en" } ,
     { name: "Deutsch", code: "de" } ,
-    { name: "Italian", code: "it" } ,
+    { name: "Italiano", code: "it" } ,
     // { name: "Turkish", code: "tr" } ,
 
 ]
