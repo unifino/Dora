@@ -63,6 +63,8 @@ get words () {
         if ( row[1].phrased ) cls += " b";
         if ( tools.wordStating( row[0], ins ) === "M" ) cls += " g";
         if ( row[1].isBreakLine ) cls = "breakLine";
+        // ! remove this line
+        if ( !row[1].isBreakLine ) 
         wrappedWords.push( { text: row[0], class: cls } );
     }
 
@@ -131,6 +133,8 @@ virtualStrGenerator () {
 
 presentPerTime ( time: number ) {
 
+    // time -= 4;
+
     store.state.preserve.selected = [];
 
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ),
@@ -144,7 +148,7 @@ presentPerTime ( time: number ) {
         b = i;
         if ( subtitle[i][1].standoff === "block" && subtitle[i][1].snap >= time ) break;
     }
-    
+
     if ( subtitle[a][1].snap <= time && time <= subtitle[b][1].snap )
         for ( let i = a; i<= b; i++ )
             store.state.preserve.selected.push(i);

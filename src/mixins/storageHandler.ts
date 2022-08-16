@@ -578,7 +578,7 @@ function OffRoadDriver ( ins: string ) {
         let avatars = materials.filter( x => (<any>x).extension === ".jpg" );
         //! just for SRT formats??
         let subtitles = materials.filter( x => (<any>x).extension === ".srt" );
-        let stringPath = JSON.stringify( [ "Off Road", lesson.name, videos[0].name ] );
+        let stringPath = JSON.stringify( [ "Off Road", ins, lesson.name, videos[0].name ] );
 
         // .. add new Lessons
         if ( !store.state.massDB[ ins ].find( x => JSON.stringify( x.chromosome.hPath ) === stringPath ) ) {
