@@ -14,6 +14,9 @@
     <Subtitle       ref="subtitle"      row=2               />
 <!---------------------------------------------------------------------------------------->
     <SideBar        ref="sideBar"       row=1   rowSpan=3   />
+<!---------------------------------------------------------------------------------------->
+    <SubtitleSum    ref="subtitleSum"   row=3               />
+<!---------------------------------------------------------------------------------------->
     <MiniMenu       ref="miniMenu"              rowSpan=4   />
     <ToolBar        ref="toolBar"               rowSpan=4   />
 <!---------------------------------------------------------------------------------------->
@@ -47,6 +50,7 @@ import CEntrance                        from "@/components/ClassRoom/ClassRoomEn
 import ImageDisplay                     from "@/components/ClassRoom/ImageDisplay.vue"
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
 import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
+import SubtitleSum                      from "@/components/ClassRoom/SubtitleSum.vue"
 import Tafel                            from "@/components/ClassRoom/Tafel.vue"
 import ToolBar                          from "@/components/ClassRoom/ToolBar.vue"
 import VideoControl                     from "@/components/ClassRoom/VideoControl.vue"
@@ -69,6 +73,7 @@ NSVue.registerElement( "VNSPlayer", () => require( "nativescript-videoplayer" ).
         AudioPlayer,
         SideBar,
         Subtitle,
+        SubtitleSum,
         VideoControl,
         VideoPlayer,
         YouTubePlayer,

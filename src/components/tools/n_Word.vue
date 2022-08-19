@@ -333,7 +333,7 @@ setFocus () {
         border-color: transparent;
         background-color: transparent;
     }
-    
+
     .breakLine {
         width: 98%; 
         padding: 4 2;

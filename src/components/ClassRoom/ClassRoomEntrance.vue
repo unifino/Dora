@@ -51,6 +51,7 @@ import Book                             from "@/components/ClassRoom/Books/Book.
 import HypBook                          from "@/components/ClassRoom/Books/HypBook.vue"
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
 import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
+import SubtitleSum                      from "@/components/ClassRoom/SubtitleSum.vue"
 import ToolBar                          from "@/components/ClassRoom/ToolBar.vue"
 import VideoControl                     from "@/components/ClassRoom/VideoControl.vue"
 import VideoPlayer                      from "@/components/ClassRoom/VideoPlayer.vue"
@@ -79,6 +80,7 @@ sideBar: SideBar;
 toolBar: ToolBar;
 miniMenu: MiniMenu;
 subtitle: Subtitle;
+subtitleSum: SubtitleSum;
 audioPlayer: AudioPlayer;
 videoPlayer: VideoPlayer;
 imageDisplay: ImageDisplay;
@@ -114,6 +116,7 @@ init () {
     this.toolBar        = refs.toolBar as ToolBar;
     this.miniMenu       = refs.miniMenu as MiniMenu;
     this.subtitle       = refs.subtitle as Subtitle;
+    this.subtitleSum    = refs.subtitleSum as SubtitleSum;
     this.audioPlayer    = refs.audioPlayer as AudioPlayer;
     this.videoPlayer    = refs.videoPlayer as VideoPlayer;
     this.imageDisplay   = refs.imageDisplay as ImageDisplay;
@@ -208,6 +211,7 @@ async setup_TV () {
     this.videoControl.init( dVideo.isYouTube ? this.youTubePlayer : this.videoPlayer );
     // subtitle
     this.subtitle.init();
+    this.subtitleSum.init();
     // .. wait a bit
     await new Promise( _ => setTimeout( _, 1000 ) );
     // .. setting environment properties 

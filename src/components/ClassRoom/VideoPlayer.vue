@@ -24,6 +24,8 @@ import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
 import { Video }                        from 'nativescript-videoplayer';
 import Bus                              from "@/mixins/bus"
+import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
+import SubtitleSum                      from "@/components/ClassRoom/SubtitleSum.vue"
 
 // -- =====================================================================================
 
@@ -38,6 +40,8 @@ export default class VideoTNSPlayer extends Vue {
 // -- =====================================================================================
 
 player;
+subtitle: Subtitle;
+subtitleSum: SubtitleSum;
 
 // -- =====================================================================================
 
@@ -67,6 +71,10 @@ init () {
     this.player.on( Video.playbackStartEvent, () => store.state.mediaState = 'playing' );
     this.player.on( Video.pausedEvent, () => store.state.mediaState = 'paused' );
 
+    let refs = this.$parent.$parent.$refs;
+    this.subtitle = refs.subtitle as Subtitle;
+    this.subtitleSum = refs.subtitleSum as SubtitleSum;
+
 }
 
 // -- =====================================================================================
@@ -75,12 +83,18 @@ play () {
     // .. reload src | resolve downloading process bug
     this.player.src = store.state.inHand.mediaPath;
     this.player.play();
+    // this.subtitle.visibility = "visible";
+    this.subtitle.visibility = "collapsed";
+    // this.subtitleSum.visibility = "collapsed";
+    this.subtitleSum.visibility = "visible";
 }
 
 // -- =====================================================================================
 
 pause () {
     this.player.pause();
+    this.subtitle.visibility = "collapsed";
+    this.subtitleSum.visibility = "visible";
 }
 
 // -- =====================================================================================

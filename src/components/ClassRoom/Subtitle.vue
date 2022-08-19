@@ -1,9 +1,9 @@
 <template>
-<GridLayout ref="subtitleBox" class="subtitleBox" visibility="collapsed">
+<GridLayout ref="subtitleBox" class="subtitleBox" :visibility=visibility>
 
     <FlexboxLayout flexWrap="wrap" justifyContent="center" alignContent="flex-start">
 
-        <nWord 
+        <nWord
             alignSelf="flex-start"
             verticalAlignment="middle"
             v-for="(word,i) in words"
@@ -50,6 +50,10 @@ export default class Subtitle extends Vue {
 
 // -- =====================================================================================
 
+visibility: 'visible'|'collapsed' = 'collapsed';
+
+// -- =====================================================================================
+
 get words () {
 
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ),
@@ -82,7 +86,9 @@ mounted () {
 
 init () {
 
-    ( this.$refs.subtitleBox as any ).nativeView.visibility = "visible";
+    // ( this.$refs.subtitleBox as any ).nativeView.visibility = "visible";
+
+    this.visibility = "visible";
 
     this.subtitleChecker();
 
@@ -133,9 +139,7 @@ virtualStrGenerator () {
 
 presentPerTime ( time: number ) {
 
-    // time -= 4;
-
-    store.state.preserve.selected = [];
+    let preserves = [];
 
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ),
         dVideo = store.state.inHand.lesson.protoplasm.find( x => x.type === "dVideo" ),
@@ -151,7 +155,10 @@ presentPerTime ( time: number ) {
 
     if ( subtitle[a][1].snap <= time && time <= subtitle[b][1].snap )
         for ( let i = a; i<= b; i++ )
-            store.state.preserve.selected.push(i);
+            preserves.push(i);
+
+    // .. register if there is any
+    if ( preserves.length ) store.state.preserve.selected = preserves;
 
     // .. register this time as PinnedPoint!
     dVideo.pinnedPoint = time;
