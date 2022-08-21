@@ -6,7 +6,6 @@ import store                            from "@/mixins/store"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import { x007 }                         from '@/mixins/android007Agent'
-import path from "path";
 
 // -- =====================================================================================
 
@@ -250,6 +249,8 @@ export function putRibosomesInBox () {
 let mDBBusy = false;
 export function saveMass (): Promise<void> {
 
+    let x_massDB = OffRoad_X();
+
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
 
     mDBBusy = true;
@@ -258,7 +259,7 @@ export function saveMass (): Promise<void> {
 
         if ( refreshBackUP( massDBFile ) )
             massDBFile.
-            writeText( JSON.stringify( store.state.massDB ) )
+            writeText( JSON.stringify( x_massDB ) )
             .then( () => rs() )
             .catch( err => rx() )
             .finally( () => mDBBusy = false );
@@ -565,73 +566,37 @@ export function have_these_on_local ( ribosome: TS.Ribosome ) {
 function OffRoadDriver ( ins: string ) {
 
     // .. get valid OffRoads Data
-    let OffRoads = OffRoadReader( ins );
-
-    let n = store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "OFFROAD" ).length;
+    let OffRoads = OffRoadReader( ins ),
+        newData: TS.Lesson = { chromosome: null, protoplasm: null },
+        n: number = null;
 
     // .. convert data to lessons
     for ( let lesson of OffRoads ) {
 
         let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
-        let videos = materials.filter( x => (<any>x).extension === ".mp4" );
-        //! just for JPG formats??
-        let avatars = materials.filter( x => (<any>x).extension === ".jpg" );
-        //! just for SRT formats??
-        let subtitles = materials.filter( x => (<any>x).extension === ".srt" );
-        let stringPath = JSON.stringify( [ "Off Road", ins, lesson.name, videos[0].name ] );
+        let iDataFile = materials.filter( x => (<any>x).name === "iData.json" )[0];
 
-        // .. add new Lessons
-        if ( !store.state.massDB[ ins ].find( x => JSON.stringify( x.chromosome.hPath ) === stringPath ) ) {
-
-            let content: TS.UniText[];
-            // .. try to get subtitle in format of SRT
-            if ( subtitles.length ) {
-                let srt = NS.File.fromPath( subtitles[0].path ).readTextSync();
-                content = tools.srtParser( srt );
-            }
-
-            let newData: TS.Lesson = { chromosome: null, protoplasm: null };
-
-            newData.chromosome = {
-                institute       : ins                                               ,
-                model           : [ "dVideo", "dText" ]                             ,
-                code            : { ribosome: "OFFROAD", idx: (n++).toString() }    ,
-                level           : "C1"                                              ,
-                title           : lesson.name                                       ,
-                hPath           : [ "Off Road", ins, lesson.name, videos[0].name ]  ,
-                vPath           : null                                              ,
-                status          : "reading"                                         ,
-                sync            : false                                             ,
-            }
-            newData.protoplasm = [
-                {
-                    type        : "dVideo"                                          ,
-                    address     : newData.chromosome.hPath.join( "/" )              ,
-                    sourceURL   : newData.chromosome.hPath.join( "/" )              ,
-                },
-                {
-                    type        : "dText"                                           ,
-                    content     : content                                           ,
-                }
-            ];
-
-            // .. add avatar if exists - path need to be trimmed
-            if ( avatars.length ) {
-                newData.protoplasm.push(
-                    {
-                        type        : "dAvatar"                                     ,
-                        address     : avatars[0].path.split("/").slice(5).join("/") ,
-                    }
-                )
-            }
-
-            store.state.massDB[ ins ].push( newData );
-
+        // ..load iData File
+        if ( iDataFile ) {
+            let iData = NS.File.fromPath( iDataFile.path ).readTextSync();
+            //! chcek its integrity
+            newData = JSON.parse( iData );
+            // .. Last N
+            n = Number( newData.chromosome.code.idx ) > n ?
+                Number( newData.chromosome.code.idx ) : n;
         }
+        // .. create new File
+        else lessonCreator( newData, ins, lesson );
+
+        // .. register the lesson
+        store.state.massDB[ ins ].push( newData );
 
         // .. remove raw data
 
     }
+
+    // .. allocate N to the Lessons ( if necessary )
+    n_allocator( n +1, store.state.massDB[ ins ] );
 
 }
 
@@ -649,9 +614,10 @@ function OffRoadReader ( ins: string ) {
         let pass_code = 1;
         let junk_code = 0;
         for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
-            if( (<any>item).extension === ".mp4" )      pass_code += 700;
-            else if( (<any>item).extension === ".srt" ) pass_code += 70;
-            else if( (<any>item).extension === ".jpg" ) pass_code += 0;
+            if( (<any>item).extension === ".mp4" )          pass_code += 700;
+            else if( (<any>item).extension === ".srt" )     pass_code += 70;
+            else if( (<any>item).extension === ".jpg" )     pass_code += 0;
+            else if( (<any>item).name === "iData.json" )    pass_code += 0;
             // else if( (<any>item).extension === ".png" ) pass_code += 0;
             else junk_code++;
         }
@@ -660,6 +626,123 @@ function OffRoadReader ( ins: string ) {
     } );
 
     return contents;
+
+}
+
+// -- =====================================================================================
+
+let offRoadBusy = false;
+function OffRoadSaver ( lesson: TS.Lesson ): Promise<void> {
+
+    if ( offRoadBusy )
+        return new Promise( _ => setTimeout( _ => OffRoadSaver( lesson ), 10 ) );
+
+    offRoadBusy = true;
+
+    return new Promise ( async (rs, rx) => {
+
+        // .. remove last part [file name]
+        let address = lesson.chromosome.hPath.join( "/" );
+        let path = NS.path.join( baseFolder.path, address, "iData.json" );
+        let offRoadDataFile = NS.File.fromPath( path );
+
+        offRoadDataFile.
+        writeText( JSON.stringify( lesson ) )
+        .then( () => rs() )
+        .catch( err => rx() )
+        .finally( () => mDBBusy = false );
+
+        offRoadBusy = false
+
+    } );
+
+}
+
+// -- =====================================================================================
+
+function OffRoad_X (): { [key: string]: TS.Lesson[] } {
+
+    let OffRoads: TS.Lesson[],
+        x_massDB: { [key: string]: TS.Lesson[] } = {};
+
+    for ( let ins of Object.keys( store.state.massDB ) ) {
+
+        OffRoads =
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "OFFROAD" );
+
+        for ( let lesson of OffRoads ) OffRoadSaver( lesson );
+
+        // .. trim massDB no OffRoad
+        x_massDB[ ins ] =
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "OFFROAD" );
+
+    }
+
+    return x_massDB;
+
+}
+
+// -- =====================================================================================
+
+function lessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemEntity  ) {
+
+    let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
+    //! just for JPG & SRT formats??
+    let video = materials.filter( x => (<any>x).extension === ".mp4" )[0];
+    let avatar = materials.filter( x => (<any>x).extension === ".jpg" )[0];
+    let subtitle = materials.filter( x => (<any>x).extension === ".srt" )[0];
+    let content: TS.UniText[];
+
+    // .. try to get subtitle in format of SRT
+    if ( subtitle ) {
+        let srt = NS.File.fromPath( subtitle.path ).readTextSync();
+        content = tools.srtParser( srt );
+    }
+
+    newData.chromosome = {
+        institute       : ins                                               ,
+        model           : [ "dVideo", "dText" ]                             ,
+        code            : { ribosome: "OFFROAD", idx: null }    ,
+        level           : "C1"                                              ,
+        title           : lesson.name                                       ,
+        hPath           : [ "Off Road", ins, lesson.name, video.name ]  ,
+        vPath           : null                                              ,
+        status          : "reading"                                         ,
+        sync            : false                                             ,
+    }
+
+    newData.protoplasm = [
+        {
+            type        : "dVideo"                                          ,
+            address     : newData.chromosome.hPath.join( "/" )              ,
+            sourceURL   : newData.chromosome.hPath.join( "/" )              ,
+        },
+        {
+            type        : "dText"                                           ,
+            content     : content                                           ,
+        }
+    ];
+
+    // .. add avatar if exists - path need to be trimmed
+    if ( avatar ) {
+        newData.protoplasm.push(
+            {
+                type        : "dAvatar"                                     ,
+                address     : avatar.path.split("/").slice(5).join("/") ,
+            }
+        )
+    }
+
+}
+
+// -- =====================================================================================
+
+function n_allocator ( n: number, lessons: TS.Lesson[] ) {
+
+    // .. recheck lessons for non-allocated-idx-s
+    for ( let lesson of lessons )
+        if ( lesson.chromosome.code.idx === null )
+            lesson.chromosome.code.idx = ( n++ ).toString();
 
 }
 

@@ -750,7 +750,7 @@ export async function doorRemote (
 
 // -- =====================================================================================
 
-export function 
+export function
 changeOption ( direction: "previous"|"next", length: number, refs: any, inHand: number ){
 
     let step = direction === "next" ? +1 : -1,
