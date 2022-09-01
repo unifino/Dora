@@ -10,16 +10,28 @@
 
             <GridLayout
                 columns="50,*,50"
-                v-for="(line,i) in lines"
+                v-for="line in lines"
                 :key="line.i"
                 :i=line.i
                 :cls=line.cls
-                :class="line.cls + ( i === 4 ? ' center' : '' )"
+                :class="line.cls"
             >
 
 <!---------------------------------------------------------------------------------------->
 
+                <Label
+                    v-if="$store.state.mediaState === 'playing'"
+                    :fontFamily="$store.state.appConfig.fontFace"
+                    :fontSize="$store.state.appConfig.fontSize"
+                    :text=line.text
+                    :ids=line.ids
+                    @tap=lineTapped
+                    colSpan=3
+                    class="lineText"
+                    textWrap="true" 
+                />
                 <FlexboxLayout
+                    v-else
                     class="subtitleContent"
                     colSpan=3
                     flexWrap="wrap"
@@ -81,7 +93,7 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
 // -- =====================================================================================
 
 interface WrappedWord { text: string, cls: string };
-interface WrappedLine { i: number, wrappedWords: WrappedWord[], cls: string, ids: number[] }
+interface WrappedLine { i: number, wrappedWords: WrappedWord[], cls: string, ids: number[], text: string }
 
 // -- =====================================================================================
 
@@ -105,9 +117,22 @@ wrappedLines: WrappedLine[] = [];
 get lines () {
 
     let o = this.depart_ids.findIndex( x => x > (store.state.preserve.selected[0] | 0) );
+    o = o-1;
 
-    return this.wrappedLines.slice( o-5 | 0, o+3 );
+    try {
+        // .. remove center class tag
+        for ( let x of this.wrappedLines.slice( o-5| 0, o+4 ) )
+            x.cls = x.cls.replace( " center", "" );
+        // .. add center class tag
+        this.wrappedLines[o].cls += " center";
+    } catch {}
 
+    if ( o%5 === 2 ) return this.wrappedLines.slice( o-1 | 0, o+6 );
+    if ( o%5 === 3 ) return this.wrappedLines.slice( o-2 | 0, o+5 );
+    if ( o%5 === 4 ) return this.wrappedLines.slice( o-3 | 0, o+4 );
+    if ( o%5 === 0 ) return this.wrappedLines.slice( o-4 | 0, o+3 );
+    if ( o%5 === 1 ) return this.wrappedLines.slice( o-5 | 0, o+2 );
+    
 }
 
 // -- =====================================================================================
@@ -116,7 +141,8 @@ getLines () {
 
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ),
         ids: number[],
-        cls: string;
+        cls: string,
+        text: string;
 
     // .. resolver
     for ( let i=1; i < dText.content.length; i++ ) {
@@ -137,21 +163,23 @@ getLines () {
         else if ( dText.content[i][1].standoff == 'block' ) this.block_ids.push( Number(i) );
     }
 
-    // .. checker
-    for ( let i=1; i < this.block_ids.length; i++ ) {
-        if ( this.block_ids[i-1] - this.depart_ids[i] !== -1 )
-            console.log( i, this.block_ids[i], this.depart_ids[i-1] )
-    }
-
     for ( let i=0; i < this.depart_ids.length -1; i++ ) {
         ids = [];
+        text = "";
         cls = "subtitleLine";
         for ( let j = this.depart_ids[i]; j < this.depart_ids[ i+1 ]; j++ ) {
             ids.push(j);
+            if ( dText.content[j][0] ) text += dText.content[j][0] + " ";
             if ( dText.content[j][1].phrased )
                 cls = "subtitleLine phrased " + dText.content[j][1].phrased;
         }
-        this.wrappedLines.push( { i: this.wrappedLines.length, wrappedWords: null, cls, ids } );
+
+        this.wrappedLines.push( { 
+            i: this.wrappedLines.length, 
+            wrappedWords: null, 
+            cls, ids,
+            text
+        } );
     }
 
     // .. Wrapping Words
@@ -336,5 +364,12 @@ destroyed () {
         border-color: #e6681f;
     }
     .center .parole{ color: whitesmoke }
+
+    .lineText {
+        text-align: center;
+        color: #dddddd;
+        padding: 2 20;
+        line-height: 11;
+    }
 
 </style>

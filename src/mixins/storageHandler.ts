@@ -643,14 +643,18 @@ function OffRoadSaver ( lesson: TS.Lesson ): Promise<void> {
 
         // .. remove last part [file name]
         let address = lesson.chromosome.hPath.join( "/" );
+        console.log(address);
+        
         let path = NS.path.join( baseFolder.path, address, "iData.json" );
+        console.log(path);
+        
         let offRoadDataFile = NS.File.fromPath( path );
 
         offRoadDataFile.
         writeText( JSON.stringify( lesson ) )
         .then( () => rs() )
         .catch( err => rx() )
-        .finally( () => mDBBusy = false );
+        .finally( () => offRoadBusy = false );
 
         offRoadBusy = false
 
@@ -688,10 +692,11 @@ function lessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemE
 
     let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
     //! just for JPG & SRT formats??
-    let video = materials.filter( x => (<any>x).extension === ".mp4" )[0];
-    let avatar = materials.filter( x => (<any>x).extension === ".jpg" )[0];
-    let subtitle = materials.filter( x => (<any>x).extension === ".srt" )[0];
-    let content: TS.UniText[];
+    let video = materials.filter( x => (<any>x).extension === ".mp4" )[0],
+        videoPath: string, avatarPath: string,
+        avatar = materials.filter( x => (<any>x).extension === ".jpg" )[0],
+        subtitle = materials.filter( x => (<any>x).extension === ".srt" )[0],
+        content: TS.UniText[];
 
     // .. try to get subtitle in format of SRT
     if ( subtitle ) {
@@ -702,35 +707,26 @@ function lessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemE
     newData.chromosome = {
         institute       : ins                                               ,
         model           : [ "dVideo", "dText" ]                             ,
-        code            : { ribosome: "OFFROAD", idx: null }    ,
+        code            : { ribosome: "OFFROAD", idx: null }                ,
         level           : "C1"                                              ,
         title           : lesson.name                                       ,
-        hPath           : [ "Off Road", ins, lesson.name, video.name ]  ,
+        hPath           : [ "Off Road", ins, lesson.name ]                  ,
         vPath           : null                                              ,
         status          : "reading"                                         ,
         sync            : false                                             ,
     }
 
+    videoPath = [ ...newData.chromosome.hPath, video.name ].join( "/" );
+
     newData.protoplasm = [
-        {
-            type        : "dVideo"                                          ,
-            address     : newData.chromosome.hPath.join( "/" )              ,
-            sourceURL   : newData.chromosome.hPath.join( "/" )              ,
-        },
-        {
-            type        : "dText"                                           ,
-            content     : content                                           ,
-        }
+        { type: "dVideo", address: videoPath, sourceURL: videoPath },
+        { type: "dText", content: content }
     ];
 
     // .. add avatar if exists - path need to be trimmed
     if ( avatar ) {
-        newData.protoplasm.push(
-            {
-                type        : "dAvatar"                                     ,
-                address     : avatar.path.split("/").slice(5).join("/") ,
-            }
-        )
+        avatarPath = avatar.path.split("/").slice(5).join("/");
+        newData.protoplasm.push( { type: "dAvatar", address: avatarPath } );
     }
 
 }
