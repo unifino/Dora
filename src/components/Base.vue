@@ -215,7 +215,7 @@ init (): void {
 
 permissionApplier (): Promise<any> {
 
-    return new Promise ( (rs,rx) => { 
+    return new Promise ( (rs,rx) => {
 
         // .. setup the Permissions 
         permissions.requestPermission ( [
@@ -228,7 +228,7 @@ permissionApplier (): Promise<any> {
         .then ( () => rs( "Access has been granted!" ) )
         .catch( () => rx( "No Access to Storage!") );
 
-    } ); 
+    } );
 
 }
 
@@ -310,7 +310,7 @@ async headToInstitute ( travelInfo: TS.travelInfo ) {
 
 headToIPanel () {
 
-    Vue.prototype.$navigateTo( ServerWindow, {
+    Vue.prototype.$navigateTo( Institute, {
         frame : 'iPanel' ,
         backstackVisible : true ,
     } )
