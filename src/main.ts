@@ -5,8 +5,8 @@ import * as NS                          from "@nativescript/core"
 
 // ..  preinstalled AppConfig
 store.state.appConfig = {
-	appConfigVersion    : "2.0.1"               ,
-    // institutes          : [ "de", "en", "it" ]  ,
+	appConfigVersion    : "2.0.2"               ,
+    // institutes         a : [ "de", "en", "it" ]  ,
     institutes          : [ "de", "en" ]        ,
     instituteBookmark   : null                  ,
 	activeInstitutes    : []                    ,

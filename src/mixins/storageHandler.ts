@@ -643,11 +643,7 @@ function OffRoadSaver ( lesson: TS.Lesson ): Promise<void> {
 
         // .. remove last part [file name]
         let address = lesson.chromosome.hPath.join( "/" );
-        console.log(address);
-        
         let path = NS.path.join( baseFolder.path, address, "iData.json" );
-        console.log(path);
-        
         let offRoadDataFile = NS.File.fromPath( path );
 
         offRoadDataFile.
