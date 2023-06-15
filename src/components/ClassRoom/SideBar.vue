@@ -1,8 +1,9 @@
 <template>
-<GridLayout 
+<GridLayout
+    opacity=".2"
     ref="sideBarBox"
     visibility="hidden"
-    columns="25,auto,*,25" 
+    columns="25,auto,*,25"
     rows="20*,auto,12*"
 >
 
@@ -14,8 +15,8 @@
 
             <StackLayout horizontalAlignment="center" >
 
-                <nButton 
-                    v-for="(button,i) in myButtons" 
+                <nButton
+                    v-for="(button,i) in myButtons"
                     :key="i+button.class"
                     :myClass="'sideButton fas ' + button.class"
                     :myLabel="String.fromCharCode( '0x' + button.icon )"

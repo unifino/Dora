@@ -5,11 +5,11 @@
 
     <GridLayout rows="50,*" col=1 row=1 class="buttonsBox" ref="buttonsBox" >
 
-        <nButton 
-            ref="luncherButton" 
-            :myLabel="String.fromCharCode( '0x' + u.label )" 
-            :myClass=u.class 
-            @tap=u.func 
+        <nButton
+            ref="luncherButton"
+            :myLabel="String.fromCharCode( '0x' + u.label )"
+            :myClass=u.class
+            @tap=u.func
         />
 
         <StackLayout rowSpan=2 ref="controlBox" paddingTop=15 >

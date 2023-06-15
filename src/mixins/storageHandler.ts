@@ -498,7 +498,8 @@ export async function getMedia ( path: string ) {
                 if
                 (
                     NS.File.fromPath( e.path ).extension === ".mp3" ||
-                    NS.File.fromPath( e.path ).extension === ".mp4"
+                    NS.File.fromPath( e.path ).extension === ".mp4" ||
+                    NS.File.fromPath( e.path ).extension === ".mkv"
                 )
                     answer = e.path;
 
@@ -527,7 +528,7 @@ export async function avatar ( name: string, folderPath: string, avatarURL: stri
 // -- =====================================================================================
 
 export async function
-media ( name: string, folderPath: string, mediaURL: string, ext: ".mp3"|".mp4" ) {
+media ( name: string, folderPath: string, mediaURL: string, ext: ".mp3"|".mp4"|".mkv" ) {
 
     // TODO other formats?
     let mediaName = name.replace( /[/|\:*?"<>]/g , ' ' ) + ext;
@@ -615,6 +616,7 @@ function OffRoadReader ( ins: string ) {
         let junk_code = 0;
         for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
             if( (<any>item).extension === ".mp4" )          pass_code += 700;
+            else if( (<any>item).extension === ".mkv" )     pass_code += 700;
             else if( (<any>item).extension === ".srt" )     pass_code += 70;
             else if( (<any>item).extension === ".jpg" )     pass_code += 0;
             else if( (<any>item).name === "iData.json" )    pass_code += 0;
@@ -688,7 +690,10 @@ function lessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemE
 
     let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
     //! just for JPG & SRT formats??
-    let video = materials.filter( x => (<any>x).extension === ".mp4" )[0],
+    let video = materials.filter(
+            x => (<any>x).extension === ".mp4" ||
+            (<any>x).extension === ".mkv"
+        )[0],
         videoPath: string, avatarPath: string,
         avatar = materials.filter( x => (<any>x).extension === ".jpg" )[0],
         subtitle = materials.filter( x => (<any>x).extension === ".srt" )[0],

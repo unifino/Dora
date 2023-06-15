@@ -337,7 +337,7 @@ destroyed () {
 /*                                          */
 
     #subtitleSumBox {
-        background-color: #062129;
+        background-color: #000000;
         padding: 40 30 85 30;
     }
 

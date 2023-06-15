@@ -1,11 +1,11 @@
 <template isPassThroughParentEnabled=false>
 <Page isPassThroughParentEnabled=false @tap="preventBeneathGetTapped">
-<GridLayout ref="mainBox" class="curtain" columns="2*,*" rows="40,auto,*,100" visibility="hidden" >
+<GridLayout ref="mainBox" class="curtain" columns="33*,10*" rows="40,auto,*,185" visibility="hidden" >
 
 <!---------------------------------------------------------------------------------------->
     <SubtitleSum    ref="subtitleSum"           rowSpan=4               col=1   />
 <!---------------------------------------------------------------------------------------->
-    <VideoControl   ref="videoControl"  row=3   background="#021a22"       col=1   />
+    <VideoControl   ref="videoControl"  row=3   background="black"    col=1     />
     <ImageDisplay   ref="imageDisplay"  row=1               colSpan=2           />
     <AudioPlayer    ref="audioPlayer"   row=1               colSpan=2           />
     <VideoPlayer    ref="videoPlayer"           rowSpan=4               col=0   />
@@ -15,7 +15,7 @@
     <HypBook        ref="hypBook"               rowSpan=4   colSpan=2           />
     <Subtitle       ref="subtitle"      row=2   rowSpan=4               col=1   />
 <!---------------------------------------------------------------------------------------->
-    <SideBar        ref="sideBar"       row=1   rowSpan=3   colSpan=2           />
+    <SideBar        ref="sideBar"       row=3   col=2                           />
 <!---------------------------------------------------------------------------------------->
     <MiniMenu       ref="miniMenu"              rowSpan=4   colSpan=2           />
     <ToolBar        ref="toolBar"               rowSpan=4   colSpan=2           />
