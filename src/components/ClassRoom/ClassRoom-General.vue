@@ -1,28 +1,28 @@
 <template isPassThroughParentEnabled=false>
 <Page isPassThroughParentEnabled=false @tap="preventBeneathGetTapped">
-<GridLayout ref="mainBox" class="curtain" columns="2*,*" rows="40,auto,*,100" visibility="hidden" >
+<GridLayout ref="mainBox" class="curtain" rows="40,auto,auto,*" visibility="hidden" >
 
 <!---------------------------------------------------------------------------------------->
-    <SubtitleSum    ref="subtitleSum"           rowSpan=4               col=1   />
+    <ImageDisplay   ref="imageDisplay"  row=1               />
+    <AudioPlayer    ref="audioPlayer"   row=1               />
+    <VideoPlayer    ref="videoPlayer"   row=1               />
+    <YouTubePlayer  ref="youTubePlayer" row=1               />
+    <VideoControl   ref="videoControl"  row=2   rowSpan=2   />
 <!---------------------------------------------------------------------------------------->
-    <VideoControl   ref="videoControl"  row=3   background="#021a22"       col=1   />
-    <ImageDisplay   ref="imageDisplay"  row=1               colSpan=2           />
-    <AudioPlayer    ref="audioPlayer"   row=1               colSpan=2           />
-    <VideoPlayer    ref="videoPlayer"           rowSpan=4               col=0   />
-    <YouTubePlayer  ref="youTubePlayer"         rowSpan=4               col=0   />
+    <Book           ref="book"                  rowSpan=4   />
+    <HypBook        ref="hypBook"               rowSpan=4   />
+    <Subtitle       ref="subtitle"      row=2               />
 <!---------------------------------------------------------------------------------------->
-    <Book           ref="book"                  rowSpan=4   colSpan=2           />
-    <HypBook        ref="hypBook"               rowSpan=4   colSpan=2           />
-    <Subtitle       ref="subtitle"      row=2   rowSpan=4               col=1   />
+    <SideBar        ref="sideBar"       row=1   rowSpan=3   />
 <!---------------------------------------------------------------------------------------->
-    <SideBar        ref="sideBar"       row=1   rowSpan=3   colSpan=2           />
+    <SubtitleSum    ref="subtitleSum"   row=3               />
 <!---------------------------------------------------------------------------------------->
-    <MiniMenu       ref="miniMenu"              rowSpan=4   colSpan=2           />
-    <ToolBar        ref="toolBar"               rowSpan=4   colSpan=2           />
+    <MiniMenu       ref="miniMenu"              rowSpan=4   />
+    <ToolBar        ref="toolBar"               rowSpan=4   />
 <!---------------------------------------------------------------------------------------->
-    <Tafel          ref="tafel"         row=2               colSpan=2           />
+    <Tafel          ref="tafel"         row=2               />
 <!---------------------------------------------------------------------------------------->
-    <CEntrance      ref="CEntrance"             rowSpan=4   colSpan=2           />
+    <CEntrance      ref="CEntrance"             rowSpan=4   />
 <!---------------------------------------------------------------------------------------->
 
 </GridLayout>

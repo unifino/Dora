@@ -127,12 +127,19 @@ get lines () {
         this.wrappedLines[o].cls += " center";
     } catch {}
 
-    if ( o%5 === 2 ) return this.wrappedLines.slice( o-1 | 0, o+6 );
-    if ( o%5 === 3 ) return this.wrappedLines.slice( o-2 | 0, o+5 );
-    if ( o%5 === 4 ) return this.wrappedLines.slice( o-3 | 0, o+4 );
-    if ( o%5 === 0 ) return this.wrappedLines.slice( o-4 | 0, o+3 );
-    if ( o%5 === 1 ) return this.wrappedLines.slice( o-5 | 0, o+2 );
-    
+    if ( o%12 === 2 )  return this.wrappedLines.slice( o-1 | 0, o+13 );
+    if ( o%12 === 3 )  return this.wrappedLines.slice( o-2 | 0, o+12 );
+    if ( o%12 === 4 )  return this.wrappedLines.slice( o-3 | 0, o+11 );
+    if ( o%12 === 5 )  return this.wrappedLines.slice( o-4 | 0, o+10 );
+    if ( o%12 === 6 )  return this.wrappedLines.slice( o-5 | 0, o+9 );
+    if ( o%12 === 7 )  return this.wrappedLines.slice( o-6 | 0, o+8 );
+    if ( o%12 === 8 )  return this.wrappedLines.slice( o-7 | 0, o+7 );
+    if ( o%12 === 9 )  return this.wrappedLines.slice( o-8 | 0, o+6 );
+    if ( o%12 === 10 ) return this.wrappedLines.slice( o-9 | 0, o+5 );
+    if ( o%12 === 11 ) return this.wrappedLines.slice( o-10 | 0, o+4 );
+    if ( o%12 === 0 )  return this.wrappedLines.slice( o-11 | 0, o+3 );
+    if ( o%12 === 1 )  return this.wrappedLines.slice( o-12 | 0, o+2 );
+
 }
 
 // -- =====================================================================================
@@ -174,9 +181,9 @@ getLines () {
                 cls = "subtitleLine phrased " + dText.content[j][1].phrased;
         }
 
-        this.wrappedLines.push( { 
-            i: this.wrappedLines.length, 
-            wrappedWords: null, 
+        this.wrappedLines.push( {
+            i: this.wrappedLines.length,
+            wrappedWords: null,
             cls, ids,
             text
         } );

@@ -6,7 +6,7 @@
         autoplay="false"
         src=""
         observeCurrentTime="true"
-        height="260"
+        height="auto"
     />
 
 </template>
