@@ -39,7 +39,7 @@
                     class="sortButton centeredText"
                     :text="sortPhase.name"
                     @tap="$emit('sort-toggler');autoCollapse();"
-                /> 
+                />
 
             </GridLayout>
 

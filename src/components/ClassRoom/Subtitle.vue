@@ -153,6 +153,9 @@ presentPerTime ( time: number ) {
         if ( subtitle[i][1].standoff === "block" && subtitle[i][1].snap >= time ) break;
     }
 
+    // .. bug resolver for first row set as block!
+    if ( typeof a === "undefined" ) a = 0;
+
     if ( subtitle[a][1].snap <= time && time <= subtitle[b][1].snap )
         for ( let i = a; i<= b; i++ )
             preserves.push(i);

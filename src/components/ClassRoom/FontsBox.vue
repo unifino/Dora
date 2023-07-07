@@ -223,7 +223,7 @@ changeSize ( step: "less"|"more" ) {
 // -- =====================================================================================
 
 fontActivation ( hardRegistration = false ) {
-    
+
     for ( let font of this.allOptions ) {
         font.active = false;
         font.inHand = false;

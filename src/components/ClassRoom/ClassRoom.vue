@@ -5,11 +5,12 @@
 <!---------------------------------------------------------------------------------------->
     <SubtitleSum    ref="subtitleSum"           rowSpan=4               col=1   />
 <!---------------------------------------------------------------------------------------->
-    <VideoControl   ref="videoControl"  row=3   background="black"    col=1     />
+    <VideoControl   ref="videoControl"  row=3   background="black"      col=1   />
     <ImageDisplay   ref="imageDisplay"  row=1               colSpan=2           />
     <AudioPlayer    ref="audioPlayer"   row=1               colSpan=2           />
     <VideoPlayer    ref="videoPlayer"           rowSpan=4               col=0   />
     <YouTubePlayer  ref="youTubePlayer"         rowSpan=4               col=0   />
+    <Adjuster       ref="adjuster"      row=3                           col=0   />
 <!---------------------------------------------------------------------------------------->
     <Book           ref="book"                  rowSpan=4   colSpan=2           />
     <HypBook        ref="hypBook"               rowSpan=4   colSpan=2           />
@@ -51,6 +52,7 @@ import ImageDisplay                     from "@/components/ClassRoom/ImageDispla
 import SideBar                          from "@/components/ClassRoom/SideBar.vue"
 import Subtitle                         from "@/components/ClassRoom/Subtitle.vue"
 import SubtitleSum                      from "@/components/ClassRoom/SubtitleSum.vue"
+import Adjuster                         from "@/components/ClassRoom/Adjuster.vue"
 import Tafel                            from "@/components/ClassRoom/Tafel.vue"
 import ToolBar                          from "@/components/ClassRoom/ToolBar.vue"
 import VideoControl                     from "@/components/ClassRoom/VideoControl.vue"
@@ -74,6 +76,7 @@ NSVue.registerElement( "VNSPlayer", () => require( "nativescript-videoplayer" ).
         SideBar,
         Subtitle,
         SubtitleSum,
+        Adjuster,
         VideoControl,
         VideoPlayer,
         YouTubePlayer,

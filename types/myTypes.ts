@@ -13,7 +13,7 @@ export let RTL_List = [ Languages.fa ];
 
 // -- =====================================================================================
 
-export type ThemaName = 
+export type ThemaName =
       'White'
     | 'Smoky'
     | 'Milky'

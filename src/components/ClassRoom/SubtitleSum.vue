@@ -28,7 +28,7 @@
                     @tap=lineTapped
                     colSpan=3
                     class="lineText"
-                    textWrap="true" 
+                    textWrap="true"
                 />
                 <FlexboxLayout
                     v-else
