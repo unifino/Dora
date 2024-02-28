@@ -151,18 +151,6 @@ getLines () {
         cls: string,
         text: string;
 
-    // .. resolver
-    for ( let i=1; i < dText.content.length; i++ ) {
-        // .. find Solitude Blocks
-        if ( dText.content[i][1].standoff === 'block' ) {
-            if ( dText.content[ i-1 ][1].standoff === 'block' ) {
-                // .. insert dash as a depart
-                dText.content.splice( i, 0, [ "-", { standoff: "depart" } ] );
-                i = 1;
-            }
-        }
-    }
-
     for ( let i in dText.content ) {
         // .. register departs
         if ( dText.content[i][1].standoff == 'depart' ) this.depart_ids.push( Number(i) );

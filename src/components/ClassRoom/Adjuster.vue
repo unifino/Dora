@@ -63,11 +63,11 @@ visibility: 'visible'|'collapsed' = 'collapsed';
 buttonsRow2: { label:string, class:string, func: Function }[] = [
     { label: "f068", class: "fas y mini", func: () => { this.adjuster( "A", -.3  ) } } ,
     { label: "f068", class: "fas y",      func: () => { this.adjuster( "A", -1.9 ) } } ,
-    { label: "2b",   class: "fas y",      func: () => { this.adjuster( "A", 1.9  ) } } ,
-    { label: "2b",   class: "fas y mini", func: () => { this.adjuster( "A", .3   ) } } ,
+    // { label: "2b",   class: "fas y",      func: () => { this.adjuster( "A", 1.9  ) } } ,
+    // { label: "2b",   class: "fas y mini", func: () => { this.adjuster( "A", .3   ) } } ,
     { label: ""  ,   class: 'space',      func: () => {}                             } ,
-    { label: "f068", class: "fas b mini", func: () => { this.adjuster( "B", -.3  ) } } ,
-    { label: "f068", class: "fas b",      func: () => { this.adjuster( "B", -1.9 ) } } ,
+    // { label: "f068", class: "fas b mini", func: () => { this.adjuster( "B", -.3  ) } } ,
+    // { label: "f068", class: "fas b",      func: () => { this.adjuster( "B", -1.9 ) } } ,
     { label: "2b",   class: "fas b",      func: () => { this.adjuster( "B", 1.9  ) } } ,
     { label: "2b",   class: "fas b mini", func: () => { this.adjuster( "B", .3   ) } } ,
 ];
@@ -123,6 +123,11 @@ destroyed () {
     #adjuster {
         background-color: #000000;
         padding: 40 30 85 30;
+    }
+
+    .mini { 
+        font-size: 11;
+        width: 20;
     }
 
 </style>

@@ -9,18 +9,18 @@ import { x007 }                         from '@/mixins/android007Agent'
 
 const userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
 export const day = 60*60*24;
-export const ssd = "https://stark-chamber-36060.herokuapp.com/"; 
+export const ssd = "http://dora.fitored2.online:5000/"; 
 
 // -- =====================================================================================
 
-export function 
+export function
 instituteTravel ( d: NS.SwipeDirection|null|TS.TravelBack = null ): TS.travelInfo {
 
     let institutes = store.state.appConfig.activeInstitutes;
 
     let i = institutes.indexOf( store.state.inHand.institute );
 
-    let type: string , 
+    let type: string ,
         duration: number = 300;
 
     switch ( d ) {
@@ -183,7 +183,7 @@ function sentenceRetriever_unify( lesson : TS.Lesson, start: number, stop: numbe
 
         // .. select sentences with digits
         let digit: number = pureDigit( uContext[i][0] );
-        if ( digit !== NaN && digit > 10**minV )
+        if ( !Number.isNaN(digit) && digit > 10**minV )
             numberFuse = false;
 
     }
@@ -1095,8 +1095,8 @@ export function srtParser ( data: string ) {
             // .. text Parsing
             text = lines[ n +2 ];
             while (
-                n +3 < lines.length && 
-                lines[ n +3 ] && 
+                n +3 < lines.length &&
+                lines[ n +3 ] &&
                 !(
                     n +4 < lines.length &&
                     lines[ n +3 ].match( /^\d+$/ ) &&
@@ -1138,12 +1138,14 @@ function str2UnifiedText (
     str = str.replace( / +/g, " " );
     let words = str.split( " " );
 
+    // .. resolve single-word-line problem
+    if ( words.length === 1 ) words.unshift( "-" );
+
     for ( let i=0; i < words.length; i++ ) {
         let row: TS.UniText = [ null, {} ];
         if ( words[i] === "\n" ) row[1].isBreakLine = true;
         else row[0] = words[i];
         if ( i === 0 ) {
-            // ! there is a bug for just "one word" lines
             row[1].snap = begin;
             row[1].standoff = "depart";
         }

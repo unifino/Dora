@@ -51,7 +51,7 @@ import * as shopping                    from "@/mixins/shopping"
 
 // -- =====================================================================================
 
-@Component( { 
+@Component( {
     components: { Collection }
 } )
 
