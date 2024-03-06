@@ -77,7 +77,7 @@ import Lesson                           from "@/components/tools/Lesson.vue"
 
 // -- =====================================================================================
 
-export default class Folder extends Vue {
+export default class Collection extends Vue {
 
 // -- =====================================================================================
 

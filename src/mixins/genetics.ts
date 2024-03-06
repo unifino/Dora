@@ -67,8 +67,6 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
             if ( x.status === 200 ) {
 
-                console.log(x.answer);
-                
                 await new Promise( _ => setTimeout( _, 500 ) );
 
                 saveCell( JSON.parse( x007( x.answer as string, tools.key(), true ) ) )
@@ -79,16 +77,10 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
                     Bus.$emit( "Battery_update" );
 
                 } )
-                .catch( err => {
-                    console.log(err);
-                    
-                    Bus.$emit( "IPanel_Result", err )} );
+                .catch( err => Bus.$emit( "IPanel_Result", err ) );
 
             }
-            else {
-                console.log("dada", x.reason);
-                
-                Bus.$emit( "IPanel_Result", x.reason );}
+            else Bus.$emit( "IPanel_Result", x.reason );
 
         },
         e => Bus.$emit( "IPanel_Result", e )

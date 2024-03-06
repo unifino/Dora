@@ -17,7 +17,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label 
+    <Label
         :class="myLabelClass"
         :text="myProp.title === '..' ? '' : myProp.title"
     />
@@ -79,17 +79,17 @@ actPermission = true;
 
 get myIcon () {
 
-    let icon = { 
-        icon: this.myProp.icon, 
-        size: 44, 
-        class: "fas icon" 
+    let icon = {
+        icon: this.myProp.icon,
+        size: 44,
+        class: "fas icon"
     };
 
     if ( this.myProp.icon === 'f167' ) icon.class = "fab icon";
     if ( this.myProp.icon === 'f06c' ) icon.size = 36;
     if ( this.myProp.title === ".." ) icon.size = 38;
-    if ( this.myProp.type === "shortLink" ) { 
-        icon.icon = "f064"; 
+    if ( this.myProp.type === "shortLink" ) {
+        icon.icon = "f064";
         icon.size = 20
     };
 
@@ -208,7 +208,7 @@ onRibosome () {
 tapAnimation: NS.Animation;
 tapAnimator (): Promise<void> {
 
-    return new Promise ( (rs, rx) => { 
+    return new Promise ( (rs, rx) => {
         let x_def: NS.AnimationDefinition = {};
 
         x_def.scale = { x: 1.04, y: 1.04 };
@@ -218,7 +218,7 @@ tapAnimator (): Promise<void> {
         x_def.target = ( this.$refs.myFolder as any ).nativeView;
 
         this.tapAnimation = new NS.Animation( [ x_def ], false );
-        this.tapAnimation.play().then( () => { 
+        this.tapAnimation.play().then( () => {
             x_def.scale = { x: 1, y: 1 };
             this.tapAnimation = new NS.Animation( [ x_def ], false );
             this.tapAnimation.play().then( () => rs() );
@@ -255,7 +255,7 @@ longPressAction () {
                 x_def.delay    = 0;
 
                 this.managingBox_animation = new NS.Animation( [ x_def ], false );
-                this.managingBox_animation.play().then( () => { 
+                this.managingBox_animation.play().then( () => {
                     x_def.scale = { x: 0, y: 0 };
                     x_def.delay = 3000;
                     this.managingBox_animation = new NS.Animation( [ x_def ], false );
