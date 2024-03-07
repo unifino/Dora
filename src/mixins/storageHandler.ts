@@ -14,6 +14,7 @@ export const SDCard: string = exStorage.getAbsolutePath().toString();
 
 export let baseFolder   : NS.Folder; // * do not initiate it
 export let OffRoad_dir  : NS.Folder; // * do not initiate it
+export let MNTBike_dir  : NS.Folder; // * do not initiate it
 export let Avatars_dir  : NS.Folder; // * do not initiate it
 export let Audios_dir   : NS.Folder; // * do not initiate it
 export let Videos_dir   : NS.Folder; // * do not initiate it
@@ -80,6 +81,7 @@ export function pathCtr () {
     baseFolder  = NS.Folder.fromPath( NS.path.join( SDCard, "Dora" ) );
     let bp      = baseFolder.path;
     OffRoad_dir = NS.Folder.fromPath( NS.path.join( bp, "Off Road"              ) );
+    MNTBike_dir = NS.Folder.fromPath( NS.path.join( bp, "Mountain Bike"         ) );
     Avatars_dir = NS.Folder.fromPath( NS.path.join( bp, ".files", "avatars"     ) );
     Audios_dir  = NS.Folder.fromPath( NS.path.join( bp, ".files", "audios"      ) );
     Videos_dir  = NS.Folder.fromPath( NS.path.join( bp, ".files", "videos"      ) );
@@ -196,6 +198,8 @@ export function putLessonsInBox () {
 
     // .. Add OffRoad Lessons
     for ( let ins of store.state.appConfig.activeInstitutes ) OffRoadDriver( ins );
+    // .. Add MNTBike Lessons
+    for ( let ins of store.state.appConfig.activeInstitutes ) MNTbikeDriver( ins );
 
 }
 
@@ -249,7 +253,7 @@ export function putRibosomesInBox () {
 let mDBBusy = false;
 export function saveMass (): Promise<void> {
 
-    let x_massDB = OffRoad_X();
+    let x_massDB = [ ...OffRoad_X(), MNTBike_X() ];
 
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
 
@@ -587,7 +591,46 @@ function OffRoadDriver ( ins: string ) {
                 Number( newData.chromosome.code.idx ) : n;
         }
         // .. create new File
-        else lessonCreator( newData, ins, lesson );
+        else videoLessonCreator( newData, ins, lesson );
+
+        // .. register the lesson
+        store.state.massDB[ ins ].push( newData );
+
+        // .. remove raw data
+
+    }
+
+    // .. allocate N to the Lessons ( if necessary )
+    n_allocator( n +1, store.state.massDB[ ins ] );
+
+}
+
+// -- =====================================================================================
+
+function MNTBikeDriver ( ins: string ) {
+
+    // .. get valid MNTBike Data
+    let MNTBikes = MNTBikeReader( ins ),
+        newData: TS.Lesson = { chromosome: null, protoplasm: null },
+        n: number = null;
+
+    // .. convert data to lessons
+    for ( let lesson of MNTBikes ) {
+
+        let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
+        let iDataFile = materials.filter( x => (<any>x).name === "iData.json" )[0];
+
+        // ..load iData File
+        if ( iDataFile ) {
+            let iData = NS.File.fromPath( iDataFile.path ).readTextSync();
+            //! chcek its integrity
+            newData = JSON.parse( iData );
+            // .. Last N
+            n = Number( newData.chromosome.code.idx ) > n ?
+                Number( newData.chromosome.code.idx ) : n;
+        }
+        // .. create new File
+        else audioLessonCreator( newData, ins, lesson );
 
         // .. register the lesson
         store.state.massDB[ ins ].push( newData );
@@ -633,6 +676,34 @@ function OffRoadReader ( ins: string ) {
 
 // -- =====================================================================================
 
+function MNTBikeReader ( ins: string ) {
+
+    let path = NS.path.join( MNTBike_dir.path, ins );
+    let contents = NS.Folder.fromPath( path ).getEntitiesSync();
+
+    // .. pick just Folders
+    contents = contents.filter( item => NS.Folder.exists( item.path ) );
+    // .. check Folder has its mandatory data
+    contents = contents.filter( folder => {
+        let pass_code = 1;
+        let junk_code = 0;
+        for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
+            if( (<any>item).extension === ".mp4" )          pass_code += 700;
+            else if( (<any>item).extension === ".txt" )     pass_code += 70;
+            else if( (<any>item).extension === ".jpg" )     pass_code += 0;
+            else if( (<any>item).name === "iData.json" )    pass_code += 0;
+            else junk_code++;
+        }
+        // .. accepts only folders with one video and|without one str file!
+        return (pass_code === 771 || pass_code === 701) && junk_code === 0;
+    } );
+
+    return contents;
+
+}
+
+// -- =====================================================================================
+
 let offRoadBusy = false;
 function OffRoadSaver ( lesson: TS.Lesson ): Promise<void> {
 
@@ -655,6 +726,35 @@ function OffRoadSaver ( lesson: TS.Lesson ): Promise<void> {
         .finally( () => offRoadBusy = false );
 
         offRoadBusy = false
+
+    } );
+
+}
+
+// -- =====================================================================================
+
+let mntBikeBusy = false;
+function MNTBikeSaver ( lesson: TS.Lesson ): Promise<void> {
+
+    if ( mntBikeBusy )
+        return new Promise( _ => setTimeout( _ => MNTBikeSaver( lesson ), 10 ) );
+
+    mntBikeBusy = true;
+
+    return new Promise ( async (rs, rx) => {
+
+        // .. remove last part [file name]
+        let address = lesson.chromosome.hPath.join( "/" );
+        let path = NS.path.join( baseFolder.path, address, "iData.json" );
+        let mntBikeDataFile = NS.File.fromPath( path );
+
+        mntBikeDataFile.
+        writeText( JSON.stringify( lesson ) )
+        .then( () => rs() )
+        .catch( err => rx() )
+        .finally( () => mntBikeBusy = false );
+
+        mntBikeBusy = false
 
     } );
 
@@ -686,7 +786,31 @@ function OffRoad_X (): { [key: string]: TS.Lesson[] } {
 
 // -- =====================================================================================
 
-function lessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemEntity  ) {
+function MNTBike_X (): { [key: string]: TS.Lesson[] } {
+
+    let MNTBikes: TS.Lesson[],
+        x_massDB: { [key: string]: TS.Lesson[] } = {};
+
+    for ( let ins of Object.keys( store.state.massDB ) ) {
+
+        MNTBikes =
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "MNTBIKE" );
+
+        for ( let lesson of MNTBikes ) MNTBikesSaver( lesson );
+
+        // .. trim massDB no MNTBIKE
+        x_massDB[ ins ] =
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "MNTBIKE" );
+
+    }
+
+    return x_massDB;
+
+}
+
+// -- =====================================================================================
+
+function videoLessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemEntity  ) {
 
     let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
     //! just for JPG & SRT formats??
@@ -718,6 +842,51 @@ function lessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemE
     }
 
     videoPath = [ ...newData.chromosome.hPath, video.name ].join( "/" );
+
+    newData.protoplasm = [
+        { type: "dVideo", address: videoPath, sourceURL: videoPath },
+        { type: "dText", content: content }
+    ];
+
+    // .. add avatar if exists - path need to be trimmed
+    if ( avatar ) {
+        avatarPath = avatar.path.split("/").slice(5).join("/");
+        newData.protoplasm.push( { type: "dAvatar", address: avatarPath } );
+    }
+
+}
+
+// -- =====================================================================================
+
+function audioLessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSystemEntity  ) {
+
+    let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync();
+    //! just for JPG & SRT formats??
+    let audio = materials.filter( x => (<any>x).extension === ".mp3" )[0],
+        audioPath: string, avatarPath: string,
+        avatar = materials.filter( x => (<any>x).extension === ".jpg" )[0],
+        text = materials.filter( x => (<any>x).extension === ".txt" )[0],
+        content: TS.UniText[];
+
+    // .. try to get text in format of TXT
+    if ( text ) {
+        let txt = NS.File.fromPath( text.path ).readTextSync();
+        // content = [] as ;
+    }
+
+    newData.chromosome = {
+        institute       : ins                                               ,
+        model           : [ "dAudio", "dText" ]                             ,
+        code            : { ribosome: "MNTBIKE", idx: null }                ,
+        level           : "B2"                                              ,
+        title           : lesson.name                                       ,
+        hPath           : [ "Mountain Bike", ins, lesson.name ]                  ,
+        vPath           : null                                              ,
+        status          : "reading"                                         ,
+        sync            : false                                             ,
+    }
+
+    audioPath = [ ...newData.chromosome.hPath, audio.name ].join( "/" );
 
     newData.protoplasm = [
         { type: "dVideo", address: videoPath, sourceURL: videoPath },

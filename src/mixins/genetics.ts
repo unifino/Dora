@@ -93,8 +93,6 @@ export function retrieving_cell ( ribosome: TS.Ribosome ): void {
 
 export function saveCell ( cell: TS.cell ): Promise<void> {
 
-    // console.log(cell);
-
     return new Promise ( (rs, rx) => {
 
         // .. Build Context

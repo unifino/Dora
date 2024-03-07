@@ -4,8 +4,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
+      "ES5",
+      "ES2015",
+      "DOM",
+      "ScriptHost",
       "dom",
-      "es2017"
+      "es2018"
     ],
     "sourceMap": true,
     "noEmitHelpers": true,

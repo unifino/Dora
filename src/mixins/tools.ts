@@ -797,7 +797,7 @@ export function milestones ( context: TS.UniText[], duration: number ): number[]
 
 // -- =====================================================================================
 
-export function 
+export function
 snapFinder ( id: number, context: TS.UniText[], duration: number ): number {
 
     let miles = milestones( context, duration );
