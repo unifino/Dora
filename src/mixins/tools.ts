@@ -1125,7 +1125,7 @@ export function srtParser ( data: string ) {
 
 // -- =====================================================================================
 
-function str2UnifiedText (
+export function str2UnifiedText (
 
     str: string,
     begin: number,

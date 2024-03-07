@@ -150,7 +150,8 @@ sorter ( codes: string[] ) {
     // .. put OFFROAD at the beginning if exists
     if ( codes.includes( "OFFROAD" ) ) {
         codes = codes.filter( x => x !== "OFFROAD" );
-        codes = [ "OFFROAD", ...codes ];
+        codes = codes.filter( x => x !== "MNTBIKE" );
+        codes = [ "OFFROAD", "MNTBIKE", ...codes ];
     }
 
     return codes;

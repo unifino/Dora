@@ -208,7 +208,7 @@ function mutate_image ( cell: TS.cell ) {
 
 // -- =====================================================================================
 
-function aCB ( text: string, initSnaps: [number,number][] ) {
+export function aCB ( text: string, initSnaps: [number,number][] ) {
 
     let words = [],
         context: TS.UniText[] = [],

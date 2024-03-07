@@ -136,8 +136,9 @@ get inHand () {
 
     // .. determine if all Lessons has been Downloaded already!
     if ( inLocal === this.ribosome.contains ) this.allGOT = true;
-    // .. OFFROAD is OFF
+    // .. OFFROAD and MNTBIKE is OFF
     if ( this.ribosome.code === "OFFROAD" ) this.allGOT = true;
+    if ( this.ribosome.code === "MNTBIKE" ) this.allGOT = true;
 
     return inHands;
 

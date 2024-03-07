@@ -6,6 +6,7 @@ import store                            from "@/mixins/store"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import { x007 }                         from '@/mixins/android007Agent'
+import * as genetics                    from "@/mixins/genetics"
 
 // -- =====================================================================================
 
@@ -199,7 +200,7 @@ export function putLessonsInBox () {
     // .. Add OffRoad Lessons
     for ( let ins of store.state.appConfig.activeInstitutes ) OffRoadDriver( ins );
     // .. Add MNTBike Lessons
-    for ( let ins of store.state.appConfig.activeInstitutes ) MNTbikeDriver( ins );
+    for ( let ins of store.state.appConfig.activeInstitutes ) MNTBikeDriver( ins );
 
 }
 
@@ -253,7 +254,9 @@ export function putRibosomesInBox () {
 let mDBBusy = false;
 export function saveMass (): Promise<void> {
 
-    let x_massDB = [ ...OffRoad_X(), MNTBike_X() ];
+    let x_massDB: { [key: string]: TS.Lesson[] } = {};
+    x_massDB = OffRoad_X()
+    x_massDB = MNTBike_X();
 
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
 
@@ -688,7 +691,7 @@ function MNTBikeReader ( ins: string ) {
         let pass_code = 1;
         let junk_code = 0;
         for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
-            if( (<any>item).extension === ".mp4" )          pass_code += 700;
+            if( (<any>item).extension === ".mp3" )          pass_code += 700;
             else if( (<any>item).extension === ".txt" )     pass_code += 70;
             else if( (<any>item).extension === ".jpg" )     pass_code += 0;
             else if( (<any>item).name === "iData.json" )    pass_code += 0;
@@ -796,7 +799,7 @@ function MNTBike_X (): { [key: string]: TS.Lesson[] } {
         MNTBikes =
             store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "MNTBIKE" );
 
-        for ( let lesson of MNTBikes ) MNTBikesSaver( lesson );
+        for ( let lesson of MNTBikes ) MNTBikeSaver( lesson );
 
         // .. trim massDB no MNTBIKE
         x_massDB[ ins ] =
@@ -871,7 +874,9 @@ function audioLessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSy
     // .. try to get text in format of TXT
     if ( text ) {
         let txt = NS.File.fromPath( text.path ).readTextSync();
-        // content = [] as ;
+        // ! you can add snaps from here
+        let snaps = [];
+        content = genetics.aCB( txt, snaps );
     }
 
     newData.chromosome = {
@@ -889,7 +894,7 @@ function audioLessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSy
     audioPath = [ ...newData.chromosome.hPath, audio.name ].join( "/" );
 
     newData.protoplasm = [
-        { type: "dVideo", address: videoPath, sourceURL: videoPath },
+        { type: "dAudio", address: audioPath, sourceURL: audioPath },
         { type: "dText", content: content }
     ];
 
