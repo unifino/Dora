@@ -5,11 +5,11 @@
 
         <WrapLayout ref="page" class="page">
 
-            <nWord 
-             v-for="(word,i) in page" 
+            <nWord
+             v-for="(word,i) in page"
              :key="i"
-             :myText="word.text" 
-             :myClass="word.class" 
+             :myText="word.text"
+             :myClass="word.class"
              :refId=i
              :autoTranslate=false
             />
@@ -216,7 +216,7 @@ updated () {
     /* ! should be same as Book.vue */
     .bookCover { width: auto }
     .pagesBox { width: 80% }
-    .page { width: 510 }
+    .page { width: 710 }
     /* ! should be same as Book.vue */
 
 </style>

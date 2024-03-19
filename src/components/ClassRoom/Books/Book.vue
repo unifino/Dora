@@ -947,7 +947,7 @@ destroyed () {
         /* height: 70%; ! should be same as factor of maxHeight */
     }
 
-    .page { width: 510 }
+    .page { width: 710 }
     /* ! should be same as Tafel.vue */
 
 </style>

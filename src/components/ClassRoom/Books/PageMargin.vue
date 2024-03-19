@@ -31,8 +31,8 @@ import Book                             from "@/components/ClassRoom/Books/Book.
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
+@Component ( {
+    components: { }
 } )
 
 // -- =====================================================================================
@@ -48,7 +48,7 @@ export default class PageMargin extends Vue {
 panel_Animation;
 warmingUp = false;
 activator ( activation: boolean ) {
- 
+
     if ( activation && this.noNeedToAction() ) return 0;
     if ( activation && this.warmingUp ) return 0;
     if ( this.panel_Animation ) this.panel_Animation.cancel();
@@ -60,7 +60,7 @@ activator ( activation: boolean ) {
     x_def.curve     = NS.Enums.AnimationCurve.easeIn;
     x_def.duration  = activation ? 500 : 300;
     x_def.opacity   = activation ? 1 : 0;
-    
+
     this.panel_Animation = new NS.Animation( [ x_def ], false );
 
     this.panel_Animation.play()
@@ -79,8 +79,8 @@ activator ( activation: boolean ) {
 noNeedToAction () {
 
     let Book = ( this.$parent as Book );
-    
-    if ( Book.etikett.length -1 === Book.inx && this.location === "right" ) return true; 
+
+    if ( Book.etikett.length -1 === Book.inx && this.location === "right" ) return true;
     if ( Book.inx === 0 && this.location === "left" ) return true; 
 
     return false;

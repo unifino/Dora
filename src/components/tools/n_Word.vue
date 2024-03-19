@@ -465,29 +465,29 @@ setFocus () {
 /*                                          */
 
     @keyframes flashingInLight {
-        0% { 
+        0% {
             background-color: transparent;
         }
-        40% { 
+        40% {
             border-color: #292929;
             background-color: rgba(209, 206, 192, 0.4);
             color: #141414;
         }
-        70% { 
+        70% {
             background-color: transparent;
         }
     }
 
     @keyframes flashingInDark {
-        0% { 
+        0% {
             background-color: transparent;
         }
-        40% { 
+        40% {
             border-color: #f8f8f8;
             background-color: rgba(238, 197, 12, 0.2);
             color: #141414; 
         }
-        70% { 
+        70% {
             background-color: transparent;
         }
     }
