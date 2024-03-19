@@ -49,7 +49,7 @@
 
     <ScrollView ref="barBox" class="barBox" orientation="horizontal" @tap="fadeMe()" >
 
-        <StackLayout 
+        <StackLayout
             ref="buttonBox"
             class="buttonBox"
             orientation="horizontal" 
@@ -173,7 +173,7 @@ f ( action, extra: boolean|-2|-1|0|1|2|"blue"|"red" = null ) {
 
     // .. critical Error!
     let preserve = store.state.preserve;
-    try { if ( !preserve.selected.length && !preserve.fakeSelected.length ) return 0; } 
+    try { if ( !preserve.selected.length && !preserve.fakeSelected.length ) return 0; }
     catch { return 0; }
 
     let a = preserve.selected.length ? preserve.selected[0] : preserve.fakeSelected[0];
@@ -198,7 +198,7 @@ f ( action, extra: boolean|-2|-1|0|1|2|"blue"|"red" = null ) {
 
         case "adjusting": this.adjuster( extra as -2|-1|1|2 );                       break;
 
-        case "phrase"   : bookModule.phraseMarker( extra as null|"blue"|"red" );    this.fade(); break;
+        case "phrase"   : bookModule.phraseMarker( extra as null|"blue"|"red" ); this.fade(); break;
         case "delete"   : bookModule.eraser();                          this.fade(); break;
 
         case "p_Scope"  : this.retrievePhrase(); this.f( "scope", true );            break;
@@ -251,6 +251,8 @@ buttonController ( more: boolean, less: boolean, spot: number ) {
 
     // .. spot Mode
     if ( spot > -1 ) {
+        let bookModule = this.$parent.$parent.$refs.book as BookModule;
+        bookModule.tapHasBeenHandled = true
         store.state.preserve.fakeSelected = [ spot ];
         for ( let button of this.buttons.reading ) button.class += " hide";
         this.buttons.reading[ RBS.BreakLine ].class = "gray lineThrough";
@@ -261,7 +263,7 @@ buttonController ( more: boolean, less: boolean, spot: number ) {
         max = this.dText.content.length;
 
     for ( let button of this.buttons.reading ) {
-        button.class = button.class.replace( " hide" , "" );
+        button.class = button.class.replace( / hide/gm, "" );
     }
     this.buttons.reading[ RBS.BreakLine ].class = "hide";
     this.buttons.reading[ RBS.More ].class = more ? "more hide" : "more";
@@ -423,7 +425,7 @@ async flight ( latitude: number, more=false, less=false, spot=-1, exData? ) {
     if ( this.barBox_Animation ) this.barBox_Animation.cancel();
 
     barBox.visibility = "visible";
-    await new Promise( _ => setTimeout( _ , 0 ) );
+    await new Promise( _ => setTimeout( _ , 10 ) );
     h = barBox.getActualSize().height;
 
     y = ( spot > -1 ) ? latitude -h/2 + exData/2 : latitude -h -2;
@@ -545,7 +547,7 @@ postFade ( clean: boolean, toasterOff: boolean ) {
 
     let mode = store.state.mode;
 
-    if ( toasterOff ) tools.toaster(); 
+    if ( toasterOff ) tools.toaster();
 
     if ( mode === "snapping" ) this.snap( false );
     if ( mode === "selective" || mode === "restore" ) store.state.mode = "reading";

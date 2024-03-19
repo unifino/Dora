@@ -72,6 +72,7 @@ import { myPurchasedItems }             from "@/mixins/user"
 import Scope                            from "@/components/Scope/Scope.vue"
 import * as shopping                    from "@/mixins/shopping"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
+let application = require('application');
 
 // -- =====================================================================================
 
@@ -115,6 +116,9 @@ mounted () {
         e => this.backButtonCtl(e),
     );
 
+    // .. rotation Ctl
+    application.on( application.orientationChangedEvent, this.setOrientation );
+
     // .. suspend Ctl
     NS.Application.android.on(
         NS.AndroidApplication.activityPausedEvent,
@@ -140,6 +144,16 @@ mounted () {
     Bus.$on( "Base_SwipeControl", this.swipeControl );
     Bus.$on( "Base_HeadToIPanel", this.headToIPanel );
 
+}
+
+// -- =====================================================================================
+
+async setOrientation(args) {
+    await new Promise( _ => setTimeout( _, 100 ) );
+    // console.log(args.newValue);
+    this.getRootWindowSize().then( () => {
+        ( this.$refs.scope as Scope ).init();
+    } );
 }
 
 // -- =====================================================================================

@@ -247,9 +247,9 @@ export async function activator (
 
 ): Promise<TS.VIPSentence[]> {
 
-    let now: number , 
-        step: number , 
-        time: number , 
+    let now: number ,
+        step: number ,
+        time: number ,
         diff: number ,
         next: number ,
         VIPinTimeBox: TS.VIPSentence[],

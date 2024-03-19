@@ -34,8 +34,8 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { Translator, Waiting } 
+@Component ( {
+    components: { Translator, Waiting }
 } )
 
 // -- =====================================================================================
@@ -69,7 +69,8 @@ init () {
 
     this.desk.height = store.state.windowSize.height;
     this.desk.translateY = store.state.windowSize.height +1;
-    this.desk.visibility = "visible";
+    // ! replace it with visible!!!
+    this.desk.visibility = "hidden";
 
 }
 
@@ -98,7 +99,7 @@ setMyWebHeight () {
         translator_H = translator.getActualSize().height,
         myY = this.desk.getLocationInWindow().y,
         h = store.state.windowSize.height -myY -translator_H -60;
-    
+
     myWeb.height = h;
 
 }
@@ -106,6 +107,8 @@ setMyWebHeight () {
 // -- =====================================================================================
 
 async deskCtl ( act: 'up' | 'down', str?: string ) {
+
+    this.init();
 
     if ( this.desk_Animation && this.desk_Animation.isPlaying ) return 0;
 
@@ -133,7 +136,7 @@ async deskCtl ( act: 'up' | 'down', str?: string ) {
 desk_Animation: NS.Animation;
 snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
 
-    return new Promise ( rs => { 
+    return new Promise ( rs => {
 
         let desk_H = this.desk.getActualSize().height,
             translator = ( this.translatorModule as any ).nativeView,
@@ -148,6 +151,7 @@ snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
             case "web": snapToY = 75; break;
         }
 
+        this.desk.visibility = "visible";
         x_def.target = this.desk;
         x_def.translate = { x: 0, y: snapToY }
         x_def.curve = NS.Enums.AnimationCurve.easeIn;
@@ -173,6 +177,8 @@ snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
                 // .. resume media
                 if ( store.state.mediaState === "pausedByScope" ) tnsPLY.resume();
                 store.state.scopeIsActive = false;
+                // ! remove it
+                this.desk.visibility = "hidden";
             }
         } );
 
