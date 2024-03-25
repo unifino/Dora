@@ -37,8 +37,8 @@ import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { nWord } 
+@Component ( {
+    components: { nWord }
 } )
 
 // -- =====================================================================================
@@ -80,7 +80,7 @@ init ( setHeightLimit?: boolean, factor?: number ): Promise<void> {
 
 typeset ( context: TS.UniText[], c=0 ): Promise<number[]> {
 
-    return new Promise ( async rs => { 
+    return new Promise ( async rs => {
 
         // .. rendering percent...
         Bus.$emit( "ClassRoomEntrance_RenderingBar", ( c / context.length ) *100 | 0 );

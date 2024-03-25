@@ -180,8 +180,30 @@ async setup_TA () {
     await this.miniMenu.init();
     // .. touch etikett
     dText.etikett = dText.etikett || {};
+    // .. provide etikett | DWNCHRT MODE
+    if ( store.state.inHand.lesson.chromosome.code.ribosome === "DWNCHRT" ) {
+
+        let C = store.state.inHand.lesson.protoplasm.find( x => x.content );
+        let mode = 2;
+        dText.etikett[z] = [];
+        C.content.filter( (y,i) => { if ( y[1].isBreakLine ) dText.etikett[z].push(i) } );
+
+        for( let i=0; i<dText.etikett[z].length -1; i++ ) {
+            if ( dText.etikett[z][i+1] - dText.etikett[z][i] !== 1 ) {
+                if ( i % 2 === mode % 2 ) delete dText.etikett[z][i];
+            }
+            else {
+                delete dText.etikett[z][i+1];
+                mode++
+            }
+        }
+
+        dText.etikett[z] = dText.etikett[z].filter( x => x );
+        dText.etikett[z].pop();
+        dText.etikett[z].push( C.content.length );
+    }
     // .. provide etikett
-    if ( !dText.etikett[z] ) {
+    else if ( !dText.etikett[z] ) {
         await this.tafel.init();
         dText.etikett[z] = await this.tafel.typeset( dText.content );
     }
