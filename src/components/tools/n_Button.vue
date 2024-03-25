@@ -15,11 +15,11 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout v-if="myHint" rows="*,auto,*,15" columns="*,auto,*" >
+    <GridLayout v-if="myHint" rows="*,auto,*" columns="*,auto,*" >
         <Label row=1 col=1 :class="specialClass" :text="' ' + myLabel + ' '" />
     </GridLayout>
 
-    <GridLayout v-if="myHint" rows="15,*,15" columns="auto,*,auto">
+    <GridLayout v-if="myHint" rows="15,*,15" columns="*,auto">
        <Label row=2 col=1 :text="myHint" class="hint" />
     </GridLayout>
 
@@ -212,6 +212,8 @@ buttonTouched ( args ) {
     .hint {
         font-size: 9px;
         padding-bottom: 5;
+        padding-right: 5;
+        text-align: left;
     }
 
 /*                                          */

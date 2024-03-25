@@ -3,6 +3,7 @@
     <nButton
         :myClass="'opt-item dictionary fas ' + profile.iconColor"
         :myLabel="String.fromCharCode( '0x' + profile.icon )"
+        :myHint=left
     />
 
 </template>
@@ -45,6 +46,8 @@ profiles: TS.DictionaryProfiles = {
 
 profile = { ...this.profiles.init };
 
+left = 0;
+
 // -- =====================================================================================
 
 mounted () {
@@ -53,6 +56,11 @@ mounted () {
 // -- =====================================================================================
 
 init ( ins: string ) {
+
+    let glossar = store.state.glssDB;
+    this.left += Object.keys( glossar ).filter( word => !glossar[ word ][ "en" ] ).length;
+    this.left += Object.keys( glossar ).filter( word => !glossar[ word ][ "fa" ] ).length;
+    // this.left += Object.keys( glossar ).filter( word => !glossar[ word ][ "de" ] ).length;
 
     let menuPanel = this.$parent.$parent.$refs.menuPanel as MenuPanel;
     let Ram = menuPanel.$refs.Ram as Ram;
