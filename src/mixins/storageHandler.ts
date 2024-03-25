@@ -255,8 +255,8 @@ let mDBBusy = false;
 export function saveMass (): Promise<void> {
 
     let ubrig_massDB: { [key: string]: TS.Lesson[] } = {};
-    ubrig_massDB = OffRoad_X();
-    ubrig_massDB = MNTBike_X();
+    ubrig_massDB = OFF_MNT_X( "OFFROAD" );
+    ubrig_massDB = OFF_MNT_X( "MNTBIKE" );
 
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
 
@@ -717,42 +717,13 @@ function MNTBikeReader ( ins: string ) {
 
 // -- =====================================================================================
 
-let offRoadBusy = false;
-function OffRoadSaver ( lesson: TS.Lesson ): Promise<void> {
+let off_mnt_Busy = false;
+function OFF_MNT_Saver ( lesson: TS.Lesson ): Promise<void> {
 
-    if ( offRoadBusy )
-        return new Promise( _ => setTimeout( _ => OffRoadSaver( lesson ), 10 ) );
+    if ( off_mnt_Busy )
+        return new Promise( _ => setTimeout( _ => OFF_MNT_Saver( lesson ), 10 ) );
 
-    offRoadBusy = true;
-
-    return new Promise ( async (rs, rx) => {
-
-        // .. remove last part [file name]
-        let address = lesson.chromosome.hPath.join( "/" );
-        let path = NS.path.join( baseFolder.path, address, "iData.json" );
-        let offRoadDataFile = NS.File.fromPath( path );
-
-        offRoadDataFile.
-        writeText( JSON.stringify( lesson ) )
-        .then( () => rs() )
-        .catch( err => rx() )
-        .finally( () => offRoadBusy = false );
-
-        offRoadBusy = false
-
-    } );
-
-}
-
-// -- =====================================================================================
-
-let mntBikeBusy = false;
-function MNTBikeSaver ( lesson: TS.Lesson ): Promise<void> {
-
-    if ( mntBikeBusy )
-        return new Promise( _ => setTimeout( _ => MNTBikeSaver( lesson ), 10 ) );
-
-    mntBikeBusy = true;
+    off_mnt_Busy = true;
 
     return new Promise ( async (rs, rx) => {
 
@@ -768,15 +739,15 @@ function MNTBikeSaver ( lesson: TS.Lesson ): Promise<void> {
         }
 
         let path = NS.path.join( baseFolder.path, address, "iData.json" );
-        let mntBikeDataFile = NS.File.fromPath( path );
+        let file = NS.File.fromPath( path );
 
-        mntBikeDataFile.
+        file.
         writeText( JSON.stringify( lesson ) )
         .then( () => rs() )
         .catch( err => rx() )
-        .finally( () => mntBikeBusy = false );
+        .finally( () => off_mnt_Busy = false );
 
-        mntBikeBusy = false
+        off_mnt_Busy = false
 
     } );
 
@@ -784,45 +755,21 @@ function MNTBikeSaver ( lesson: TS.Lesson ): Promise<void> {
 
 // -- =====================================================================================
 
-function OffRoad_X (): { [key: string]: TS.Lesson[] } {
+function OFF_MNT_X ( target: "OFFROAD"|"MNTBIKE" ): { [key: string]: TS.Lesson[] } {
 
-    let OffRoads: TS.Lesson[],
+    let OFF_MNT_Lessons: TS.Lesson[],
         ubrig_massDB: { [key: string]: TS.Lesson[] } = {};
 
     for ( let ins of Object.keys( store.state.massDB ) ) {
 
-        OffRoads =
-            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "OFFROAD" );
+        OFF_MNT_Lessons =
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === target );
 
-        for ( let lesson of OffRoads ) OffRoadSaver( lesson );
+        for ( let lesson of OFF_MNT_Lessons ) OFF_MNT_Saver( lesson );
 
-        // .. trim massDB no OffRoad
+        // .. trim massDB no OffRoad|MNTBike
         ubrig_massDB[ ins ] =
-            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "OFFROAD" );
-
-    }
-
-    return ubrig_massDB;
-
-}
-
-// -- =====================================================================================
-
-function MNTBike_X (): { [key: string]: TS.Lesson[] } {
-
-    let MNTBikes: TS.Lesson[],
-        ubrig_massDB: { [key: string]: TS.Lesson[] } = {};
-
-    for ( let ins of Object.keys( store.state.massDB ) ) {
-
-        MNTBikes =
-            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "MNTBIKE" );
-
-        for ( let lesson of MNTBikes ) MNTBikeSaver( lesson );
-
-        // .. trim massDB no MNTBIKE
-        ubrig_massDB[ ins ] =
-            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "MNTBIKE" );
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== target );
 
     }
 
