@@ -183,7 +183,7 @@ backOrExit () {
 
             Promise.all( saveActions )
             .then( () => exit() )
-            .catch( err => { 
+            .catch( err => {
                 tools.toaster( err, "long" );
                 exit();
             } );

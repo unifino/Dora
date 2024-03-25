@@ -29,9 +29,9 @@
 
             <StackLayout col=2 orientation="horizontal" horizontalAlignment="right">
                 <Dictionary ref="Dictionary" />
-                <Ram ref="Ram" />
+                <Ram ref="Ram" visibility="collapsed" />
                 <Battery />
-                <Gear />
+                <!-- <Gear /> -->
             </StackLayout>
 
         </GridLayout>

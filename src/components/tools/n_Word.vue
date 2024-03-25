@@ -166,7 +166,9 @@ hoverOnWord ( args ) {
 
         if ( i_ref.includes( "word_" ) ) {
 
-            el = this.$parent.$refs[ i_ref ][0].nativeView;
+            // resolve some odd bug
+            try { el = this.$parent.$refs[ i_ref ][0].nativeView }
+            catch (e) { return false }
 
             if ( this.isOnIt( el.getLocationInWindow(), p_pos, el.getActualSize() ) ) {
 

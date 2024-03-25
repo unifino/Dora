@@ -857,7 +857,7 @@ eraser () {
     let a = store.state.preserve.selected[0],
         b = store.state.preserve.selected[ store.state.preserve.selected.length -1 ];
 
-    for ( let x of store.state.preserve.selected ) 
+    for ( let x of store.state.preserve.selected )
         this.dText.content[x][1].isDeleted = true;
 
     this.bookPublisher();

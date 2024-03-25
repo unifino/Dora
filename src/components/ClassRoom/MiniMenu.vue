@@ -14,7 +14,7 @@
 
         <StackLayout rowSpan=2 ref="controlBox" paddingTop=15 >
 
-            <nButton 
+            <nButton
                 v-for="(button,i) in controlBtn"
                 :key=i
                 :myLabel="String.fromCharCode( '0x' + button.label )"
@@ -87,7 +87,7 @@ u = {
     func  : () => { this.launcher() }
 }
 
-speeds = [ 
+speeds = [
     { icon: "f722", value: 0.5  },
     { icon: "f6ec", value: 0.75 },
     { icon: "f554", value: 1    },

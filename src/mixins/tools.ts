@@ -684,8 +684,8 @@ let door_Animation: NS.Animation;
 export async function doorRemote (
 
     placeName: TS.Place,
-    place: any, 
-    act: 'open'|'close', 
+    place: any,
+    act: 'open'|'close',
     callBack?: Function
 
 ) {

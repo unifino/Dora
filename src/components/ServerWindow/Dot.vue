@@ -40,7 +40,7 @@ get myClass () {
     if ( this.isFullFill ) return "fas fullfil";
 
     let myClass = this.isOn ? "fas on" : "far";
-    
+
     return myClass;
 }
 

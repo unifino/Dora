@@ -59,18 +59,19 @@ init ( ins: string ) {
 
     Ram.getRamStatus()
     .then( ramProfile => {
-        if( ramProfile.name === "empty" ) {
+        // ! restore it
+        // if( ramProfile.name === "empty" ) {
             this.profile = this.profiles.updating;
             tools.glssDBUpdater( ins )
             .then( stats => {
                 if ( !stats.fuse_Quota ) this.profile = this.profiles.exceedQuota;
                 else if ( stats.fuse_AllSet ) this.profile = this.profiles.ready;
-                else tools.toaster( stats+"", "long" );
+                else tools.toaster( "What happened?!", "long" );
             } ).catch( e => {
                 this.profile = this.profiles.error;
                 tools.toaster( e+"", "long" );
             } );
-        }
+        // }
     } )
     .catch( e => this.profile = this.profiles.error );
 

@@ -5,8 +5,7 @@
         <Label col=0 :text="text" />
         <Label col=1 :text="icon" class="far icon" />
     </GridLayout>
-    
-        
+
 </GridLayout>
 </template>
 
@@ -25,8 +24,8 @@ import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: {} 
+@Component ( {
+    components: {}
 } )
 
 // -- =====================================================================================
@@ -54,9 +53,9 @@ panel ( state: "start"|"stop", waiting=5000 ) {
 
     if ( this.visibility_TO ) clearTimeout( this.visibility_TO );
 
-    let panel = ( this.$refs.panel as any ).nativeView; 
+    let panel = ( this.$refs.panel as any ).nativeView;
 
-    if ( state === "start" ) 
+    if ( state === "start" )
         this.visibility_TO = setTimeout( () => panel.visibility = "visible", waiting );
     if ( state === "stop" )
         this.textCtr( "stop" );
@@ -67,11 +66,11 @@ panel ( state: "start"|"stop", waiting=5000 ) {
     x_def.delay = state === "start" ? waiting+250 : waiting/4;
     x_def.curve = NS.Enums.AnimationCurve.ease;
     x_def.duration = 430;
-    
+
     x_def.target = panel;
 
     this.panel_Animation = new NS.Animation( [ x_def ], false );
-    this.panel_Animation.play().then( () => { 
+    this.panel_Animation.play().then( () => {
         if ( state === "start" ) this.textCtr( "start" );
         if ( state === "stop" ) panel.visibility = "collapsed";
     } );

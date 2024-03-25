@@ -254,9 +254,9 @@ export function putRibosomesInBox () {
 let mDBBusy = false;
 export function saveMass (): Promise<void> {
 
-    let x_massDB: { [key: string]: TS.Lesson[] } = {};
-    x_massDB = OffRoad_X()
-    x_massDB = MNTBike_X();
+    let ubrig_massDB: { [key: string]: TS.Lesson[] } = {};
+    ubrig_massDB = OffRoad_X();
+    ubrig_massDB = MNTBike_X();
 
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
 
@@ -266,11 +266,11 @@ export function saveMass (): Promise<void> {
 
         if ( refreshBackUP( massDBFile ) )
             massDBFile.
-            writeText( JSON.stringify( x_massDB ) )
+            writeText( JSON.stringify( ubrig_massDB ) )
             .then( () => rs() )
             .catch( err => rx() )
             .finally( () => mDBBusy = false );
-        else 
+        else
             rx( "backUpFailed!" );
 
     } );
@@ -394,6 +394,7 @@ export function organellesLoader ( lesson: TS.Lesson ): Promise<void> {
         // .. decorative organelles
         let avatar = lesson.protoplasm.find( x => x.type === "dAvatar" );
         if ( avatar ) orgHandler( avatar, "avatarPath" );
+        else store.state.inHand.avatarPath = null;
 
         // .. register and resolve a void answer
         store.state.inHand.lesson = lesson;
@@ -684,8 +685,17 @@ function MNTBikeReader ( ins: string ) {
     let path = NS.path.join( MNTBike_dir.path, ins );
     let contents = NS.Folder.fromPath( path ).getEntitiesSync();
 
-    // .. pick just Folders
-    contents = contents.filter( item => NS.Folder.exists( item.path ) );
+    // .. pick just Folders - Receursive
+    // ! Is it fully recursive???
+    // contents = contents.filter( item => NS.Folder.exists( item.path ) );
+    for ( let f of contents ) {
+        contents.push(
+            ...NS.Folder.fromPath( f.path ).getEntitiesSync().filter(
+                item => NS.Folder.exists( item.path )
+            )
+        )
+    }
+
     // .. check Folder has its mandatory data
     contents = contents.filter( folder => {
         let pass_code = 1;
@@ -746,8 +756,17 @@ function MNTBikeSaver ( lesson: TS.Lesson ): Promise<void> {
 
     return new Promise ( async (rs, rx) => {
 
-        // .. remove last part [file name]
-        let address = lesson.chromosome.hPath.join( "/" );
+        // .. hPath MODE : reading lessons
+        // .. vPath MODE : read lessons
+        let address: string;
+        if ( lesson.chromosome.hPath ) address = lesson.chromosome.hPath.join( "/" );
+        else {
+            let cPath = lesson.chromosome.vPath.slice();
+            cPath.pop();
+            cPath.shift();
+            address = cPath.join( "/" );
+        }
+
         let path = NS.path.join( baseFolder.path, address, "iData.json" );
         let mntBikeDataFile = NS.File.fromPath( path );
 
@@ -768,7 +787,7 @@ function MNTBikeSaver ( lesson: TS.Lesson ): Promise<void> {
 function OffRoad_X (): { [key: string]: TS.Lesson[] } {
 
     let OffRoads: TS.Lesson[],
-        x_massDB: { [key: string]: TS.Lesson[] } = {};
+        ubrig_massDB: { [key: string]: TS.Lesson[] } = {};
 
     for ( let ins of Object.keys( store.state.massDB ) ) {
 
@@ -778,12 +797,12 @@ function OffRoad_X (): { [key: string]: TS.Lesson[] } {
         for ( let lesson of OffRoads ) OffRoadSaver( lesson );
 
         // .. trim massDB no OffRoad
-        x_massDB[ ins ] =
+        ubrig_massDB[ ins ] =
             store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "OFFROAD" );
 
     }
 
-    return x_massDB;
+    return ubrig_massDB;
 
 }
 
@@ -792,7 +811,7 @@ function OffRoad_X (): { [key: string]: TS.Lesson[] } {
 function MNTBike_X (): { [key: string]: TS.Lesson[] } {
 
     let MNTBikes: TS.Lesson[],
-        x_massDB: { [key: string]: TS.Lesson[] } = {};
+        ubrig_massDB: { [key: string]: TS.Lesson[] } = {};
 
     for ( let ins of Object.keys( store.state.massDB ) ) {
 
@@ -802,12 +821,12 @@ function MNTBike_X (): { [key: string]: TS.Lesson[] } {
         for ( let lesson of MNTBikes ) MNTBikeSaver( lesson );
 
         // .. trim massDB no MNTBIKE
-        x_massDB[ ins ] =
+        ubrig_massDB[ ins ] =
             store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "MNTBIKE" );
 
     }
 
-    return x_massDB;
+    return ubrig_massDB;
 
 }
 
@@ -880,15 +899,15 @@ function audioLessonCreator ( newData: TS.Lesson, ins: string, lesson: NS.FileSy
     }
 
     newData.chromosome = {
-        institute       : ins                                               ,
-        model           : [ "dAudio", "dText" ]                             ,
-        code            : { ribosome: "MNTBIKE", idx: null }                ,
-        level           : "B2"                                              ,
-        title           : lesson.name                                       ,
-        hPath           : [ "Mountain Bike", ins, lesson.name ]                  ,
-        vPath           : null                                              ,
-        status          : "reading"                                         ,
-        sync            : false                                             ,
+        institute       : ins                                                           ,
+        model           : [ "dAudio", "dText" ]                                         ,
+        code            : { ribosome: "MNTBIKE", idx: null }                            ,
+        level           : "B2"                                                          ,
+        title           : lesson.name                                                   ,
+        hPath           : [ "Mountain Bike", ins, ...lesson.path.split("/").slice(7) ]  ,
+        vPath           : null                                                          ,
+        status          : "reading"                                                     ,
+        sync            : false                                                         ,
     }
 
     audioPath = [ ...newData.chromosome.hPath, audio.name ].join( "/" );

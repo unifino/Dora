@@ -72,6 +72,7 @@ import { myPurchasedItems }             from "@/mixins/user"
 import Scope                            from "@/components/Scope/Scope.vue"
 import * as shopping                    from "@/mixins/shopping"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
+import IPanel from "@/components/ServerWindow/IPanel.vue"
 let application = require('application');
 
 // -- =====================================================================================
@@ -324,7 +325,7 @@ async headToInstitute ( travelInfo: TS.travelInfo ) {
 
 headToIPanel () {
 
-    Vue.prototype.$navigateTo( Institute, {
+    Vue.prototype.$navigateTo( IPanel, {
         frame : 'iPanel' ,
         backstackVisible : true ,
     } )

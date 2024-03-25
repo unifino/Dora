@@ -10,18 +10,18 @@
                 <GridLayout
                     height="auto"
                     v-for="(inf,i) in info" 
-                    :key="i" 
-                    columns="*,*" 
-                    class="dataBox" 
+                    :key="i"
+                    columns="*,*"
+                    class="dataBox"
                     rows="augearControlto"
                     @tap="hint(inf.hint)"
                 >
-                    
+
                     <Label
-                        v-if="inf.icon" 
-                        col=0 
-                        :class="'fas icon ' + inf.class" 
-                        :text='String.fromCharCode( "0x" + inf.icon )' 
+                        v-if="inf.icon"
+                        col=0
+                        :class="'fas icon ' + inf.class"
+                        :text='String.fromCharCode( "0x" + inf.icon )'
                     />
                     <Label col=1 :class="'data ' + inf.class" :text='inf.data' />
 
@@ -29,7 +29,7 @@
 
             </StackLayout>
 
-    <!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
 
         </GridLayout>
     </GridLayout>
@@ -52,8 +52,8 @@ import * as storage                     from "@/mixins/storageHandler"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
+@Component ( {
+    components: { }
 } )
 
 // -- =====================================================================================
@@ -72,7 +72,7 @@ info: [ { hint: string, class: string, icon: string, data: number|string }? ] = 
 
 mounted () {
 
-    ( this.$refs.panel as any ).nativeView.animate( { 
+    ( this.$refs.panel as any ).nativeView.animate( {
         scale: { x: 0, y: 0 },
         opacity: 0,
         duration: 0
@@ -82,7 +82,7 @@ mounted () {
 
 // -- =====================================================================================
 
-newData ( data: TS.Lesson|TS.Ribosome ) { 
+newData ( data: TS.Lesson|TS.Ribosome ) {
     this.data = data;
     this.panel( this.data === null ? 0 : 1 );
 }
@@ -124,7 +124,7 @@ panelAnimator ( state: 0|1  ) {
     x_def.curve     = NS.Enums.AnimationCurve.easeInOut;
     x_def.opacity   = state;
     x_def.duration  =  50 + 200*state;
-    
+
     this.panelAnimation = new NS.Animation( [ x_def ], false );
 
     this.panelAnimation.play();
@@ -163,10 +163,10 @@ getLessonProperties () {
 
     // .. get list of unixes
     for ( let i=0; i < lesson.protoplasm.find( x => x.type === "dText" ).content.length; i++ ) {
-        
+
         unix = tools.trimmer( uContext[i][0] );
         has = Object.keys( dataBox.unix ).includes( unix );
-        
+
         if ( unix ) dataBox.total++;
 
         if ( !has ) dataBox.unix[ unix ] = [i];
@@ -192,32 +192,32 @@ setLessonData () {
     let g = ( this.data as TS.Lesson ).chromosome;
     let c = this.getLessonProperties();
 
-    this.info.push ( { 
-        hint: "CEF Level", 
-        class: 'l ' + g.level, 
-        icon: '', 
-        data: g.level 
+    this.info.push ( {
+        hint: "CEF Level",
+        class: 'l ' + g.level,
+        icon: '',
+        data: g.level
     } );
-    
-    this.info.push ( { 
-        hint: "New Words", 
-        class: 'c', 
-        icon: 'f4d8', 
-        data: Object.keys( c.new  ).length 
+
+    this.info.push ( {
+        hint: "New Words",
+        class: 'c',
+        icon: 'f4d8',
+        data: Object.keys( c.new  ).length
     } );
-    
-    this.info.push ( { 
-        hint: "Total Words (without repetition)", 
-        class: 'd', 
-        icon: 'f543', 
-        data: Object.keys( c.unix ).length 
+
+    this.info.push ( {
+        hint: "Total Words (without repetition)",
+        class: 'd',
+        icon: 'f543',
+        data: Object.keys( c.unix ).length
     } );
-    
-    this.info.push ( { 
-        hint: "Total Words", 
-        class: 'e', 
-        icon: 'f02d', 
-        data: c.total 
+
+    this.info.push ( {
+        hint: "Total Words",
+        class: 'e',
+        icon: 'f02d',
+        data: c.total
     } );
 
     let org = (this.data as TS.Lesson).protoplasm.find( x => x.type === "dVideo" );
@@ -239,32 +239,32 @@ setRibosomeData () {
     let r = ( this.data as TS.Ribosome );
     let c = storage.have_these_on_local( r ).length;
 
-    this.info.push ( { 
-        hint: "CEF Level", 
-        class: 'l ' + r.level, 
-        icon: '', 
-        data: r.level 
+    this.info.push ( {
+        hint: "CEF Level",
+        class: 'l ' + r.level,
+        icon: '',
+        data: r.level
     } );
 
-    this.info.push ( { 
-        hint: "Already Read", 
-        class: 'c', 
-        icon: 'f530', 
-        data: c 
-    } );
-    
-    this.info.push ( { 
-        hint: "Total Lessons", 
-        class: 'e', 
-        icon: 'f518', 
-        data: r.contains 
+    this.info.push ( {
+        hint: "Already Read",
+        class: 'c',
+        icon: 'f530',
+        data: c
     } );
 
-    this.info.push ( { 
-        hint: "Source: " + r.source, 
-        class: 'd', 
-        icon: 'f21a', 
-        data: r.source 
+    this.info.push ( {
+        hint: "Total Lessons",
+        class: 'e',
+        icon: 'f518',
+        data: r.contains
+    } );
+
+    this.info.push ( {
+        hint: "Source: " + r.source,
+        class: 'd',
+        icon: 'f21a',
+        data: r.source
     } );
 
 }
@@ -289,12 +289,12 @@ setRibosomeData () {
         margin-bottom: 15;
     }
 
-    .icon { 
+    .icon {
         font-size: 30; 
         text-align: center;
     }
-    
-    .data { 
+
+    .data {
         text-align: center;
         font-family: Farsan-Regular;
         font-size: 15;
@@ -311,25 +311,25 @@ setRibosomeData () {
 
     .light .A1 { color: #31bbe6 }
     .dark  .A1 { color: #2ca7cc }
-    
+
     .light .A2 { color: #0f8db3 }
     .dark  .A2 { color: #1a82a1 }
-    
+
     .light .B1 { color: #7bbb27 }
     .dark  .B1 { color: #54a017 }
-    
+
     .light .B2 { color: #e6881c }
     .dark  .B2 { color: #c58715 }
-    
+
     .light .C1 { color: #e64c1d }
     .dark  .C1 { color: #c53e15 }
-    
+
     .light .C2 { color: #c515b6 }
     .dark  .C2 { color: #8d2f85 }
 
     .light .a { color: #54a017 }
     .dark  .a { color: #44850e }
-    
+
     .light .b { color: #1890b4 }
     .dark  .b { color: #247bd1 }
 

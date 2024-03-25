@@ -192,7 +192,7 @@ dots ( run: boolean, fullfil = false ) {
 
     if ( this.iPanel_TO ) clearTimeout( this.iPanel_TO );
     let c = ( this.$refs.dot as [] ).length;
-    
+
     for ( let dot of this.$refs.dot as [] ) {
         ( dot as any ).isOn = false;
         ( dot as any ).isFullFill = fullfil;
@@ -202,11 +202,11 @@ dots ( run: boolean, fullfil = false ) {
 
     this.onIs = ( this.onIs +1 ) % c;
     let isOn = this.upWard ? (c-1) -this.onIs : this.onIs;
-    
+
     if ( this.onIs === c-1 ) this.upWard = !this.upWard;
 
     this.$refs.dot[ isOn ].isOn = true;
-    
+
     this.iPanel_TO = setTimeout( () => this.dots( true ), 110 );
 
 }

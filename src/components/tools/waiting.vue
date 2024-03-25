@@ -25,8 +25,8 @@ import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
+@Component ( {
+    components: { }
 } )
 
 // -- =====================================================================================
@@ -43,7 +43,7 @@ mounted () {
 
 seq_Animation: NS.Animation;
 flasher ( state: -1|0|1 ) {
-    
+
     if ( this.seq_Animation ) this.seq_Animation.cancel();
 
     if ( state === 0 ) {
@@ -68,7 +68,7 @@ flasher ( state: -1|0|1 ) {
     a_def.target = ( this.$refs.dot[0] as any ).nativeView;
     b_def.target = ( this.$refs.dot[1] as any ).nativeView;
     c_def.target = ( this.$refs.dot[2] as any ).nativeView;
-    
+
     b_def.delay = 250;
     c_def.delay = 500;
 
