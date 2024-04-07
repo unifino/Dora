@@ -132,7 +132,7 @@ handleEventFromWebView () {
 
 // -- =====================================================================================
 
-getCurrentTime_TO: NodeJS.Timeout | any;
+getCurrentTime_TO: number;
 reportCurrentTime ( state: boolean ) {
 
     if ( this.getCurrentTime_TO ) clearTimeout( this.getCurrentTime_TO );

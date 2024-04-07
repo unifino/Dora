@@ -208,7 +208,7 @@ translationSlotManger () {
 
 // -- =====================================================================================
 
-translate_TO: NodeJS.Timeout | any;
+translate_TO: number;
 clearTranslations () {
 
     if ( this.translate_TO ) clearTimeout( this.translate_TO );

@@ -45,7 +45,7 @@ import * as tools                       from "@/mixins/tools"
 
 export default class Battery extends Vue {
 
-_TO: NodeJS.Timeout | any;
+_TO: number;
 
 profiles = {
     init:   { icon: "f141", iconColor: "init",   textColor: "transparent" } ,
@@ -211,7 +211,7 @@ plugItIn() {
 
 // -- =====================================================================================
 
-checkElectricity_TO: NodeJS.Timeout | any;
+checkElectricity_TO: number;
 checkingAttempt = 0;
 checkElectricity() {
 

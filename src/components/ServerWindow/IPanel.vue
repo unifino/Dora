@@ -160,7 +160,7 @@ result ( err: string|false ) {
 
 // -- =====================================================================================
 
-door_TO: NodeJS.Timeout | any;
+door_TO: number;
 async doorCtr ( act: 'open' | 'close' ) {
 
     let curtain = ( this.$refs.panelCurtain as any ).nativeView;
@@ -187,7 +187,7 @@ async doorCtr ( act: 'open' | 'close' ) {
 
 onIs = -1;
 upWard = true;
-iPanel_TO: NodeJS.Timeout | any;
+iPanel_TO: number;
 dots ( run: boolean, fullfil = false ) {
 
     if ( this.iPanel_TO ) clearTimeout( this.iPanel_TO );

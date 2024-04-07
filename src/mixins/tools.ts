@@ -49,7 +49,7 @@ instituteTravel ( d: NS.SwipeDirection|null|TS.TravelBack = null ): TS.travelInf
 
 // -- =====================================================================================
 
-let dAO_TO: NodeJS.Timeout | any;
+let dAO_TO: number;
 export async function dAO ( ins: string ) {
 
     if ( dAO_TO ) clearTimeout( dAO_TO );
@@ -608,7 +608,7 @@ export function wordStating (
 
 // -- =====================================================================================
 
-let toaster_TO: NodeJS.Timeout | any;
+let toaster_TO: number;
 let toasty;
 export function toaster ( msg: string ="" , duration: "short" | "long" = "short" ) {
 

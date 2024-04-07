@@ -35,8 +35,8 @@ import Bus                              from "@/mixins/bus"
 
 // -- =====================================================================================
 
-@Component ( { 
-    components: { } 
+@Component ( {
+    components: { }
 } )
 
 // -- =====================================================================================
@@ -54,7 +54,7 @@ init ( str: string ) {
 
     // TODO auto detection
     let from = store.state.inHand.institute.toLowerCase();
-    
+
     // TODO add personal selected Dic
     this.slots = { "en": null, "fa": null };
 
@@ -77,21 +77,21 @@ async translate ( from: string, to: string, str: string ) {
 
     tools.translator( from, to, str )
     .then( async translate => {
-        
+
         this.translatorResponded = true;
         Bus.$emit( 'Waiting_Flashing', 0 );
         this.slots[to] = translate;
-        
+
         await new Promise( _ => setTimeout( _ , 0 ) );
         this.$emit( "snapIt", "translate" );
-    
+
     } )
     .catch( async err => {
-        
+
         this.translatorResponded = true;
         Bus.$emit( 'Waiting_Flashing', 0 );
         this.slots[to] = err ? err : "Unable to Translate!";
-        
+
         await new Promise( _ => setTimeout( _ , 0 ) );
         this.$emit( "snapIt", "translate" );
 

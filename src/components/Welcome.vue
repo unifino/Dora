@@ -61,14 +61,14 @@ randomData () {
 
 // -- =====================================================================================
 
-icon1_TO: NodeJS.Timeout | any;
+icon1_TO: number;
 workingAnimator_1 () {
 
     if( this.icon1_TO ) clearTimeout( this.icon1_TO );
 
     let icon1 = ( this.$refs.icon1 as any ).nativeView;
     let randData = this.randomData();
-    this.icon1_TO = setTimeout( () => { 
+    this.icon1_TO = setTimeout( () => {
         icon1.className = randData.className;
         this.workingAnimator_1();
     }, randData.time );
@@ -77,14 +77,14 @@ workingAnimator_1 () {
 
 // -- =====================================================================================
 
-icon2_TO: NodeJS.Timeout | any;
+icon2_TO: number;
 workingAnimator_2 () {
 
     if( this.icon2_TO ) clearTimeout( this.icon2_TO );
 
     let icon2 = ( this.$refs.icon2 as any ).nativeView;
     let randData = this.randomData();
-    this.icon2_TO = setTimeout( () => { 
+    this.icon2_TO = setTimeout( () => {
         icon2.className = randData.className;
         this.workingAnimator_2();
     }, randData.time );
@@ -105,9 +105,10 @@ slide ( enter: boolean ) {
     // if( this.icon2_TO ) clearTimeout( this.icon2_TO );
     // ( this.$refs.icon2 as any ).nativeView.className = "";
 
-    let sizes = ( this.$refs.fixOne as any ).nativeView.getActualSize();
-
-    ( this.$refs.fixOne as any ).nativeView.width = sizes.width;
+    // let sizes = ( this.$refs.fixOne as any ).nativeView.getActualSize();
+    let sizes = store.state.windowSize;
+ 
+    ( this.$refs.fixOne as any ).nativeView.width = store.state.windowSize.width;
     ( this.$refs.fixOne as any ).nativeView.height = sizes.height;
 
     let x_def: NS.AnimationDefinition = {};

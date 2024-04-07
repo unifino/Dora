@@ -280,7 +280,7 @@ async swipeControl ( args: NS.SwipeGestureEventData ) {
 
 // -- =====================================================================================
 
-exit_TO: NodeJS.Timeout | any;
+exit_TO: number;
 blattern ( direction: "previous"|"next" ) {
 
     // .. exit checking
@@ -320,14 +320,14 @@ blattern ( direction: "previous"|"next" ) {
         let directionFactor = direction == "next" ? 1 : -1;
         let travel = ( this.$refs.bookCover as any ).nativeView.getActualSize().width;
 
-        this.$refs.page[ wasOnX ].nativeView.animate( { 
+        this.$refs.page[ wasOnX ].nativeView.animate( {
             translate: { x: -1* travel *directionFactor, y: 0 } ,
         } );
-        this.$refs.page[ this.inx ].nativeView.animate( { 
+        this.$refs.page[ this.inx ].nativeView.animate( {
             translate: { x: travel *directionFactor, y: 0 } ,
             duration: 0
         } );
-        this.$refs.page[ this.inx ].nativeView.animate( { 
+        this.$refs.page[ this.inx ].nativeView.animate( {
             translate: { x: 0, y: 0 } ,
         } );
 
@@ -392,6 +392,16 @@ nWordTapped ( args ) {
     // .. Tapped on a deleted word
     // if ( args.object.className.includes( 'deleted' ) ) store.state.mode = "restore";
     // if ( store.state.mediaState === "playing" ) return 0;
+
+    // .. Fixing the unrecovering selected status
+    let tmp: string;
+    for( let x of Object.keys( this.$refs ) ) {
+        try {
+            tmp = this.$refs[x][0].nativeView.className;
+            if ( tmp.includes( "selected" ) )
+                this.$refs[x][0].nativeView.className = tmp.replace( " selected", "" );
+        } catch (err) {}
+    }
 
     this.seeker( args );
 
@@ -520,7 +530,7 @@ selecting ( init: boolean ) {
         let y = this.$refs[ "word_" + x ][0].nativeView.getLocationInWindow().y;
         store.state.mode = "selective";
         Bus.$emit( "ToolBar_Flight", y );
-    } catch ( err ) {}
+    } catch ( err ) { console.log( "ERR 001: ", err ) }
 
 }
 

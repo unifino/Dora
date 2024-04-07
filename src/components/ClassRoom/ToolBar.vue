@@ -514,7 +514,7 @@ fadeMe () {
 
 // -- =====================================================================================
 
-fade_TO: NodeJS.Timeout | any;
+fade_TO: number;
 fade ( delay=0, clean=true, toasterOff=false, duration=300, justLanding=false ) {
 
     let x_def: NS.AnimationDefinition = {};

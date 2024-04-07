@@ -141,6 +141,7 @@ import Folder                           from "@/components/tools/Folder.vue"
 import * as tools                       from "@/mixins/tools"
 import * as tnsPLY                      from "@/mixins/audioPlayer"
 import Bus                              from "@/mixins/bus"
+import Salon_F from "./Salon_F.vue"
 
 // -- =====================================================================================
 
@@ -397,7 +398,8 @@ translate () {
             translations = this.VIPSentence[1].translations.en + "\n\n" + translations;
         }
 
-        tools.toaster( translations , "long" );
+        ( this.$parent.$parent.$parent as Salon_F ).slotLoader();
+        // tools.toaster( translations , "long" );
 
     } )
     .catch ( err => { tools.toaster( err ) } );

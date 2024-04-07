@@ -11,7 +11,7 @@
         @returnPress="onReturnPress( $event )"
     />
 
-    <Label 
+    <Label
         v-else-if="activeDoubleTap"
         ref="nWord"
         :class=properClass
@@ -93,6 +93,8 @@ moveStartAt: number;
 
 wordTouched ( args ) {
 
+    // console.log( store.state.numberBox );
+    
     // .. press effect
     if ( args.action === "down" ) args.object.className += " pressed";
     if ( args.action === "up"   ) args.object.className = this.properClass;

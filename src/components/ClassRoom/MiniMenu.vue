@@ -197,7 +197,7 @@ fontPallet () {
 
 // -- =====================================================================================
 
-showOff_TO: NodeJS.Timeout | any;
+showOff_TO: number;
 showOff () {
     this.autoCollapse( 100 );
     this.showOff_TO = setTimeout( () => this.autoCollapse( 900 ), 800 );
@@ -205,7 +205,7 @@ showOff () {
 
 // -- =====================================================================================
 
-box_TO: NodeJS.Timeout | any;
+box_TO: number;
 autoCollapse ( time = -1 ) {
     if ( this.box_TO ) clearTimeout( this.box_TO );
     if ( time > -1 ) this.box_TO = setTimeout( () => this.miniMenu(), time );
@@ -307,7 +307,7 @@ darkModeToggler () {
 
 // -- =====================================================================================
 
-confirm_TO: NodeJS.Timeout | any;
+confirm_TO: number;
 confirm () {
 
     // .. step 2

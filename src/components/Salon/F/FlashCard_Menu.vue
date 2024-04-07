@@ -94,7 +94,7 @@ export default class FlashCard_Menu extends Vue {
 
 expand = true;
 travelDistance = 50;
-collapse_TO: NodeJS.Timeout | any;
+collapse_TO: number;
 
 // -- =====================================================================================
 

@@ -319,7 +319,7 @@ hypEtikett ( content: TS.UniText[] ) {
 
 // -- =====================================================================================
 
-slide_TO: NodeJS.Timeout | any;
+slide_TO: number;
 slide ( enter: boolean ) {
 
     if ( enter ) store.state.here = 'ClassRoomEntrance';

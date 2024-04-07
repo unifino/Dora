@@ -22,6 +22,21 @@
 
 <!---------------------------------------------------------------------------------------->
 
+    <GridLayout columns="2*,5*,2*" rows="7*,auto,2*">
+        <StackLayout col="1" row="1">
+            <Label
+                textWrap=true
+                class="TranslationBox"
+                v-for="slot of slots"
+                :key=slot
+                :text=slot
+                :padding="slot ? '15' : 0"
+            />
+    </StackLayout>
+    </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
 </GridLayout>
 </Page>
 </template>
@@ -67,10 +82,11 @@ myTracePointer: number;
 activeId: number;
 isWaiting = false;
 ready = false;
+slots = {};
 
 // -- =====================================================================================
 
-mounted () { 
+mounted () {
     this.doorCtl( "open" );
     Bus.$on( "Salon_F_Exit", () => this.backOrExit() );
 }
@@ -84,7 +100,7 @@ backOrExit () {
 
 // -- =====================================================================================
 
-init_TO: NodeJS.Timeout | any;
+init_TO: number;
 init () {
 
     if ( this.init_TO ) clearTimeout( this.init_TO );
@@ -96,6 +112,8 @@ init () {
         this.myTracePointer = -1;
         this.nextSlide();
     }
+
+    this.slots = { "en": null, "fa": null };
 
 }
 
@@ -135,7 +153,7 @@ dataChangingController () {
 
 // -- =====================================================================================
 
-myUIRefresher_TO: NodeJS.Timeout | any;
+myUIRefresher_TO: number;
 myUIRefresher () {
 
     if ( this.myUIRefresher_TO ) clearTimeout( this.myUIRefresher_TO );
@@ -214,6 +232,8 @@ async nextSlide () {
     this.headToFlashCard( "slideLeft" );
     this.myTracePointer++;
 
+    this.slotLoader();
+
 }
 
 // -- =====================================================================================
@@ -225,6 +245,7 @@ async previousSlide () {
         this.myVIP = store.state.activeBox[ store.state.inHand.institute ][ this.activeId ];
         this.headToFlashCard( "slideRight" );
         this.myTracePointer--;
+        this.slotLoader();
     }
 
 }
@@ -235,7 +256,7 @@ async headToFlashCard( direction: "slideRight" | "slideLeft" ) {
 
     if ( !this.myVIP[1].isFake ) await storage.organellesLoader( this.myVIP[1].lesson );
 
-    Vue.prototype.$navigateTo( FlashCard, { 
+    Vue.prototype.$navigateTo( FlashCard, {
         frame : 'flashcardsRail' ,
         backstackVisible : true ,
         transition : {
@@ -278,6 +299,18 @@ async oneSentence () {
     this.activeId = myId;
     this.myVIP = store.state.activeBox[ store.state.inHand.institute ][ myId ];
 
+}
+
+// -- =====================================================================================
+
+slotLoader () {
+    this.slots = { "en": null, "fa": null };
+    setTimeout( () => {
+        try {
+            this.slots[ "en" ] = this.myVIP[1].translations[ "en" ];
+            this.slots[ "fa" ] = this.myVIP[1].translations[ "fa" ];
+        } catch (error) {}
+    }, 250 )
 }
 
 // -- =====================================================================================
@@ -337,6 +370,14 @@ destroyed () {
 
     #flashcardsRail {
         width: 510;
+    }
+
+    .TranslationBox {
+        height: auto;
+        color: rgb(170, 162, 162);
+        text-align: center;
+        font-size: 15;
+        font-family: Raleway-Regular;
     }
 
 </style>
