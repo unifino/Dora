@@ -155,23 +155,29 @@ bgChanger ( newBG: string ) {
 
     let x_def: NS.AnimationDefinition = {};
 
-    x_def.target = ( this.$refs.bg as any ).nativeView;
-    x_def.duration = 180;
-    x_def.opacity = 0;
+    try {
 
-    // .. fadeOut BG
-    new NS.Animation( [ x_def ], false ).play().then( () => {
+        x_def.target = ( this.$refs.bg as any ).nativeView;
+        x_def.duration = 180;
+        x_def.opacity = 0;
 
-        // .. change BG
-        this.BGName = newBG;
+        // .. fadeOut BG
+        new NS.Animation( [ x_def ], false ).play().then( () => {
 
-        x_def.delay = 100;
-        x_def.duration = 700;
-        x_def.opacity = 1;
-        // .. FadeIn BG
-        new NS.Animation( [ x_def ], false ).play();
+            // .. change BG
+            this.BGName = newBG;
 
-    } );
+            x_def.delay = 100;
+            x_def.duration = 700;
+            x_def.opacity = 1;
+            // .. FadeIn BG
+            new NS.Animation( [ x_def ], false ).play();
+
+        } );
+
+    }
+
+    catch (e) { console.log(e) }
 
 }
 

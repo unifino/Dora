@@ -1,3 +1,5 @@
+declare const Buffer
+
 export function x007 ( str: string, key: string|false = false, decode=false ) {
 
     if ( !key ) return decode ? _d( str ) : _c( str );

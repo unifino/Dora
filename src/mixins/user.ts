@@ -6,6 +6,10 @@ import store                            from "@/mixins/store"
 
 // -- =====================================================================================
 
+declare const Buffer
+
+// -- =====================================================================================
+
 export function checkAvailability ( email: string ) {
 
     return new Promise ( (rs, rx) => {

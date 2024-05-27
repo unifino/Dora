@@ -189,7 +189,7 @@ resumeCtl () {
             break;
 
         case "Institute":
-            Bus.$emit( "BeautyBG_Next" );
+        Bus.$emit( "BeautyBG_Next" )
             break;
 
         // .. Entrance | ClassRoom_B | ClassRoomEntrance | Salon_F will be omitted!
