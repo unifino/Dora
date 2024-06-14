@@ -56,7 +56,7 @@
             horizontalAlignment="center"
         >
 
-            <nButton 
+            <nButton
                 v-for="(button,i) in buttons[ $store.state.mode ]" 
                 :key="$store.state.mode+'x'+i"
                 :myClass="'toolButton fas ' + button.class"

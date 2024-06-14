@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <Label class="background" :text="'#' + ( Number( lesson.chromosome.code.idx ) +1 )" />
+    <Label class="title" :text="title" />
     <Image class="avatar" :src="avatar" />
 
 <!---------------------------------------------------------------------------------------->
@@ -58,6 +58,24 @@ actPermission = true;
 @Prop() lesson: TS.Lesson;
 
 // -- =====================================================================================
+
+get title () {
+
+    let title = this.lesson.chromosome.code.idx;
+    let parts: string[];
+
+    if ( title.includes("/") ) {
+
+        title = title.replace( /Desperate Housewives/g, "DH" )
+        title = title.replace( "DH/DH ", "DH/" )
+
+        parts = title.split("/");
+        title = parts.slice( parts.length -3 ).join( "\n" );
+    }
+
+    return title;
+
+}
 
 get avatar () {
 
@@ -284,16 +302,18 @@ destroyed () {}
 
 /*                                          */
 
-    .background {
+    .title {
         background-color: #f1f1f1;
         border-width: 1.7 1.7 1.7 5.3;
         border-color: #094e63;
-        border-radius: 2 6 6 2;        width: 55;
+        border-radius: 2 6 6 2;
+        width: 55;
         margin-right: 3;
         text-align: center;
-        font-size: 25;
+        font-size: 16;
         font-family: Farsan-Regular;
-        padding-top: 13;
+        padding-top: 4;
+        white-space: normal;
     }
 
     .avatar {

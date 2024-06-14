@@ -1,6 +1,6 @@
 <template>
 <GridLayout class="fontsBox" rows="*,*,*" columns="15,60,*,60,15" ref="fontsBox" >
-        
+
     <nButton
      row=1
      col=1
@@ -22,7 +22,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout row=1 col=2 columns="auto,*,auto" class="fontRow" >
-        
+
         <nButton
          col=0
          :myLabel="String.fromCharCode( '0x' + 'f068' )"

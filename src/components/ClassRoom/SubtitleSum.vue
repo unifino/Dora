@@ -116,8 +116,8 @@ wrappedLines: WrappedLine[] = [];
 
 get lines () {
 
-    let o = this.depart_ids.findIndex( x => x > (store.state.preserve.selected[0] | 0) );
-    o = o-1;
+    let o = this.depart_ids.findIndex( x => x > (store.state.preserve.selected[0] | 0) )
+    o = o-1
 
     try {
         // .. remove center class tag
@@ -127,18 +127,14 @@ get lines () {
         this.wrappedLines[o].cls += " center";
     } catch {}
 
-    if ( o%12 === 2 )  return this.wrappedLines.slice( o-1 | 0, o+13 );
-    if ( o%12 === 3 )  return this.wrappedLines.slice( o-2 | 0, o+12 );
-    if ( o%12 === 4 )  return this.wrappedLines.slice( o-3 | 0, o+11 );
-    if ( o%12 === 5 )  return this.wrappedLines.slice( o-4 | 0, o+10 );
-    if ( o%12 === 6 )  return this.wrappedLines.slice( o-5 | 0, o+9 );
-    if ( o%12 === 7 )  return this.wrappedLines.slice( o-6 | 0, o+8 );
-    if ( o%12 === 8 )  return this.wrappedLines.slice( o-7 | 0, o+7 );
-    if ( o%12 === 9 )  return this.wrappedLines.slice( o-8 | 0, o+6 );
-    if ( o%12 === 10 ) return this.wrappedLines.slice( o-9 | 0, o+5 );
-    if ( o%12 === 11 ) return this.wrappedLines.slice( o-10 | 0, o+4 );
-    if ( o%12 === 0 )  return this.wrappedLines.slice( o-11 | 0, o+3 );
-    if ( o%12 === 1 )  return this.wrappedLines.slice( o-12 | 0, o+2 );
+    if ( o%8 === 2 )  return this.wrappedLines.slice( o-1 | 0, o+9 );
+    if ( o%8 === 3 )  return this.wrappedLines.slice( o-2 | 0, o+8 );
+    if ( o%8 === 4 )  return this.wrappedLines.slice( o-3 | 0, o+7 );
+    if ( o%8 === 5 )  return this.wrappedLines.slice( o-4 | 0, o+6 );
+    if ( o%8 === 6 )  return this.wrappedLines.slice( o-5 | 0, o+5 );
+    if ( o%8 === 7 )  return this.wrappedLines.slice( o-6 | 0, o+4 );
+    if ( o%8 === 0 )  return this.wrappedLines.slice( o-7 | 0, o+3 );
+    if ( o%8 === 1 )  return this.wrappedLines.slice( o-8 | 0, o+2 );
 
 }
 

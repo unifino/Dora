@@ -91,9 +91,7 @@ export async function sentenceRetriever ( lessons: TS.Lesson[] ) {
     for ( let lesson of lessons ) {
         if ( lesson ) {
             // .. just ( read ) Lesson will be considered
-            // if ( lesson.chromosome.status === "read" ) {
-            // .. read | redding Lessons will be considered
-            if ( lesson.chromosome.status !== "skipped" ) {
+            if ( lesson.chromosome.status === "read" ) {
                 // .. this file is create by an Audio/Video Lesson
                 // TODO just designed for up to organs (one of them should be text)
                 let model = lesson.chromosome.model;
