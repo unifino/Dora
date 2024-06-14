@@ -88,7 +88,7 @@ init () {
 
     // ( this.$refs.subtitleBox as any ).nativeView.visibility = "visible";
 
-    this.visibility = "visible";
+    // this.visibility = "visible";
 
     this.subtitleChecker();
 

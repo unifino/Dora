@@ -1,20 +1,19 @@
 <template isPassThroughParentEnabled=false>
 <Page isPassThroughParentEnabled=false @tap="preventBeneathGetTapped">
-<GridLayout ref="mainBox" class="curtain" columns="33*,10*" rows="40,auto,*,185" visibility="hidden" >
+<GridLayout ref="mainBox" class="curtain" columns="32*,10*" rows="40,auto,*,185" visibility="hidden" >
 
 <!---------------------------------------------------------------------------------------->
-    <SubtitleSum    ref="subtitleSum"           rowSpan=4               col=1   />
-<!---------------------------------------------------------------------------------------->
-    <VideoControl   ref="videoControl"  row=3   background="black"      col=1   />
+    <VideoControl   ref="videoControl"  row=3   background="black"    col=1   />
     <ImageDisplay   ref="imageDisplay"  row=1               colSpan=2           />
     <AudioPlayer    ref="audioPlayer"   row=1               colSpan=2           />
-    <VideoPlayer    ref="videoPlayer"           rowSpan=4               col=0   />
+    <VideoPlayer    ref="videoPlayer"           rowSpan=3               col=0   />
     <YouTubePlayer  ref="youTubePlayer"         rowSpan=4               col=0   />
     <Adjuster       ref="adjuster"      row=3                           col=0   />
 <!---------------------------------------------------------------------------------------->
     <Book           ref="book"                  rowSpan=4   colSpan=2           />
     <HypBook        ref="hypBook"               rowSpan=4   colSpan=2           />
     <Subtitle       ref="subtitle"      row=2   rowSpan=4               col=1   />
+    <SubtitleSum    ref="subtitleSum"           rowSpan=4               col=1   />
 <!---------------------------------------------------------------------------------------->
     <SideBar        ref="sideBar"       row=3   col=2                           />
 <!---------------------------------------------------------------------------------------->
@@ -40,7 +39,7 @@
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
 import store                            from "@/mixins/store"
-import NSVue                            from "nativescript-vue";
+import NSVue                            from "nativescript-vue"
 import * as tools                       from "@/mixins/tools"
 import Bus                              from "@/mixins/bus"
 import MiniMenu                         from "@/components/ClassRoom/MiniMenu.vue"
@@ -61,7 +60,7 @@ import YouTubePlayer                    from "@/components/ClassRoom/YouTubePlay
 
 // -- =====================================================================================
 
-NSVue.registerElement( "VNSPlayer", () => require( "nativescript-videoplayer" ).Video );
+NSVue.registerElement( "VNSPlayer", () => require( "nativescript-videoplayer" ).Video )
 
 @Component ( {
     components: {
@@ -89,19 +88,19 @@ export default class ClassRoom extends Vue {
 
 // -- =====================================================================================
 
-pass;
-there: TS.here;
+pass
+there: TS.here
 
-playerType: "myNSPlayer"|"YTPlayer" = "YTPlayer";
-playerModule: YouTubePlayer|VideoPlayer;
+playerType: "myNSPlayer"|"YTPlayer" = "YTPlayer"
+playerModule: YouTubePlayer|VideoPlayer
 
 // -- =====================================================================================
 
 mounted () {
 
-    this.there = store.state.here;
-    this.doorControl( "open" );
-    Bus.$on( "ClassRoom_BackOrExit", this.backOrExit );
+    this.there = store.state.here
+    this.doorControl( "open" )
+    Bus.$on( "ClassRoom_BackOrExit", this.backOrExit )
 
 }
 
@@ -112,42 +111,42 @@ preventBeneathGetTapped () {}
 // -- =====================================================================================
 
 backOrExit () {
-    if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" );
-    else ( this as any ).$navigateBack();
+    if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" )
+    else ( this as any ).$navigateBack()
 }
 
 // -- =====================================================================================
 
 async doorControl ( act: 'open' | 'close' ) {
 
-    if ( act === "close" ) ( this.$refs.mainBox as any ).nativeView.visibility = "hidden";
-    if ( act === "open"  ) ( this.$refs.CEntrance as CEntrance ).init();
+    if ( act === "close" ) ( this.$refs.mainBox as any ).nativeView.visibility = "hidden"
+    if ( act === "open"  ) ( this.$refs.CEntrance as CEntrance ).init()
 
     // .. after fully expanded and maximized to borders
     let myCallBack = async () => {
 
         if ( act === "open" ) {
-            ( this.$refs.mainBox as any ).nativeView.visibility = "visible";
+            ( this.$refs.mainBox as any ).nativeView.visibility = "visible"
             // .. bug resolver
-            let target = this.$refs.CEntrance as CEntrance;
-            if ( target ) setTimeout( () => target.modelAnalyzer(), 0 );
+            let target = this.$refs.CEntrance as CEntrance
+            if ( target ) setTimeout( () => target.modelAnalyzer(), 0 )
         }
 
         if ( act === "close" ) {
-            store.state.mode = "idle";
-            store.state.here = this.there;
+            store.state.mode = "idle"
+            store.state.here = this.there
             // .. deregister Lesson Data
             if ( this.there !== "Salon_F" ) {
-                store.state.preserve.selected = [];
-                store.state.inHand.lesson = null;
-                store.state.inHand.mediaPath = null;
-                store.state.inHand.avatarPath = null;
+                store.state.preserve.selected = []
+                store.state.inHand.lesson = null
+                store.state.inHand.mediaPath = null
+                store.state.inHand.avatarPath = null
             }
         }
 
     }
 
-    tools.doorRemote( "Class", this.$root.$children[0].$refs.room, act, myCallBack );
+    tools.doorRemote( "Class", this.$root.$children[0].$refs.room, act, myCallBack )
 
 }
 
@@ -155,29 +154,29 @@ async doorControl ( act: 'open' | 'close' ) {
 
 seeking ( direction ) {
 
-    let factor;
+    let factor
 
     switch ( direction ) {
-        case "previous": factor = -1.0; break;
-        case "next":     factor = +1.5; break;
+        case "previous": factor = -1.0; break
+        case "next":     factor = +1.5; break
     }
 
-    this.playerModule = this.$refs.playerModule as YouTubePlayer|VideoPlayer;
+    this.playerModule = this.$refs.playerModule as YouTubePlayer|VideoPlayer
 
-    this.playerModule.seekTo( factor *3 );
+    this.playerModule.seekTo( factor *3 )
 
 }
 
 // -- =====================================================================================
 
 beforeDestroy () {
-    this.doorControl( "close" );
+    this.doorControl( "close" )
 }
 
 // -- =====================================================================================
 
 destroyed () {
-    Bus.$off( "ClassRoom_Exit" );
+    Bus.$off( "ClassRoom_Exit" )
 }
 
 // -- =====================================================================================

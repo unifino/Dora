@@ -31,7 +31,7 @@ import VideoPlayer                      from "@/components/ClassRoom/VideoPlayer
 // -- =====================================================================================
 
 @Component ( {
-    components: {} 
+    components: {}
 } )
 
 // -- =====================================================================================
@@ -40,26 +40,26 @@ export default class VideoControl extends Vue {
 
 // -- =====================================================================================
 
-playerModule: YouTubePlayer | VideoPlayer;
+playerModule: YouTubePlayer | VideoPlayer
 
 // -- =====================================================================================
 
 init ( model: YouTubePlayer | VideoPlayer ) {
-    ( this.$refs.controlBox as any ).nativeView.visibility = "visible";
-    this.playerModule = model;
+    ( this.$refs.controlBox as any ).nativeView.visibility = "visible"
+    this.playerModule = model
 }
 
 // -- =====================================================================================
 
 playToggler () {
 
-    let dVideo = store.state.inHand.lesson.protoplasm.find( x => x.type === "dVideo" );
+    let dVideo = store.state.inHand.lesson.protoplasm.find( x => x.type === "dVideo" )
 
-    if ( store.state.mediaState === 'playing' ) this.playerModule.pause();
+    if ( store.state.mediaState === 'playing' ) this.playerModule.pause()
 
     else {
-        this.playerModule.play();
-        if ( dVideo.pinnedPoint ) this.playerModule.seekTo( dVideo.pinnedPoint, true );
+        this.playerModule.play()
+        if ( dVideo.pinnedPoint ) this.playerModule.seekTo( dVideo.pinnedPoint, true )
     }
 
 }
@@ -68,15 +68,15 @@ playToggler () {
 
 seeking ( direction ) {
 
-    let factor;
+    let factor
 
     switch ( direction ) {
-        case "previous": factor = -1.0; break;
-        case "next":     factor = +1.5; break;
+        case "previous": factor = -1.0; break
+        case "next":     factor = +1.5; break
     }
 
-    this.playerModule.seekTo( factor *3 );
-   
+    this.playerModule.seekTo( factor *3 )
+
 }
 
 // -- =====================================================================================

@@ -92,7 +92,7 @@ import * as tnsPLY                      from "@/mixins/audioPlayer"
 
 // -- =====================================================================================
 
-interface WrappedWord { text: string, cls: string };
+interface WrappedWord { text: string, cls: string }
 interface WrappedLine { i: number, wrappedWords: WrappedWord[], cls: string, ids: number[], text: string }
 
 // -- =====================================================================================
@@ -107,10 +107,10 @@ export default class Subtitle extends Vue {
 
 // -- =====================================================================================
 
-visibility: 'visible'|'collapsed' = 'collapsed';
-depart_ids: number[] = [];
-block_ids: number[] = [];
-wrappedLines: WrappedLine[] = [];
+visibility: 'visible'|'collapsed' = 'collapsed'
+depart_ids: number[] = []
+block_ids: number[] = []
+wrappedLines: WrappedLine[] = []
 
 // -- =====================================================================================
 
@@ -122,19 +122,19 @@ get lines () {
     try {
         // .. remove center class tag
         for ( let x of this.wrappedLines.slice( o-5| 0, o+4 ) )
-            x.cls = x.cls.replace( " center", "" );
+            x.cls = x.cls.replace( " center", "" )
         // .. add center class tag
-        this.wrappedLines[o].cls += " center";
+        this.wrappedLines[o].cls += " center"
     } catch {}
 
-    if ( o%8 === 2 )  return this.wrappedLines.slice( o-1 | 0, o+9 );
-    if ( o%8 === 3 )  return this.wrappedLines.slice( o-2 | 0, o+8 );
-    if ( o%8 === 4 )  return this.wrappedLines.slice( o-3 | 0, o+7 );
-    if ( o%8 === 5 )  return this.wrappedLines.slice( o-4 | 0, o+6 );
-    if ( o%8 === 6 )  return this.wrappedLines.slice( o-5 | 0, o+5 );
-    if ( o%8 === 7 )  return this.wrappedLines.slice( o-6 | 0, o+4 );
-    if ( o%8 === 0 )  return this.wrappedLines.slice( o-7 | 0, o+3 );
-    if ( o%8 === 1 )  return this.wrappedLines.slice( o-8 | 0, o+2 );
+    if ( o%8 === 2 )  return this.wrappedLines.slice( o-1 | 0, o+9 )
+    if ( o%8 === 3 )  return this.wrappedLines.slice( o-2 | 0, o+8 )
+    if ( o%8 === 4 )  return this.wrappedLines.slice( o-3 | 0, o+7 )
+    if ( o%8 === 5 )  return this.wrappedLines.slice( o-4 | 0, o+6 )
+    if ( o%8 === 6 )  return this.wrappedLines.slice( o-5 | 0, o+5 )
+    if ( o%8 === 7 )  return this.wrappedLines.slice( o-6 | 0, o+4 )
+    if ( o%8 === 0 )  return this.wrappedLines.slice( o-7 | 0, o+3 )
+    if ( o%8 === 1 )  return this.wrappedLines.slice( o-8 | 0, o+2 )
 
 }
 
@@ -145,24 +145,24 @@ getLines () {
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ),
         ids: number[],
         cls: string,
-        text: string;
+        text: string
 
     for ( let i in dText.content ) {
         // .. register departs
-        if ( dText.content[i][1].standoff == 'depart' ) this.depart_ids.push( Number(i) );
+        if ( dText.content[i][1].standoff == 'depart' ) this.depart_ids.push( Number(i) )
         // .. register blocks
-        else if ( dText.content[i][1].standoff == 'block' ) this.block_ids.push( Number(i) );
+        else if ( dText.content[i][1].standoff == 'block' ) this.block_ids.push( Number(i) )
     }
 
     for ( let i=0; i < this.depart_ids.length -1; i++ ) {
-        ids = [];
-        text = "";
-        cls = "subtitleLine";
+        ids = []
+        text = ""
+        cls = "subtitleLine"
         for ( let j = this.depart_ids[i]; j < this.depart_ids[ i+1 ]; j++ ) {
-            ids.push(j);
-            if ( dText.content[j][0] ) text += dText.content[j][0] + " ";
+            ids.push(j)
+            if ( dText.content[j][0] ) text += dText.content[j][0] + " "
             if ( dText.content[j][1].phrased )
-                cls = "subtitleLine phrased " + dText.content[j][1].phrased;
+                cls = "subtitleLine phrased " + dText.content[j][1].phrased
         }
 
         this.wrappedLines.push( {
@@ -170,11 +170,11 @@ getLines () {
             wrappedWords: null,
             cls, ids,
             text
-        } );
+        } )
     }
 
     // .. Wrapping Words
-    this.wrappingWords( this.wrappedLines, dText );
+    this.wrappingWords( this.wrappedLines, dText )
 
 }
 
@@ -183,21 +183,21 @@ getLines () {
 wrappingWords ( wrappedLines: WrappedLine[], dText: TS.Organelle ) {
 
     let wrappedWords: WrappedWord[] = [],
-        cls: string;
+        cls: string
 
     for ( let x in wrappedLines ) {
-        wrappedWords = [];
+        wrappedWords = []
         for ( let idx of wrappedLines[x].ids ) {
-            cls = "parole";
-            let row = dText.content[ idx ];
-            if ( row[1].phrased ) cls += " b";
-            if ( tools.wordStating( row[0], "en" ) === "M" ) cls += " g";
-            if ( row[1].isBreakLine ) cls = "breakLine";
+            cls = "parole"
+            let row = dText.content[ idx ]
+            if ( row[1].phrased ) cls += " b"
+            if ( tools.wordStating( row[0], "en" ) === "M" ) cls += " g"
+            if ( row[1].isBreakLine ) cls = "breakLine"
             // ! remove this line
             if ( !row[1].isBreakLine )
-            wrappedWords.push( { text: row[0], cls } );
+            wrappedWords.push( { text: row[0], cls } )
         }
-        wrappedLines[x].wrappedWords = wrappedWords;
+        wrappedLines[x].wrappedWords = wrappedWords
     }
 
 }
@@ -210,52 +210,52 @@ mounted () {}
 
 init () {
 
-    this.visibility = "collapsed";
+    this.visibility = "visible"
 
-    this.subtitleChecker();
+    this.subtitleChecker()
 
-    this.getLines();
+    this.getLines()
 
 }
 
 // -- =====================================================================================
 
 subtitleChecker () {
-    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" );
-    if ( !dText.content || !dText.content.length ) this.virtualStrGenerator();
+    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" )
+    if ( !dText.content || !dText.content.length ) this.virtualStrGenerator()
 }
 
 // -- =====================================================================================
 
 virtualStrGenerator () {
 
-    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" );
+    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" )
 
-        tnsPLY.init( store.state.inHand.mediaPath );
+        tnsPLY.init( store.state.inHand.mediaPath )
         tnsPLY.getDuration().then( secs => {
 
             let str = "",
                 step = 3,
-                h,m,s,j;
+                h,m,s,j
 
             for ( let i=0; i<secs; i+=step ) {
-                str += (i+1) + "\n";
-                j = i;
-                h = (j/(60*60))|0;
-                m = ((j-h*60*60)/60)|0;
-                s = (j-h*60*60-m*60);
-                str += h + ":" + m + ":" + s + " --> " ;
-                j = i + step;
-                h = (j/(60*60))|0;
-                m = ((j-h*60*60)/60)|0;
-                s = (j-h*60*60-m*60);
+                str += (i+1) + "\n"
+                j = i
+                h = (j/(60*60))|0
+                m = ((j-h*60*60)/60)|0
+                s = (j-h*60*60-m*60)
+                str += h + ":" + m + ":" + s + " --> "
+                j = i + step
+                h = (j/(60*60))|0
+                m = ((j-h*60*60)/60)|0
+                s = (j-h*60*60-m*60)
                 str += h + ":" + m + ":" + s + "\n"
-                str += i + " ..." + "\n\n";
+                str += i + " ..." + "\n\n"
             }
 
-            dText.content = tools.srtParser( str );
+            dText.content = tools.srtParser( str )
 
-        } );
+        } )
 
 }
 
@@ -265,45 +265,45 @@ lineTapped ( args ) {
 
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" ),
         color: "blue"|"red",
-        ids: number[];
+        ids: number[]
 
-    ids = args.object.ids;
+    ids = args.object.ids
 
     for ( let id of ids ) {
         // .. toggle colors
-        if ( !dText.content[ id ][1].phrased ) color = "blue";
-        else if ( dText.content[ id ][1].phrased === "blue" ) color = "red";
-        else color = null;
-        dText.content[ id ][1].phrased = color;
+        if ( !dText.content[ id ][1].phrased ) color = "blue"
+        else if ( dText.content[ id ][1].phrased === "blue" ) color = "red"
+        else color = null
+        dText.content[ id ][1].phrased = color
     }
 
     // .. visual effect
-    args.object.parent.class = "subtitleLine " + color;
-    this.wrappedLines[ args.object.parent.i ].cls = args.object.parent.class;
+    args.object.parent.class = "subtitleLine " + color
+    this.wrappedLines[ args.object.parent.i ].cls = args.object.parent.class
 
 }
 
 // -- =====================================================================================
 
 nWordLongPressed ( args ) {
-    Bus.$emit( "Scope_DeskCtl", "up", args.object.text );
+    Bus.$emit( "Scope_DeskCtl", "up", args.object.text )
 }
 
 // -- =====================================================================================
 
 nWordDoubleTapped ( args ) {
-    let word = args.object.text;
-    tools.wordStating( word, store.state.inHand.institute, null, true );
+    let word = args.object.text
+    tools.wordStating( word, store.state.inHand.institute, null, true )
     // .. force re-rendering
-    store.state.preserve.selected = [ ...store.state.preserve.selected ];
+    store.state.preserve.selected = [ ...store.state.preserve.selected ]
     // .. force re-rendering
-    this.getLines();
+    this.getLines()
 }
 
 // -- =====================================================================================
 
 destroyed () {
-    Bus.$off( "Subtitle_PresentPerTime" );
+    Bus.$off( "Subtitle_PresentPerTime" )
 }
 
 // -- =====================================================================================
@@ -322,21 +322,20 @@ destroyed () {
 
     #subtitleSumBox {
         background-color: #000000;
-        padding: 40 30 85 30;
+        padding: 20 30 85 30;
     }
 
     .subtitleLine {
         color: #888888;
-        font-size: 13;
         padding: 5 0;
         border-color: #555555;
         border-width: 1;
-        border-radius: 3;
+        border-radius: 7;
         margin: 5 7;
     }
 
     .subtitleContent {
-        padding: 0 30;
+        padding: 0 18;
     }
 
     .blue {
@@ -359,8 +358,8 @@ destroyed () {
     .lineText {
         text-align: center;
         color: #dddddd;
-        padding: 2 20;
-        line-height: 11;
+        padding: 1.9 18;
+        line-height: 12.7;
     }
 
 </style>

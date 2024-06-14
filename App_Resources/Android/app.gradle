@@ -28,4 +28,7 @@ android {
             universalApk true
         }
     }
+    // dependency{
+    //     compile 'com.google.android.gms:play-services:+'
+    // }
 }

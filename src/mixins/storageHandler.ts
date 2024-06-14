@@ -609,7 +609,8 @@ function ultraDriver ( ins: string, type: "audio"|"video" ) {
 function FolderReader ( ins: string, type: "audio"|"video" ) {
 
     const folder = type === "video" ? OffRoad_dir : MNTBike_dir
-    const ext = type === "video" ? [ ".mp4" , ".mkv" ] : [ ".mp3", null ]
+    const m_xt = type === "video" ? [ ".mp4" , ".mkv" ] : [ ".mp3", null ]
+    const t_xt = type === "video" ? ".srt" : ".txt"
 
     let path = NS.path.join( folder.path, ins )
     let contents = NS.Folder.fromPath( path ).getEntitiesSync()
@@ -628,9 +629,9 @@ function FolderReader ( ins: string, type: "audio"|"video" ) {
         let pass_code = 1
         let junk_code = 0
         for( let item of NS.Folder.fromPath( folder.path ).getEntitiesSync() ) {
-            if( (<any>item).extension === ext[0] )          pass_code += 700
-            else if( (<any>item).extension === ext[1] )     pass_code += 700
-            else if( (<any>item).extension === ".srt" )     pass_code += 70
+            if( (<any>item).extension === m_xt[0] )         pass_code += 700
+            else if( (<any>item).extension === m_xt[1] )    pass_code += 700
+            else if( (<any>item).extension === t_xt )       pass_code += 70
             else if( (<any>item).extension === ".jpg" )     pass_code += 0
             else if( (<any>item).name === "iData.json" )    pass_code += 0
             else junk_code++
