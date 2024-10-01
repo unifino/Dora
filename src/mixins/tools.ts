@@ -701,7 +701,7 @@ export async function doorRemote (
         h = store.state.windowSize.height,
         bigV = w > h ? w*2 : h*2,
         origin = { x: pos.x + size.width / 2, y: pos.y + size.height / 2 },
-        lum = store.state.darkMode ? -.9 : 3,
+        lum = store.state.appConfig.darkMode ? -.9 : 3,
         bgColor = place.backgroundColor.toString(),
         colorA = act === "open" ? colorLuminance( bgColor, lum ) : bgColor,
         colorB = act === "open" ? bgColor : colorLuminance( bgColor, lum ),

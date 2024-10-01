@@ -144,7 +144,7 @@ get isItemVisible () {
 mounted () {
 
     let fontsBox = ( this.$refs.fontsBox as any ).nativeView; 
-    let bgColor = store.state.darkMode ? 'rgba(46, 172, 201, 0)' : 'rgba(4, 58, 58, 0)';
+    let bgColor = store.state.appConfig.darkMode ? 'rgba(46, 172, 201, 0)' : 'rgba(4, 58, 58, 0)';
     fontsBox.translateX = 0;
     fontsBox.translateY = 180;
     fontsBox.opacity = 0;

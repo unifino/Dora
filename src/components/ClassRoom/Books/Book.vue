@@ -263,6 +263,9 @@ async rePub () {
 
 async swipeControl ( args: NS.SwipeGestureEventData ) {
 
+    // .. Prevent Blattering while selecting
+    if ( store.state.mode === "selective" ) return 0;
+
     // TODO animation cause problem in Editing Mode
     if ( store.state.mode === "editing" ) return 0;
 
@@ -633,7 +636,7 @@ bookCoverPainter ( mode: TS.AppMode ) {
 
     if ( this.bookCover_Animation ) this.bookCover_Animation.cancel();
 
-    let isDark = store.state.darkMode,
+    let isDark = store.state.appConfig.darkMode,
         newColor = isDark ? theColor.dark : theColor.light,
         newClass = "bookCover " + mode,
         duration = mode === "reading" ? 500 : 300,

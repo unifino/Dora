@@ -22,7 +22,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout columns="2*,5*,2*" rows="7*,auto,2*">
+    <GridLayout columns="2*,7*,2*" rows="7*,auto,5">
         <StackLayout col="1" row="1">
             <Label
                 textWrap=true
@@ -89,13 +89,22 @@ slots = {};
 mounted () {
     this.doorCtl( "open" );
     Bus.$on( "Salon_F_Exit", () => this.backOrExit() );
+    Bus.$on( "Salon_F_Exit_Force", () => {
+        storage.saveFlashCards().finally( () => ( this as any ).$navigateBack() )
+    } );
 }
 
 // -- =====================================================================================
 
 backOrExit () {
-    if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" );
-    else storage.saveFlashCards().finally( () => ( this as any ).$navigateBack() );
+    
+    if ( store.state.appConfig.rpbkMode ) Bus.$emit( "repeatAfterMe" );
+
+    else {
+        if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" );
+        else storage.saveFlashCards().finally( () => ( this as any ).$navigateBack() );
+    }
+
 }
 
 // -- =====================================================================================

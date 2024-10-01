@@ -527,7 +527,7 @@ exitCtl ( direction ) {
 
 //     if ( this.bookCover_Animation ) this.bookCover_Animation.cancel();
 
-//     let isDark = store.state.darkMode,
+//     let isDark = store.state.appConfig.darkMode,
 //         newColor = isDark ? theColor.dark : theColor.light,
 //         newClass = "bookCover " + mode,
 //         duration = mode === "reading" ? 500 : 300,

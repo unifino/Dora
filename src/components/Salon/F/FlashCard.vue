@@ -204,7 +204,7 @@ buttonsRow1: {
             store.state.mediaButtons = !store.state.mediaButtons;                    
             this.buttonsRow1[4].label = store.state.mediaButtons ? "f077" : "f078";  
         },
-        fnc2: () => {}                                                              ,
+        fnc2: () => this.exit()                                                              ,
     }                                                                               ,
                                                                                      
 ];
@@ -276,6 +276,9 @@ mounted () {
         state => state.mediaState,
         newValue => this.plyIcon = newValue === "playing" ? "f2ea" : "f04b"
     );
+    
+    // .. by backButton it repeats
+    Bus.$on( "repeatAfterMe", () => this.speaker() );
 
 }
 
@@ -330,7 +333,22 @@ async adjuster ( point: 'A' | 'B' , fac: -.3 | .3 | -1.9 | 1.9 ) {
 
 // -- =====================================================================================
 
+exit () {
+    Bus.$emit( "Salon_F_Exit_Force" )
+}
+
+// -- =====================================================================================
+
 speaker ( shortcut = false ) {
+
+    // ! Odd Problem!
+    try {
+        this.VIPSentence[1].lesson.protoplasm.find( x => x.type === "dText" ).content
+    } catch (e) {
+        console.log(e);
+        tools.toaster( e + '', "long" );
+        return 0;
+    }
 
     let item = this.VIPSentence[1],
         uContext = item.lesson.protoplasm.find( x => x.type === "dText" ).content;

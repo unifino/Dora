@@ -7,7 +7,6 @@ export default new Vuex.Store( {
     state: {
         scopeIsActive       : false                                 ,
         appConfig           : {} as any                             ,
-        darkMode            : true                                  ,
         here                : "Entrance"                            ,
         mode                : "reading"                             ,
         placeTrigger        : {}                                    ,
@@ -38,7 +37,6 @@ export interface state {
         }                                                           ,
         scopeIsActive       : boolean                               ,
         appConfig           : TS.appConfig                          ,
-        darkMode            : boolean                               ,
         here                : TS.here                               ,
         mode                : TS.AppMode                            ,
         placeTrigger        : TS.PlaceTriggerInfo                   ,

@@ -90,7 +90,9 @@ export interface appConfig {
     email               : string        ,
     dictionaries        : [ Lng, Lng ]  ,
     beautyBGs           : string[]      ,
-
+    darkMode            : boolean       ,
+    rpbkMode            : boolean       ,
+    
 }
 
 // -- =====================================================================================

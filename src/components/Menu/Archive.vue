@@ -36,6 +36,7 @@ toggleArchive () {
     let base = this.$root.$children[0].$refs.base as any;
     let institute: Institute = base.$children[1];
 
+    // ! .. what is this???
     institute.pokAll = !institute.pokAll;
     institute.collector();
 
@@ -54,7 +55,7 @@ toggleArchive () {
 <style scoped>
 
 /*                                          */
-    /* .light .gear { color: #c2c3c4 }
-    .dark  .gear { color: #172124 } */
+    .light .gear { color: #c2c3c4 }
+    .dark  .gear { color: #172124 } 
 
 </style>

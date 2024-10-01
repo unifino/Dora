@@ -45,7 +45,7 @@ themeApplier ( colorName: TS.ThemaName, refs ): void {
     store.state.appConfig.theme = colorName as TS.ThemaName;
 
     // .. register DarkMode
-    store.state.darkMode = palette.contrast === "dark" ? true : false;
+    store.state.appConfig.darkMode = palette.contrast === "dark" ? true : false;
 
     // .. applying barIcon Color
     statusBarIconStyleApplier( palette.statusBarIconsColor );
@@ -58,10 +58,10 @@ themeApplier ( colorName: TS.ThemaName, refs ): void {
 
 export function darkModeToggler ( refs ) {
 
-    store.state.darkMode = !store.state.darkMode;
+    store.state.appConfig.darkMode = !store.state.appConfig.darkMode;
 
     // TODO                               it should be completed
-    const newTheme: TS.ThemaName = store.state.darkMode ? "DarkGreen" : "Milky";
+    const newTheme: TS.ThemaName = store.state.appConfig.darkMode ? "DarkGreen" : "Milky";
     themeApplier( newTheme, refs );
 
     // .. save config File

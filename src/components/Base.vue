@@ -97,7 +97,7 @@ export default class Base extends Vue {
 // -- =====================================================================================
 
 get myBorder () {
-    return "res://my_border_" + ( store.state.darkMode ? "dark" : "light" );
+    return "res://my_border_" + ( store.state.appConfig.darkMode ? "dark" : "light" );
 }
 
 // -- =====================================================================================

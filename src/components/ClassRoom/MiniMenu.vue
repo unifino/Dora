@@ -147,7 +147,7 @@ async init (): Promise<void> {
 
         else {
 
-            let bgColor = store.state.darkMode ? '#00043a3a' : '#002eacc9';
+            let bgColor = store.state.appConfig.darkMode ? '#00043a3a' : '#002eacc9';
 
             buttonsBox.translateY = buttonsBox.getActualSize().height -50;
             buttonsBox.backgroundColor = bgColor;
@@ -237,7 +237,7 @@ miniMenu ( time=300 , forceMode?: "up" | "down" ) {
     // .. collapsing
     if ( this.expanded || ( forceMode === "down" ) ) {
 
-        o_def.backgroundColor = store.state.darkMode ? 
+        o_def.backgroundColor = store.state.appConfig.darkMode ? 
             new NS.Color( "#00043a3a" ) :
             new NS.Color( "#002eacc9" ); 
 
@@ -261,7 +261,7 @@ miniMenu ( time=300 , forceMode?: "up" | "down" ) {
     // .. expanding
     else if ( !this.expanded || ( forceMode === "up" )  ) {
 
-        o_def.backgroundColor = store.state.darkMode ? 
+        o_def.backgroundColor = store.state.appConfig.darkMode ? 
             new NS.Color( "#043a3a" ) :
             new NS.Color( "#2eacc9" ); 
 
@@ -298,7 +298,7 @@ darkModeToggler () {
 
     TM.darkModeToggler( this.$root.$children[0].$refs );
 
-    box.backgroundColor = store.state.darkMode ? 
+    box.backgroundColor = store.state.appConfig.darkMode ? 
         new NS.Color( "#043a3a" ) : new NS.Color( "#2eacc9" );
 
     this.autoCollapse( 500 );

@@ -71,7 +71,7 @@ export default class ClassRoomEntrance extends Vue {
 percent = -1;
 loadHint = ' Opening ...';
 loadHindColor = "#168594";
-avatar = 'res://book_cover_' + ( store.state.darkMode ? "dark" : "light" );
+avatar = 'res://book_cover_' + ( store.state.appConfig.darkMode ? "dark" : "light" );
 title = "";
 book: Book;
 hypBook: HypBook;

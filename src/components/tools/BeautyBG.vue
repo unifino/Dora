@@ -1,7 +1,7 @@
 <template>
 <GridLayout 
     columns="*,auto" rows="*,auto,60" 
-    :background="$store.state.darkMode ? '#003d47' : '#f4ddcb'"
+    :background="$store.state.appConfig.darkMode ? '#003d47' : '#f4ddcb'"
 >
 
 <!---------------------------------------------------------------------------------------->
@@ -54,7 +54,7 @@ BGName = "";
 get bg () {
 
     let bg: string,
-        style = store.state.darkMode ? '_dark' : '_light';
+        style = store.state.appConfig.darkMode ? '_dark' : '_light';
 
     if ( this.BGName ) {
         if ( this.BGName === "tree" ) bg = "res://tree" + style;

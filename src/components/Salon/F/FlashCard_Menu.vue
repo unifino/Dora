@@ -1,18 +1,15 @@
 <template>
 <StackLayout>
 
-    <GridLayout ref="rail" rows="50,*,50" height="130" >
+    <GridLayout ref="rail" rows="50,*,50" height="150">
 
 <!---------------------------------------------------------------------------------------->
 
-        <GridLayout ref="cabinet" height="30" row=1 columns="*,*" padding="0 20" >
+        <GridLayout ref="cabinet" height="auto" row=1 rows="*,*" columns="*,*" padding="0 20" >
 
-            <GridLayout
-                width="50%"
-                col=0
-                rows="auto,auto"
-                columns="auto,auto"
-            >
+<!---------------------------------------------------------------------------------------->
+
+            <GridLayout width="50%" col=0 row="0" rows="auto,auto" columns="auto,auto" >
 
                 <Label row=0 col=0 class="switchTitle centeredText" text="Dark Mode" /> 
                 <Switch
@@ -20,7 +17,7 @@
                     col=1
                     ref="darkModeSwitch"
                     class="switch"
-                    :checked="$store.state.darkMode"
+                    :checked="$store.state.appConfig.darkMode"
                     @tap="darkModeToggler();autoCollapse();"
                 />
 
@@ -28,11 +25,23 @@
 
 <!---------------------------------------------------------------------------------------->
 
-            <GridLayout
-                width="50%"
-                col=1
-                rows="auto,auto"
-            >
+            <GridLayout width="50%" col=0 row="1" rows="auto,auto" columns="auto,auto" >
+
+                <Label row=0 col=0 class="switchTitle centeredText" text="RPBK Mode" /> 
+                <Switch
+                    row=0
+                    col=1
+                    ref="rpbkModeSwitch"
+                    class="switch"
+                    :checked="$store.state.appConfig.rpbkMode"
+                    @tap="rpbkModeToggler();autoCollapse();"
+                />
+
+            </GridLayout>
+
+<!---------------------------------------------------------------------------------------->
+
+            <GridLayout width="50%" row=0 col=1 rows="auto,auto" >
 
                 <Label
                     row=0
@@ -111,6 +120,11 @@ mounted () {
     ( this.$refs.cabinet as any ).nativeView.opacity = 0;
     this.expand = false;
 
+    // ! remove it by setting commit for store
+    setTimeout( () => {
+        ( this.$refs.rpbkModeSwitch as any ).nativeView.checked = store.state.appConfig.rpbkMode
+    }, 100 );
+
 }
 
 // -- =====================================================================================
@@ -125,9 +139,24 @@ darkModeToggler () {
 
     TM.darkModeToggler( this.$root.$children[0].$refs );
 
+    // ! remove it by setting commit for store
     setTimeout( () => {
-        ( this.$refs.darkModeSwitch as any ).nativeView.checked = store.state.darkMode
+        ( this.$refs.darkModeSwitch as any ).nativeView.checked = store.state.appConfig.darkMode
     }, 100 );
+
+}
+
+// -- =====================================================================================
+
+rpbkModeToggler () {
+    
+    store.state.appConfig.rpbkMode = !store.state.appConfig.rpbkMode;
+
+    // ! remove it by setting commit for store
+    setTimeout( () => {
+        ( this.$refs.rpbkModeSwitch as any ).nativeView.checked = store.state.appConfig.rpbkMode
+    }, 100 );
+    // store.commit()
 
 }
 
@@ -135,19 +164,25 @@ darkModeToggler () {
 
 launcher () {
 
-    this.expand = !this.expand;
-    let pos = this.expand ? 0 : -this.travelDistance;
-    ( this.$refs.rail as any ).nativeView.animate( {
-        translate: { x: 0, y: pos },
-        duration: 350,
-        curve: Enums.AnimationCurve.easeOut
-    } );
+    // ! remove it
+    try {
+        this.expand = !this.expand;
+        let pos = this.expand ? 0 : -this.travelDistance;
+        ( this.$refs.rail as any ).nativeView.animate( {
+            translate: { x: 0, y: pos },
+            duration: 350,
+            curve: Enums.AnimationCurve.easeOut
+        } );
 
-    ( this.$refs.cabinet as any ).nativeView.animate( {
-        opacity: this.expand ? 1 : 0,
-        duration: 100,
-        curve: Enums.AnimationCurve.easeOut
-    } );
+        ( this.$refs.cabinet as any ).nativeView.animate( {
+            opacity: this.expand ? 1 : 0,
+            duration: 100,
+            curve: Enums.AnimationCurve.easeOut
+        } );
+    } catch (e) {
+        console.log(e);
+        
+    }
 
 }
 

@@ -79,7 +79,7 @@ export async function saveAppConfig () {
 
 export function pathCtr () {
     // .. permission policy has been meet, so assign necessarily Folders!
-    baseFolder  = NS.Folder.fromPath( NS.path.join( SDCard, "Dora" ) )
+    baseFolder  = NS.Folder.fromPath( NS.path.join( SDCard, ".Dora" ) )
     let bp      = baseFolder.path
     OffRoad_dir = NS.Folder.fromPath( NS.path.join( bp, "Off Road"              ) )
     MNTBike_dir = NS.Folder.fromPath( NS.path.join( bp, "Mountain Bike"         ) )
