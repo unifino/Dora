@@ -665,6 +665,7 @@ async binding ( refId: number, init: boolean ) {
         this.bindingAssistant();
         await new Promise( _ => setTimeout( _ , 100 ) );
         store.state.mode = "reading";
+        tnsPLY.play();
     }
 
 }

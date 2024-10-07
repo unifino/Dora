@@ -318,6 +318,7 @@ export interface VIPSentence {
 
 export interface VIPSentenceFlags {
     isFake?         : boolean                       ,
+    isFavorite?     : boolean                       ,
     lesson          : Lesson                        ,
     A               : number                        ,
     B               : number                        ,

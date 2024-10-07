@@ -18,9 +18,11 @@ export default new Vuex.Store( {
         glssDB              : {}                                    ,
         flssDB              : {}                                    ,
         rbssDB              : {}                                    ,
+        favsDB              : {}                                    ,
         activeBox           : {}                                    ,
         sentenceBox         : {}                                    ,
         numberBox           : {}                                    ,
+        favRunSwitch        : false                                 ,
         inHand              : {}                                    ,
         preserve            : {                                      
             selected        : []                                    ,
@@ -49,9 +51,11 @@ export interface state {
         flssDB              : { [key: string]: TS.Flashcard[]   }   ,
         glssDB              : { [key: string]: TS.Glossar       }   ,
         rbssDB              : { [key: string]: TS.Ribosome[]    }   ,
+        favsDB              : { [key: string]: string[]         }   ,
         activeBox           : { [key: string]: TS.VIPSentence[] }   ,
         sentenceBox         : { [key: string]: TS.VIPSentence[] }   ,
         numberBox           : { [key: string]: TS.VIPSentence[] }   ,
+        favRunSwitch        : boolean                               ,
 
         inHand              : {                                      
             // !!!! remove it

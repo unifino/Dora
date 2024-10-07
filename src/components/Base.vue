@@ -280,6 +280,8 @@ appConfiguration (): Promise<void> {
             setTimeout( () => storage.putGlossariesInBox(), 0 );
             // .. retrieve FlashCards
             setTimeout( () => storage.putFlashcardsInBox(), 0 );
+            // .. retrieve Favorites
+            setTimeout( () => storage.putFavoritesInBox(), 0 );
 
             await new Promise( _ => setTimeout( _, 100 ) );
 

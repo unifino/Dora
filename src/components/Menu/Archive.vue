@@ -1,7 +1,7 @@
 <template>
 
     <nButton
-        myClass="opt-item fas"
+        myClass="opt-item fas gear"
         :myLabel="String.fromCharCode( '0x' + 'f187' )"
         @tap="toggleArchive"
     />
@@ -38,7 +38,7 @@ toggleArchive () {
 
     // ! .. what is this???
     institute.pokAll = !institute.pokAll;
-    institute.collector();
+    // institute.collector();
 
 }
 

@@ -23,6 +23,7 @@
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout columns="2*,7*,2*" rows="7*,auto,5">
+        
         <StackLayout col="1" row="1">
             <Label
                 textWrap=true
@@ -31,8 +32,11 @@
                 :key=slot
                 :text=slot
                 :padding="slot ? '15' : 0"
-            />
-    </StackLayout>
+            />    
+        </StackLayout>
+        
+        <Label col="0" row="1" :text="left" id="left" />
+    
     </GridLayout>
 
 <!---------------------------------------------------------------------------------------->
@@ -83,6 +87,7 @@ activeId: number;
 isWaiting = false;
 ready = false;
 slots = {};
+left = -1;
 
 // -- =====================================================================================
 
@@ -243,6 +248,8 @@ async nextSlide () {
 
     this.slotLoader();
 
+    this.left =  myActiveBox.length-this.myTraces.length;
+
 }
 
 // -- =====================================================================================
@@ -387,6 +394,14 @@ destroyed () {
         text-align: center;
         font-size: 15;
         font-family: Raleway-Regular;
+    }
+    
+    #left {
+        background-color: #0c33453d;
+        color: whitesmoke;
+        font-family: Raleway-Regular;
+        text-align: center;
+        opacity: .4;
     }
 
 </style>

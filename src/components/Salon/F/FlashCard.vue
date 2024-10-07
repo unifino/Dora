@@ -1,6 +1,6 @@
 <template>
 <Page>
-<GridLayout rows="60,auto,60" columns="20,auto,*" >
+<GridLayout rows="60,auto,60" columns="20,auto,*,auto,20" >
 
 <!---------------------------------------------------------------------------------------->
 
@@ -13,11 +13,21 @@
         :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' "
     />
 
+    <nButton
+        row=0
+        col=3
+        :myClass="'dotButton r ' + favIconStyle"
+        @tap="toggleFav()"
+        @long-press="favRun()"
+        :myLabel="String.fromCharCode( '0x' + 'f004' )"
+        :visibility=" !VIPSentence[1].isFake ? 'visible' : 'hidden' "
+    />
+
 <!---------------------------------------------------------------------------------------->
 
     <GridLayout
         row=1
-        colSpan=3
+        colSpan=5
         ref="bigBox"
         class="bigBox"
         :marginBottom="$store.state.mediaButtons ? 0 : 51.5"
@@ -134,6 +144,7 @@
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
 import * as TS                          from "@/../types/myTypes"
+import * as storage                     from "@/mixins/storageHandler"
 import store                            from "@/mixins/store"
 import nButton                          from "@/components/tools/n_Button.vue"
 import nWord                            from "@/components/tools/n_Word.vue"
@@ -221,7 +232,9 @@ buttonsRow2: { label:string, class:string, func: Function }[] = [
     { label: "2b",   class: "fas b mini", func: () => { this.adjuster( "B", .3   ) } } ,
 ];
 
+ins = store.state.inHand.institute
 plyIcon: "f04b" | "f2ea" = "f04b";
+favIconStyle: "fas" | "far" = "far";
 
 summery: any = { icon: "", class: "", nextVisit: "" }
 myActiveBox = store.state.activeBox[ store.state.inHand.institute ];
@@ -260,26 +273,45 @@ get words (): { text: string, class: string }[] {
 mounted () {
 
     ( this.$refs.bigBox as any ).nativeView.marginBottom = store.state.mediaButtons ?
-        0 : 51.5;
+        0 : 51.5
 
     try { this.myAct( this.VIPSentence[1].studyHistory.acted, false ) } catch {}
 
-    if ( !this.VIPSentence[1].isFake ) this.speaker();
+    if ( !this.VIPSentence[1].isFake ) this.speaker()
 
-    store.state.preserve.flash = [];
+    store.state.preserve.flash = []
     if ( !this.VIPSentence[1].isFake )
         for ( let i = this.VIPSentence[1].A; i <= this.VIPSentence[1].B; i++ )
-            store.state.preserve.flash.push(i);
+            store.state.preserve.flash.push(i)
 
     // .. patch plyIcon icon
     store.watch(
         state => state.mediaState,
         newValue => this.plyIcon = newValue === "playing" ? "f2ea" : "f04b"
-    );
+    )
     
     // .. by backButton it repeats
-    Bus.$on( "repeatAfterMe", () => this.speaker() );
+    Bus.$on( "repeatAfterMe", () => this.speaker() )
 
+    // .. set FavoriteStyle
+    this.setFavStyle();
+
+}
+
+// -- =====================================================================================
+
+setFavStyle () {
+    this.favIconStyle = store.state.favsDB[ this.ins ].includes( this.VIPSentence[0] ) ?
+        "fas" : "far"
+}
+
+// -- =====================================================================================
+
+toggleFav () {
+    let idx = store.state.favsDB[ this.ins ].indexOf( this.VIPSentence[0] )
+    if ( !~idx ) store.state.favsDB[ this.ins ].push( this.VIPSentence[0] )
+    else store.state.favsDB[ this.ins ].splice( idx, 1 )
+    storage.saveFavorites().then( () => this.setFavStyle() );
 }
 
 // -- =====================================================================================
@@ -341,45 +373,57 @@ exit () {
 
 speaker ( shortcut = false ) {
 
-    // ! Odd Problem!
-    try {
-        this.VIPSentence[1].lesson.protoplasm.find( x => x.type === "dText" ).content
-    } catch (e) {
-        console.log(e);
-        tools.toaster( e + '', "long" );
-        return 0;
-    }
-
-    let item = this.VIPSentence[1],
-        uContext = item.lesson.protoplasm.find( x => x.type === "dText" ).content;
-
-    // .. setUp speaker
-    tnsPLY.init( store.state.inHand.mediaPath );
-    tnsPLY.getDuration().then( secs => {
-
-        if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
-
-        let start = tools.snapFinder( this.VIPSentence[1].A, uContext, secs );
-        let stop  = tools.snapFinder( this.VIPSentence[1].B, uContext, secs );
-
-        if ( start > stop ) {
-            delete uContext[ this.VIPSentence[1].A ][1].snap;
-            delete uContext[ this.VIPSentence[1].B ][1].snap;
-            return this.speaker( shortcut );
+    return new Promise( () => {
+        
+        // ! Odd Problem!
+        try {
+            this.VIPSentence[1].lesson.protoplasm.find( x => x.type === "dText" ).content
+        } catch (e) {
+            console.log(e);
+            tools.toaster( e + '', "long" );
+            return 0;
         }
 
-        // .. just a piece of phrase will play
-        if ( shortcut && stop - start > 1 ) start = stop -1;
-        // ..  just a word!
-        if ( start === stop ) stop = start + this.VIPSentence[0].length * .1;
+        let item = this.VIPSentence[1],
+            uContext = item.lesson.protoplasm.find( x => x.type === "dText" ).content;
 
-        // .. Play from A
-        tnsPLY.play();
-        tnsPLY.seekTo( start );
-        // .. and Stop at B
-        tnsPLY.stopAt( stop );
-    } );
+        // .. setUp speaker
+        tnsPLY.init( store.state.inHand.mediaPath );
+        tnsPLY.getDuration().then( secs => {
 
+            if ( secs <= 0 ) { console.log( "File Corrupted!" ); return 0; }
+
+            let start = tools.snapFinder( this.VIPSentence[1].A, uContext, secs );
+            let stop  = tools.snapFinder( this.VIPSentence[1].B, uContext, secs );
+
+            if ( start > stop ) {
+                delete uContext[ this.VIPSentence[1].A ][1].snap;
+                delete uContext[ this.VIPSentence[1].B ][1].snap;
+                return this.speaker( shortcut );
+            }
+
+            // .. just a piece of phrase will play
+            if ( shortcut && stop - start > 1 ) start = stop -1;
+            // ..  just a word!
+            if ( start === stop ) stop = start + this.VIPSentence[0].length * .1;
+
+            // .. Play from A
+            tnsPLY.play()
+            tnsPLY.seekTo( start )
+            // .. and Stop at B
+            tnsPLY.stopAt( stop )
+            // .. favRunSwitch
+            .then( async () => { 
+                if ( store.state.favRunSwitch ) {
+                    await new Promise( _ => setTimeout( _, 700 ) )
+                    this.nextSlide()
+                } 
+            } );
+            
+        } );
+
+    } )
+    
 }
 
 // -- =====================================================================================
@@ -540,6 +584,15 @@ async studyDataRegistrator () {
     if ( this.VIPSentence[1].studyHistory.newRedHit || item[1].redHit ) {
         item[1].redHit = this.VIPSentence[1].studyHistory.newRedHit;
     }
+
+}
+
+// -- =====================================================================================
+
+favRun () {
+
+    store.state.favRunSwitch = !store.state.favRunSwitch;
+     if ( store.state.favRunSwitch ) this.speaker();
 
 }
 

@@ -26,6 +26,7 @@ let massDBFile          : NS.File   // * do not initiate it
 let glssDBFile          : NS.File   // * do not initiate it
 let flssDBFile          : NS.File   // * do not initiate it
 let rbssDBFile          : NS.File   // * do not initiate it
+let favsDBFile          : NS.File   // * do not initiate it
 let bigKeyFile          : NS.File   // * do not initiate it
 
 // -- =====================================================================================
@@ -92,6 +93,7 @@ export function pathCtr () {
     glssDBFile  = NS.knownFolders.documents().getFile( "g.db" )
     flssDBFile  = NS.knownFolders.documents().getFile( "f.db" )
     rbssDBFile  = NS.knownFolders.documents().getFile( "r.db" )
+    favsDBFile  = NS.knownFolders.documents().getFile( "v.db" )
     bigKeyFile  = NS.knownFolders.documents().getFile( "key"  )
 
     if ( TNS_ENV !== 'production' ) {
@@ -99,6 +101,7 @@ export function pathCtr () {
         glssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "g.db"  ) )
         flssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "f.db"  ) )
         rbssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "r.db"  ) )
+        favsDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "v.db"  ) )
         bigKeyFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "key"   ) )
     }
 
@@ -237,6 +240,21 @@ export function putFlashcardsInBox () {
 
 // -- =====================================================================================
 
+export function putFavoritesInBox () {
+
+    let vDB: { [key: string]: string[] } = {}
+
+    try { vDB = JSON.parse( favsDBFile.readTextSync() ) }
+    catch { vDB = tryToRescue( favsDBFile ) }
+
+    for ( let ins of store.state.appConfig.institutes ) if ( !(ins in vDB) ) vDB[ins] = []
+
+    store.state.favsDB = vDB
+
+}
+
+// -- =====================================================================================
+
 export function putRibosomesInBox () {
 
     let rDB: { [key: string]: TS.Ribosome[] } = {}
@@ -319,6 +337,30 @@ export function saveFlashCards (): Promise<void> {
             .then( () => rs() )
             .catch( err => rx() )
             .finally( () => fDBBusy = false )
+        else
+            rx( "backUpFailed!" )
+
+    } )
+
+}
+
+// -- =====================================================================================
+
+let vDBBusy = false
+export function saveFavorites (): Promise<void> {
+
+    if ( vDBBusy ) return new Promise( _ => setTimeout( _ => saveFavorites(), 10 ) )
+
+        vDBBusy = true
+
+    return new Promise ( async (rs, rx) => {
+
+        if ( refreshBackUP( favsDBFile ) )
+            favsDBFile.
+            writeText( JSON.stringify( store.state.favsDB ) )
+            .then( () => rs() )
+            .catch( err => rx() )
+            .finally( () => vDBBusy = false )
         else
             rx( "backUpFailed!" )
 
