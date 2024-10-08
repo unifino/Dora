@@ -144,6 +144,7 @@ mounted () {
 
     Bus.$on( "Base_SwipeControl", this.swipeControl );
     Bus.$on( "Base_HeadToIPanel", this.headToIPanel );
+    Bus.$on( "Base_HeadToInstitute", this.headToInstitute );
 
 }
 

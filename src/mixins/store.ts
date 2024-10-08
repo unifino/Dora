@@ -22,6 +22,7 @@ export default new Vuex.Store( {
         activeBox           : {}                                    ,
         sentenceBox         : {}                                    ,
         numberBox           : {}                                    ,
+        archiveMode           : false                                 ,
         favRunSwitch        : false                                 ,
         inHand              : {}                                    ,
         preserve            : {                                      
@@ -55,6 +56,7 @@ export interface state {
         activeBox           : { [key: string]: TS.VIPSentence[] }   ,
         sentenceBox         : { [key: string]: TS.VIPSentence[] }   ,
         numberBox           : { [key: string]: TS.VIPSentence[] }   ,
+        archiveMode         : boolean                               ,
         favRunSwitch        : boolean                               ,
 
         inHand              : {                                      

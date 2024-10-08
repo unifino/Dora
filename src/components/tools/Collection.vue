@@ -130,9 +130,11 @@ get inHand () {
     for ( let x of Object.values( store.state.massDB[ this.ins ] ) )
         if ( x.chromosome.code.ribosome === this.ribosome.code ) {
             inLocal++;
-            // ! we should somehow change this to toggle Archive Mode But HOW??!
-            if ( x.chromosome.status === "reading" ) inHands.push( x );
-            if ( x.chromosome.status !== "reading" ) this.read++;
+            // .. archiveMode
+            if ( store.state.archiveMode ) inHands.push( x )
+            else if ( x.chromosome.status === "reading" ) inHands.push( x )
+            // .. counting reads
+            if ( x.chromosome.status !== "reading" ) this.read++
         }
 
     // .. determine if all Lessons has been Downloaded already!
