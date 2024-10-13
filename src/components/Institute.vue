@@ -40,6 +40,7 @@ import { Vue, Component, Prop }         from "vue-property-decorator"
 import store                            from "@/mixins/store"
 import Collection                       from "@/components/tools/Collection.vue"
 import Dictionary                       from "@/components/Menu/Dictionary.vue"
+import Favorite                         from "@/components/Menu/Favorite.vue"
 import MenuPanel                        from "@/components/Menu/Panel.vue"
 import * as tools                       from "@/mixins/tools"
 import * as storage                     from "@/mixins/storageHandler"
@@ -96,6 +97,10 @@ mounted () {
     // .. adjust paddingTop of myBigRail
     ( this.$refs.myBigRail as any ).nativeView.horizontalAlignment =
         store.state.windowSize.width > 500 ? "center" : "left";
+
+    // .. Favorite Lunch
+    let Favorite = menuPanel.$refs.Favorite as Favorite;
+    Favorite.init( this.ins );
 
 }
 

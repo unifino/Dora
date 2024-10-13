@@ -248,7 +248,7 @@ async nextSlide () {
 
     this.slotLoader();
 
-    this.left =  myActiveBox.length-this.myTraces.length;
+    this.left =  myActiveBox.length -this.myTraces.length +1;
 
 }
 

@@ -131,8 +131,13 @@ get inHand () {
         if ( x.chromosome.code.ribosome === this.ribosome.code ) {
             inLocal++;
             // .. archiveMode
-            if ( store.state.archiveMode ) inHands.push( x )
-            else if ( x.chromosome.status === "reading" ) inHands.push( x )
+            if ( store.state.archiveMode ) {
+                if ( x.chromosome.status !== "reading" ) inHands.push( x )
+            }
+            // .. ReadingMode
+            else {
+                if ( x.chromosome.status === "reading" ) inHands.push( x )
+            }
             // .. counting reads
             if ( x.chromosome.status !== "reading" ) this.read++
         }
