@@ -119,7 +119,8 @@
             <nButton
                 v-for="(button,i) in buttonsRow2"
                 :key="i"
-                @tap="button.func()"
+                @tap="button.fnc1()"
+                @long-press="button.fnc2()"
                 :myLabel="String.fromCharCode( '0x' + button.label )"
                 :myClass="'dotButton ' + button.class"
             />
@@ -208,28 +209,28 @@ buttonsRow1: {
     },
                                                                                      
     {                                                                                
-        label: store.state.mediaButtons ? "f077" : "f078"                           ,
-        class: "fas o"                                                              ,
+        label: store.state.mediaButtons ? "f077" : "f078",
+        class: "fas o",
         pos:4, 
         fnc1: () => {                                                         
             store.state.mediaButtons = !store.state.mediaButtons;                    
             this.buttonsRow1[4].label = store.state.mediaButtons ? "f077" : "f078";  
         },
-        fnc2: () => this.exit()                                                              ,
-    }                                                                               ,
+        fnc2: () => this.exit(),
+    },
                                                                                      
 ];
 
-buttonsRow2: { label:string, class:string, func: Function }[] = [
-    { label: "f068", class: "fas y mini", func: () => { this.adjuster( "A", -.3  ) } } ,
-    { label: "f068", class: "fas y",      func: () => { this.adjuster( "A", -1.9 ) } } ,
-    { label: "2b",   class: "fas y",      func: () => { this.adjuster( "A", 1.9  ) } } ,
-    { label: "2b",   class: "fas y mini", func: () => { this.adjuster( "A", .3   ) } } ,
-    { label: ""  ,   class: 'space',      func: () => {}                             } ,
-    { label: "f068", class: "fas b mini", func: () => { this.adjuster( "B", -.3  ) } } ,
-    { label: "f068", class: "fas b",      func: () => { this.adjuster( "B", -1.9 ) } } ,
-    { label: "2b",   class: "fas b",      func: () => { this.adjuster( "B", 1.9  ) } } ,
-    { label: "2b",   class: "fas b mini", func: () => { this.adjuster( "B", .3   ) } } ,
+buttonsRow2: { label:string, class:string, fnc1: Function, fnc2: Function }[] = [
+    { label: "f068", class: "fas y mini", fnc1: () => { this.adjuster( "A", -.3 ) }, fnc2: () => { this.adjuster( "A", -.1  ) } },
+    { label: "f068", class: "fas y",      fnc1: () => { this.adjuster( "A", -.9 ) }, fnc2: () => { this.adjuster( "A", -1.8 ) } },
+    { label: "2b",   class: "fas y",      fnc1: () => { this.adjuster( "A", +.9 ) }, fnc2: () => { this.adjuster( "A", +1.8 ) } },
+    { label: "2b",   class: "fas y mini", fnc1: () => { this.adjuster( "A", +.3 ) }, fnc2: () => { this.adjuster( "A", +.1  ) } },
+    { label: ""  ,   class: 'space',      fnc1: () => {}, fnc2: () => {}             } ,
+    { label: "f068", class: "fas b mini", fnc1: () => { this.adjuster( "B", -.3 ) }, fnc2: () => { this.adjuster( "B", -.1  ) } } ,
+    { label: "f068", class: "fas b",      fnc1: () => { this.adjuster( "B", -.9 ) }, fnc2: () => { this.adjuster( "B", -1.8 ) } } ,
+    { label: "2b",   class: "fas b",      fnc1: () => { this.adjuster( "B", +.9 ) }, fnc2: () => { this.adjuster( "B", +1.8 ) } } ,
+    { label: "2b",   class: "fas b mini", fnc1: () => { this.adjuster( "B", +.3 ) }, fnc2: () => { this.adjuster( "B", +.1  ) } } ,
 ];
 
 ins = store.state.inHand.institute
@@ -337,7 +338,7 @@ myAct ( action: TS.studyActions, apply=true ) {
 
 // -- =====================================================================================
 
-async adjuster ( point: 'A' | 'B' , fac: -.3 | .3 | -1.9 | 1.9 ) {
+async adjuster ( point: 'A' | 'B' , fac: number ) {
 
     let factor = .25,
         item = this.VIPSentence[1],
