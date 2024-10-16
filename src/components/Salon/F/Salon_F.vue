@@ -103,11 +103,14 @@ mounted () {
 
 backOrExit () {
     
-    if ( store.state.appConfig.rpbkMode ) Bus.$emit( "repeatAfterMe" );
+    if ( store.state.appConfig.rpbkMode ) {
+        if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" )
+        else Bus.$emit( "repeatAfterMe" )
+    }
 
     else {
-        if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" );
-        else storage.saveFlashCards().finally( () => ( this as any ).$navigateBack() );
+        if ( store.state.scopeIsActive ) Bus.$emit( "Scope_DeskCtl", "down" )
+        else storage.saveFlashCards().finally( () => ( this as any ).$navigateBack() )
     }
 
 }

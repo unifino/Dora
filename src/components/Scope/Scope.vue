@@ -165,17 +165,17 @@ snapDesk ( snapPosition: "waiting"|"hide"|"translate"|"web" ): Promise<void> {
 
             rs();
 
-            // .. pause media
-            if ( snapPosition === "translate" ) {
-                if ( store.state.mediaState === "playing" ) tnsPLY.pause( "scope" );
-            }
+            // // .. pause media
+            // if ( snapPosition === "translate" ) {
+            //     if ( store.state.mediaState === "playing" ) tnsPLY.pause( "scope" );
+            // }
             if ( snapPosition === "hide" ) {
                 // .. reset webView
                 this.setMyWebSrc();
                 // .. remove retrieved Data
                 this.translatorModule.slots = {};
-                // .. resume media
-                if ( store.state.mediaState === "pausedByScope" ) tnsPLY.resume();
+                // // .. resume media
+                // if ( store.state.mediaState === "pausedByScope" ) tnsPLY.resume();
                 store.state.scopeIsActive = false;
                 // ! remove it
                 this.desk.visibility = "hidden";
