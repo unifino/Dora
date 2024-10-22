@@ -3,7 +3,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout rows="60,100,100,*" padding="100 40">
+    <GridLayout rows="60,80,10,80,*" padding="100 40">
 
         <TextField
             ref="searchBox"
@@ -13,9 +13,9 @@
             @textChange="search"
         />
 
-        <Verb ref="Verb" row=1 />
-        <Wort ref="Wort" row=2 />
-        <Local ref="Local"  row=3 />
+        <!-- <Verb ref="Verb" row=1 /> -->
+        <!-- <Wort ref="Wort" row=3 /> -->
+        <Local ref="Local"  row=4 />
 
     </GridLayout>
 
@@ -65,6 +65,12 @@ mounted () {}
 
 // -- =====================================================================================
 
+init () {    
+    this.curtain( "hide" ); 
+}
+
+// -- =====================================================================================
+
 curtain ( action: "hide" | "show" ) {
 
     let opacity: number,
@@ -89,8 +95,8 @@ search_TO;
 search ( event ) {
 
     let text = event.object.text;
-    let Verb = ( this.$refs.Verb as Verb );
-    let Wort = ( this.$refs.Wort as Wort );
+    // let Verb = ( this.$refs.Verb as Verb );
+    // let Wort = ( this.$refs.Wort as Wort );
 
     // .. clear last search planed job
     clearTimeout( this.search_TO );
@@ -98,8 +104,9 @@ search ( event ) {
     // .. do a search job after a bit delay and having a minimum of letters in hand
     if ( text.length >= 3 ) {
         this.search_TO = setTimeout( () => {
-            Verb.lookUp( text );
-            Wort.lookUp( text );
+            // Verb.lookUp( text );
+            // Wort.lookUp( text );
+            tools.toaster( "To Build!", "short" );
         }, 550 );
     }
 

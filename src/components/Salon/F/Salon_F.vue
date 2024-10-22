@@ -22,7 +22,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout columns="2*,7*,2*" rows="7*,auto,5">
+    <GridLayout columns="2*,7*,2*" rows="7*,auto,15">
         
         <StackLayout col="1" row="1">
             <Label
@@ -35,7 +35,7 @@
             />    
         </StackLayout>
         
-        <Label col="0" row="1" :text="left" id="left" />
+        <Label col="0" row="2" :text="left" id="left" />
     
     </GridLayout>
 

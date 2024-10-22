@@ -85,16 +85,15 @@ sectionFinder ( text: string ) {
         aCutID  : number,
         bCutID  : number;
 
-    aCut   = 'id="x31ccbBox"';
-    bCut   = '</section>';
+    aCut   = 'id="wStckLngImg"'
+    bCut   = '</section>'
+    aCutID = text.indexOf( aCut )
+    text   = text.substr( aCutID )
+    bCutID = text.indexOf( bCut )
 
-    aCutID = text.indexOf( aCut );
-    text   = text.substr( aCutID );
-    bCutID = text.indexOf( bCut );
-
-    console.log(text.substr( 0, bCutID ));
+    console.log( aCutID, bCutID, text.substr( 0, bCutID ) )
     
-    return text.substr( 0, bCutID );
+    return text.substr( 0, bCutID )
 
 }
 
@@ -126,7 +125,7 @@ stammFinder ( text: string ) {
     audio  = text.substr( aCutID, bCutID - aCutID + bCut.length );
     text   = text.replace( re, '' );
     text   = text.replace( /(\r\n|\n|\r)/gm, "" );
-    text   = text.trim();
+    // text   = text.trim();
 
     this.stamm = text;
     this.audioURL = audio;
@@ -164,6 +163,11 @@ niveauFinder ( text: string ) {
 
 packBuilder ( info: string[] ) {
 
+    if ( info.length < 2 ) {
+        tools.toaster( "Error!", "short" )
+        return 0
+    }
+
     this.verb[1] = {
         level: info[0].trim() as TS.CEF,
         type: info[1].trim() as "regular"|"irregular",
@@ -178,8 +182,6 @@ packBuilder ( info: string[] ) {
             text: this.stamm,
         }
     ]
-    console.log(this.verb);
-
 
 }
 

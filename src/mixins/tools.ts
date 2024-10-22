@@ -257,13 +257,13 @@ export async function activator (
         VIPinTimeBox: TS.VIPSentence[],
         baseTime = store.state.appConfig.baseTime;
 
+    now = ( new Date().getTime() /1000 ) | 0;
+
     // .. make a copy of sentenceBox
     VIPinTimeBox = sentenceBox.slice();
 
     // .. removing not in Time sentences
     for ( let sentence of VIPinTimeBox ) {
-
-        now = ( new Date().getTime() /1000 ) | 0;
 
         let idx = flashcards.findIndex( card => card[0] === sentence[0] );
         if ( idx > -1  ) {
@@ -273,6 +273,9 @@ export async function activator (
             next = day * ( baseTime ** step );
             // .. remove this sentence on Base of fDB
             if ( diff <= next || flashcards[ idx ][1].status === 'hidden' )
+                VIPinTimeBox = VIPinTimeBox.filter( x => x[0] !== sentence[0] );
+            // .. PRE-Practiced Ones Out!
+            if ( diff === Infinity )
                 VIPinTimeBox = VIPinTimeBox.filter( x => x[0] !== sentence[0] );
         }
 

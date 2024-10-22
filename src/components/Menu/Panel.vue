@@ -22,7 +22,7 @@
             <StackLayout col=1 orientation="horizontal" horizontalAlignment="left">
                 <Archive />
                 <!-- <Filter /> -->
-                <!-- <Search /> -->
+                <Search />
                 <!-- <FilterButtons /> -->
                 <SalonFIcon />
                 <Favorite ref="Favorite" />

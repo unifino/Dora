@@ -17,7 +17,7 @@
 
     <Frame id="salon_F" ref="salon_F" ><Page /></Frame>
     <Frame id="room" ref="room" ><Page /></Frame>
-    <!-- <SearchPanel ref="SearchPanel" /> -->
+    <SearchPanel ref="SearchPanel" />
 
 <!---------------------------------------------------------------------------------------->
 
@@ -202,6 +202,10 @@ resumeCtl () {
 // -- =====================================================================================
 
 init (): void {
+
+    // .. hide SearchPanel
+    let SearchPanel = this.$root.$children[0].$refs.SearchPanel as SearchPanel;
+    SearchPanel.init()
 
     // .. just applying default theme
     TM.themeApplier( "Milky", this.$refs );

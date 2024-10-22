@@ -15,7 +15,7 @@ store.state.appConfig = {
 	theme               : "Milky"               ,
 	fontFace            : "Farsan-Regular"      ,
 	fontSize            : 23.5                  ,
-	sortCode            : 1                     ,
+	sortCode            : 0                     ,
 	baseTime            : 3                     ,
 	minNumberLength     : 3                     ,
     email               : ""                    ,
