@@ -238,7 +238,6 @@ plyIcon: "f04b" | "f2ea" = "f04b";
 favIconStyle: "fas" | "far" = "far";
 
 summery: any = { icon: "", class: "", nextVisit: "" }
-myActiveBox = store.state.activeBox[ store.state.inHand.institute ];
 myFlashcards = store.state.flssDB[ store.state.inHand.institute ];
 
 // -- =====================================================================================

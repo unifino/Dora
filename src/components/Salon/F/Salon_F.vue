@@ -78,16 +78,17 @@ export default class Salon_F extends Vue {
 sortPhase: { code:TS.SortPhase, name: string } = {
     code: store.state.appConfig.sortCode ,
     name: TS.SortPhase[ store.state.appConfig.sortCode ]
-};
+}
 
-myVIP: TS.VIPSentence = [ "No more sentences.", { isFake: true } as any ];
-myTraces: number[];
-myTracePointer: number;
-activeId: number;
-isWaiting = false;
-ready = false;
-slots = {};
-left = -1;
+myVIP: TS.VIPSentence = [ "No more sentences.", { isFake: true } as any ]
+myTraces: number[]
+myTracePointer: number
+activeId: number
+isWaiting = false
+ready = false
+slots = {}
+left = -1
+activeBox = store.state.activeBox[ store.state.inHand.institute ]
 
 // -- =====================================================================================
 
@@ -122,33 +123,47 @@ init () {
 
     if ( this.init_TO ) clearTimeout( this.init_TO );
 
-    if ( store.state.needCalculation ) this.init_TO = setTimeout( () => this.init() , 10 );
+    if ( store.state.needCalculation ) this.init_TO = setTimeout( () => this.init() , 10 )
     else {
-        this.activeId = null;
-        this.myTraces = [];
-        this.myTracePointer = -1;
-        this.nextSlide();
+        this.activeId = null
+        this.myTraces = []
+        this.myTracePointer = -1
+        this.oldOnesDriveNewOnesOut()
+        this.nextSlide()
     }
 
-    this.slots = { "en": null, "fa": null };
+    this.slots = { "en": null, "fa": null }
 
+}
+
+// -- =====================================================================================
+
+oldOnesDriveNewOnesOut () {
+    // .. Let OldOnes Come Ahead!
+    let fDB = store.state.flssDB[ store.state.inHand.institute ]
+    for ( let x of this.activeBox ) {
+        if ( ~fDB.findIndex( f => f[0] === x[0] ) ) {
+            this.activeBox = this.activeBox.filter( x => fDB.find( f => f[0] === x[0] ) )
+            break
+        }
+    }
 }
 
 // -- =====================================================================================
 
 doorCtl ( act: 'open' | 'close' ) {
 
-    let place = this.$root.$children[0].$refs.salon_F;
+    let place = this.$root.$children[0].$refs.salon_F
 
     let callBack = () => {
         if ( act === "open" ) {
             this.init();
             this.dataChangingController();
-            ( this.$refs.myMenu as FlashCardMenu ).wakeUp( 900 );
+            ( this.$refs.myMenu as FlashCardMenu ).wakeUp( 900 )
         }
     };
 
-    tools.doorRemote( "Salon_F", place, act, callBack );
+    tools.doorRemote( "Salon_F", place, act, callBack )
 
 }
 
@@ -161,7 +176,7 @@ dataChangingController () {
         state => store.state.needCalculation ,
         newVal => {
             this.isWaiting = newVal;
-            if ( this.isWaiting ) this.myUIRefresher();
+            if ( this.isWaiting ) this.myUIRefresher()
         },
 
     );
@@ -173,13 +188,13 @@ dataChangingController () {
 myUIRefresher_TO: number;
 myUIRefresher () {
 
-    if ( this.myUIRefresher_TO ) clearTimeout( this.myUIRefresher_TO );
+    if ( this.myUIRefresher_TO ) clearTimeout( this.myUIRefresher_TO )
 
     // .. stop it if we will not return back to it from a Lesson
-    if ( store.state.here === "Institute" ) return 0;
+    if ( store.state.here === "Institute" ) return 0
 
-    if ( store.state.here === "Salon_F" ) this.init();
-    else this.myUIRefresher_TO = setTimeout( () => this.myUIRefresher() , 100 );
+    if ( store.state.here === "Salon_F" ) this.init()
+    else this.myUIRefresher_TO = setTimeout( () => this.myUIRefresher() , 100 )
 
 }
 
@@ -187,10 +202,10 @@ myUIRefresher () {
 
 swipeControl ( args: NS.SwipeGestureEventData ) {
 
-    if ( this.end_TO ) clearTimeout( this.end_TO );
+    if ( this.end_TO ) clearTimeout( this.end_TO )
 
-    if ( args.direction === NS.SwipeDirection.left ) this.nextSlide();
-    if ( args.direction === NS.SwipeDirection.right ) this.previousSlide();
+    if ( args.direction === NS.SwipeDirection.left ) this.nextSlide()
+    if ( args.direction === NS.SwipeDirection.right ) this.previousSlide()
 
 }
 
@@ -218,40 +233,38 @@ end_TO
 async nextSlide () {
 
     // .. prevent to action
-    if ( ( this.$root.$children[0].$refs.scope as Scope ).isDragging ) return 0;
+    if ( ( this.$root.$children[0].$refs.scope as Scope ).isDragging ) return 0
 
     // TODO lesson should be checked before this, maybe it would be corrupted
 
-    let myActiveBox = store.state.activeBox[ store.state.inHand.institute ];
-
     // .. no Action
-    if ( this.myTracePointer === this.myTraces.length ) return 0;
+    if ( this.myTracePointer === this.myTraces.length ) return 0
 
     // .. pointer is at the End
     if ( this.myTraces.length -1 === this.myTracePointer ) {
 
         // .. all sentences has been presented.
-        if ( this.myTraces.length === myActiveBox.length ) {
-            this.myVIP = [ "The End.", { isFake: true } as any ];
-            this.end_TO = setTimeout( () => ( this as any ).$navigateBack(), 1600 );
+        if ( this.myTraces.length === this.activeBox.length ) {
+            this.myVIP = [ "The End.", { isFake: true } as any ]
+            this.end_TO = setTimeout( () => ( this as any ).$navigateBack(), 1600 )
         }
 
-        else await this.oneSentence().then( _ => this.myTraces.push( this.activeId ) );
+        else await this.oneSentence().then( _ => this.myTraces.push( this.activeId ) )
 
     }
 
     // .. pointer is not at the End
     else {
-        this.activeId = this.myTraces[ this.myTracePointer +1 ];
-        this.myVIP = store.state.activeBox[ store.state.inHand.institute ][ this.activeId ];
+        this.activeId = this.myTraces[ this.myTracePointer +1 ]
+        this.myVIP = this.activeBox[ this.activeId ]
     }
 
-    this.headToFlashCard( "slideLeft" );
-    this.myTracePointer++;
+    this.headToFlashCard( "slideLeft" )
+    this.myTracePointer++
 
-    this.slotLoader();
+    this.slotLoader()
 
-    this.left =  myActiveBox.length -this.myTraces.length +1;
+    this.left = this.activeBox.length -this.myTraces.length +1
 
 }
 
@@ -261,7 +274,7 @@ async previousSlide () {
 
     if ( this.myTracePointer > 0 ) {
         this.activeId = this.myTraces[ this.myTracePointer -1 ];
-        this.myVIP = store.state.activeBox[ store.state.inHand.institute ][ this.activeId ];
+        this.myVIP = this.activeBox[ this.activeId ];
         this.headToFlashCard( "slideRight" );
         this.myTracePointer--;
         this.slotLoader();
@@ -295,28 +308,28 @@ async headToFlashCard( direction: "slideRight" | "slideLeft" ) {
 async oneSentence () {
 
     // .. reset Values and settings
-    tnsPLY.stop();
+    tnsPLY.stop()
 
-    this.myVIP = [ "Searching ...", { isFake: true } as any ];
+    this.myVIP = [ "Searching ...", { isFake: true } as any ]
 
     let myId: number ,
         min: number = -1 ,
-        max: number = store.state.activeBox[ store.state.inHand.institute ].length ;
+        max: number = this.activeBox.length
 
     do { switch ( this.sortPhase.code ) {
 
         // .. priority by Random
-        case TS.SortPhase.Random: myId = max*Math.random()<<0; break;
+        case TS.SortPhase.Random: myId = max*Math.random()<<0; break
         // .. priority by Long Sentences
-        case TS.SortPhase.Long: myId = --max; break;
+        case TS.SortPhase.Long: myId = --max; break
         // .. priority by Short Sentences
-        case TS.SortPhase.Short: myId = ++min; break;
+        case TS.SortPhase.Short: myId = ++min; break
 
-    } } while ( this.myTraces.includes( myId ) );
+    } } while ( this.myTraces.includes( myId ) )
 
     // .. register this Id
-    this.activeId = myId;
-    this.myVIP = store.state.activeBox[ store.state.inHand.institute ][ myId ];
+    this.activeId = myId
+    this.myVIP = this.activeBox[ myId ]
 
 }
 

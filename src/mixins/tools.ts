@@ -255,36 +255,42 @@ export async function activator (
         diff: number ,
         next: number ,
         VIPinTimeBox: TS.VIPSentence[],
-        baseTime = store.state.appConfig.baseTime;
+        baseTime = store.state.appConfig.baseTime
 
-    now = ( new Date().getTime() /1000 ) | 0;
+    now = ( new Date().getTime() /1000 ) | 0
 
     // .. make a copy of sentenceBox
-    VIPinTimeBox = sentenceBox.slice();
+    VIPinTimeBox = sentenceBox.slice()
 
     // .. removing not in Time sentences
     for ( let sentence of VIPinTimeBox ) {
 
-        let idx = flashcards.findIndex( card => card[0] === sentence[0] );
+        let idx = flashcards.findIndex( card => card[0] === sentence[0] )
         if ( idx > -1  ) {
-            step = flashcards[ idx ][1].step ;
-            time = flashcards[ idx ][1].lastVisit;
-            diff = ( now - time ) >= 0 ? ( now - time ) : Infinity;
-            next = day * ( baseTime ** step );
+            step = flashcards[ idx ][1].step
+            time = flashcards[ idx ][1].lastVisit
+            diff = ( now - time ) >= 0 ? ( now - time ) : Infinity
+            next = day * ( baseTime ** step )
             // .. remove this sentence on Base of fDB
             if ( diff <= next || flashcards[ idx ][1].status === 'hidden' )
-                VIPinTimeBox = VIPinTimeBox.filter( x => x[0] !== sentence[0] );
+                VIPinTimeBox = VIPinTimeBox.filter( x => x[0] !== sentence[0] )
             // .. PRE-Practiced Ones Out!
             if ( diff === Infinity )
-                VIPinTimeBox = VIPinTimeBox.filter( x => x[0] !== sentence[0] );
+                VIPinTimeBox = VIPinTimeBox.filter( x => x[0] !== sentence[0] )
         }
 
     }
 
     // .. sort VIPinTimeBox
-    VIPinTimeBox.sort( (x,y) => x[0].length > y[0].length ? 1 : -1 );
+    VIPinTimeBox.sort( (x,y) => x[0].length > y[0].length ? 1 : -1 )
+    // for( let x of this.activeBox ){
 
-    return VIPinTimeBox;
+    //     let hasTrace = store.state.flssDB[ store.state.inHand.institute ].findIndex( f => f[0] === x[0] )
+    //     if ( ~hasTrace ) console.log(x[1].studyHistory);
+           
+    // }
+
+    return VIPinTimeBox
 
 }
 
