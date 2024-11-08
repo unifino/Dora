@@ -632,16 +632,17 @@ function ultraDriver ( ins: string, type: "audio"|"video" ) {
             let iData = NS.File.fromPath( iDataFile.path ).readTextSync()
             //! chcek its integrity
             newData = JSON.parse( iData )
-            // .. register the lesson
-            store.state.massDB[ ins ].push( newData )
         }
         // .. create new File
         else {
             type === "audio" ?
             audioLessonCreator( newData, ins, lesson ):
             videoLessonCreator( newData, ins, lesson )
+            // ! BIG BAD BUG -- No ADDING NEW LESSON FROM SCRATCH
+            // .. register the lesson
+            store.state.massDB[ ins ].push( newData )
         }
-
+       
     }
 
 }

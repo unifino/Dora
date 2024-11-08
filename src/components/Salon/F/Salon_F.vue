@@ -22,7 +22,7 @@
 
 <!---------------------------------------------------------------------------------------->
 
-    <GridLayout columns="2*,7*,2*" rows="7*,auto,15">
+    <GridLayout columns="2*,7*,2*" rows="7*,auto,20,20">
         
         <StackLayout col="1" row="1">
             <Label
