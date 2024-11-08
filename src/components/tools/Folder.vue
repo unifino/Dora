@@ -149,11 +149,11 @@ get myAvatar () {
 tapAction () {
 
     // .. do nothing
-    if ( !this.actPermission ) return;
-    if ( store.state.here === "IPanel" ) return;
-    if ( this.myProp.type === "divider" ) return;
-    if ( store.state.mode === "traveling" ) return;
-    if ( store.state.mode !== "idle" && store.state.mode !== "shopping" ) return;
+    if ( !this.actPermission ) return
+    if ( store.state.here === "IPanel" ) return
+    if ( this.myProp.type === "divider" ) return
+    if ( store.state.mode === "traveling" ) return
+    if ( store.state.mode !== "idle" && store.state.mode !== "shopping" ) return
 
     // .. lock tap permission
     this.actPermission = false;
@@ -162,19 +162,33 @@ tapAction () {
     this.tapAnimator().then( () => {
 
         // .. release tap permission
-        setTimeout( () => this.actPermission = true, 300 );
+        setTimeout( () => this.actPermission = true, 300 )
 
         // .. (in) shop
         if ( this.myProp.type === "shop" || this.myProp.type === "category" )
-            shopping.inShop( this.myProp.institute, this.myProp.title, this.myProp.path );
+            shopping.inShop( this.myProp.institute, this.myProp.title, this.myProp.path )
 
         else {
             // .. Lesson
-            if ( this.myProp.lesson ) this.openLesson();
+            if ( this.myProp.lesson ) {
+                try {
+                    if ( this.myProp.type === "shortLink" ) {
+                        // .. temp convert video -> audio
+                        if ( this.myProp.lesson.chromosome.model.find( x => x === "dVideo") ) {
+                            let protoplasm = this.myProp.lesson.protoplasm
+                            let context = protoplasm.find( x => x.type === "dText" )
+                            protoplasm.find( x => x.type === "dVideo" ).type = "dAudio"
+                            context.content = context.content.filter( w => w[0] !== null )
+                            this.myProp.lesson.chromosome.model = [ "dAudio", "dText" ]
+                        }
+                    }
+                } catch {}            
+                this.openLesson()
+            }
             // .. Ribosome
-            else if ( this.myProp.ribosome ) this.onRibosome();
+            else if ( this.myProp.ribosome ) this.onRibosome()
             // .. Folder|Back
-            else this.openFolder();
+            else this.openFolder()
         }
 
     } );
@@ -185,19 +199,19 @@ tapAction () {
 
 onRibosome () {
 
-    if ( store.state.mode === "idle" ) genetics.retrieving_cell( this.myProp.ribosome );
+    if ( store.state.mode === "idle" ) genetics.retrieving_cell( this.myProp.ribosome )
 
     if ( store.state.mode === "shopping" ) {
-        let box = store.state.rbssDB[ store.state.inHand.institute ];
+        let box = store.state.rbssDB[ store.state.inHand.institute ]
         // .. mark as added!
         if ( !box.hasOwnProperty( this.myProp.ribosome.code ) ) {
-            this.myProp.icon = "f02e";
-            // genetics.copyingRibosome( this.myProp.ribosome );
+            this.myProp.icon = "f02e"
+            // genetics.copyingRibosome( this.myProp.ribosome )
         }
         // .. mark as not Added
         else {
-            this.myProp.icon = "";
-            // genetics.removeRibosome( this.myProp.ribosome );
+            this.myProp.icon = ""
+            // genetics.removeRibosome( this.myProp.ribosome )
         }
     }
 
@@ -205,34 +219,34 @@ onRibosome () {
 
 // -- =====================================================================================
 
-tapAnimation: NS.Animation;
-tapAnimator (): Promise<void> {
+tapAnimation: NS.Animation
+tapAnimator (): Promise<void> {    
 
     return new Promise ( (rs, rx) => {
-        let x_def: NS.AnimationDefinition = {};
+        let x_def: NS.AnimationDefinition = {}
 
-        x_def.scale = { x: 1.04, y: 1.04 };
-        x_def.curve = NS.Enums.AnimationCurve.ease;
-        x_def.duration = 80;
+        x_def.scale = { x: 1.04, y: 1.04 }
+        x_def.curve = NS.Enums.AnimationCurve.ease
+        x_def.duration = 80
 
-        x_def.target = ( this.$refs.myFolder as any ).nativeView;
+        x_def.target = ( this.$refs.myFolder as any ).nativeView
 
-        this.tapAnimation = new NS.Animation( [ x_def ], false );
+        this.tapAnimation = new NS.Animation( [ x_def ], false )
         this.tapAnimation.play().then( () => {
-            x_def.scale = { x: 1, y: 1 };
-            this.tapAnimation = new NS.Animation( [ x_def ], false );
-            this.tapAnimation.play().then( () => rs() );
-        } );
-    } );
+            x_def.scale = { x: 1, y: 1 }
+            this.tapAnimation = new NS.Animation( [ x_def ], false )
+            this.tapAnimation.play().then( () => rs() )
+        } )
+    } )
 
 }
 
 // -- =====================================================================================
 
-managingBox_animation: NS.Animation;
+managingBox_animation: NS.Animation
 longPressAction () {
 
-    if ( this.managingBox_animation ) this.managingBox_animation.cancel();
+    if ( this.managingBox_animation ) this.managingBox_animation.cancel()
 
     if ( store.state.mode === "idle" ) {
 
@@ -240,14 +254,14 @@ longPressAction () {
 
             if ( this.myProp.lesson || this.myProp.ribosome ) {
 
-                this.actPermission = false;
+                this.actPermission = false
 
-                if ( !this.$refs.managingBox ) return 0;
+                if ( !this.$refs.managingBox ) return 0
 
                 let x_def: NS.AnimationDefinition = {},
-                    managingBox = ( this.$refs.managingBox as any ).nativeView;
+                    managingBox = ( this.$refs.managingBox as any ).nativeView
 
-                managingBox.visibility = "visible";
+                managingBox.visibility = "visible"
 
                 x_def.target   = managingBox;
                 x_def.duration = 200;
