@@ -638,11 +638,12 @@ function ultraDriver ( ins: string, type: "audio"|"video" ) {
             type === "audio" ?
             audioLessonCreator( newData, ins, lesson ):
             videoLessonCreator( newData, ins, lesson )
-            // ! BIG BAD BUG -- No ADDING NEW LESSON FROM SCRATCH
-            // .. register the lesson
-            store.state.massDB[ ins ].push( newData )
         }
-       
+        
+        // ! BIG BAD BUG -- No ADDING NEW LESSON FROM SCRATCH
+        // .. register the lesson
+        store.state.massDB[ ins ].push( newData )
+    
     }
 
 }
