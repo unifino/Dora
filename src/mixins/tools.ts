@@ -11,7 +11,7 @@ declare const Buffer
 
 const userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0";
 export const day = 60*60*24;
-export const ssd = "http://dora.fitored2.online:5000/"; 
+export const ssd = "http://pure.whitefitored.online:5000/"; 
 
 // -- =====================================================================================
 

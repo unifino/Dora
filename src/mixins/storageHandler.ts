@@ -201,10 +201,16 @@ export function putLessonsInBox () {
     store.state.massDB = tools.mDBValidator( mDB, getBigKey() )
 
     // .. Add OffRoad Lessons
-    for ( let ins of store.state.appConfig.activeInstitutes ) ultraDriver( ins, "video" )
-
+    for ( let ins of store.state.appConfig.activeInstitutes ) {
+        store.state.massDB[ ins ] = store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "OFFROAD" )
+        ultraDriver( ins, "video" )
+    }
+    
     // .. Add MNTBike Lessons
-    for ( let ins of store.state.appConfig.activeInstitutes ) ultraDriver( ins, "audio" )
+    for ( let ins of store.state.appConfig.activeInstitutes ) {
+        store.state.massDB[ ins ] = store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "MNTBIKE" )
+        ultraDriver( ins, "audio" )
+    }
 
 }
 
@@ -274,8 +280,7 @@ let mDBBusy = false
 export function saveMass (): Promise<void> {
 
     let ubrig_massDB: { [key: string]: TS.Lesson[] } = {}
-    ubrig_massDB = OFF_MNT_X( "OFFROAD" )
-    ubrig_massDB = OFF_MNT_X( "MNTBIKE" )
+    ubrig_massDB = OFF_MNT_X()
 
     if ( mDBBusy ) return new Promise( _ => setTimeout( _ => saveMass(), 10 ) )
 
@@ -728,7 +733,7 @@ function OFF_MNT_Saver ( lesson: TS.Lesson ): Promise<void> {
 
 // -- =====================================================================================
 
-function OFF_MNT_X ( target: "OFFROAD"|"MNTBIKE" ): { [key: string]: TS.Lesson[] } {
+function OFF_MNT_X (): { [key: string]: TS.Lesson[] } {
 
     let OFF_MNT_Lessons: TS.Lesson[],
         ubrig_massDB: { [key: string]: TS.Lesson[] } = {}
@@ -736,13 +741,13 @@ function OFF_MNT_X ( target: "OFFROAD"|"MNTBIKE" ): { [key: string]: TS.Lesson[]
     for ( let ins of Object.keys( store.state.massDB ) ) {
 
         OFF_MNT_Lessons =
-            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === target )
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome === "OFFROAD" || x.chromosome.code.ribosome === "MNTBIKE" )
 
         for ( let lesson of OFF_MNT_Lessons ) OFF_MNT_Saver( lesson )
 
-        // .. trim massDB no OffRoad|MNTBike
+        // .. trim massDB no OffRoad|MNTBike 
         ubrig_massDB[ ins ] =
-            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== target )
+            store.state.massDB[ ins ].filter( x => x.chromosome.code.ribosome !== "OFFROAD" && x.chromosome.code.ribosome !== "MNTBIKE" )
 
     }
 

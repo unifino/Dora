@@ -94,6 +94,24 @@ let application = require('application');
 
 export default class Base extends Vue {
 
+    keyPressed: string = ''; // برای ذخیره کردن دکمه فشرده شده
+
+    onKeyDown(event: any) {
+  const keyCode = event.keyCode;
+  console.log("Key pressed:", keyCode);
+  
+  // فقط دکمه‌های جهت‌دار را بررسی می‌کنیم
+  if (keyCode === 19) {
+    console.log('Arrow Up Pressed');
+  } else if (keyCode === 20) {
+    console.log('Arrow Down Pressed');
+  } else if (keyCode === 21) {
+    console.log('Arrow Left Pressed');
+  } else if (keyCode === 22) {
+    console.log('Arrow Right Pressed');
+  }
+}
+
 // -- =====================================================================================
 
 get myBorder () {
@@ -101,6 +119,7 @@ get myBorder () {
 }
 
 // -- =====================================================================================
+
 
 mounted () {
 
@@ -145,7 +164,46 @@ mounted () {
     Bus.$on( "Base_SwipeControl", this.swipeControl );
     Bus.$on( "Base_HeadToIPanel", this.headToIPanel );
     Bus.$on( "Base_HeadToInstitute", this.headToInstitute );
+    console.log("\n\n\n\nbbbbb\n\n");
 
+    NS.Application.android.on(
+        NS.AndroidApplication.activityResumedEvent,
+        this.onResume
+    );
+
+}
+    
+onResume() {
+    console.log("\n\n\n\nsrstrstrcytcytrcytcrcrctrvtrctrctrc\n\n\n\n");
+
+    const activity = NS.Application.android.foregroundActivity;
+    if (activity) {
+        console.log("test");
+
+        try {
+            // Add key event listener in a correct way
+                activity.getWindow().getDecorView().setOnKeyListener(new android.view.View.OnKeyListener({
+                onKey: (v, event) => {
+                    if (event.getAction() === android.view.KeyEvent.ACTION_DOWN) {
+                        const keyCode = event.getKeyCode();
+                        this.onKeyDown({ keyCode });
+                        return true;
+                    }else{
+                        console.log("ugiugiugi");
+                        
+                    }
+                    return false;
+                }
+            }));
+
+            console.log("here");
+        } catch (e) {
+            console.log(e);
+        }
+
+    } else {
+        console.log("there");
+    }
 }
 
 // -- =====================================================================================
