@@ -97,12 +97,12 @@ export function pathCtr () {
     bigKeyFile  = NS.knownFolders.documents().getFile( "key"  )
 
     if ( TNS_ENV !== 'production' ) {
-        massDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "m.db"  ) )
-        glssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "g.db"  ) )
-        flssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "f.db"  ) )
-        rbssDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "r.db"  ) )
-        favsDBFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "v.db"  ) )
-        bigKeyFile  = NS.File.fromPath  ( NS.path.join( bp, ".documents", "key"   ) )
+        massDBFile  = NS.File.fromPath( NS.path.join( bp, ".documents", "m.db"  ) )
+        glssDBFile  = NS.File.fromPath( NS.path.join( bp, ".documents", "g.db"  ) )
+        flssDBFile  = NS.File.fromPath( NS.path.join( bp, ".documents", "f.db"  ) )
+        rbssDBFile  = NS.File.fromPath( NS.path.join( bp, ".documents", "r.db"  ) )
+        favsDBFile  = NS.File.fromPath( NS.path.join( bp, ".documents", "v.db"  ) )
+        bigKeyFile  = NS.File.fromPath( NS.path.join( bp, ".documents", "key"   ) )
     }
 
 }
@@ -628,7 +628,7 @@ function ultraDriver ( ins: string, type: "audio"|"video" ) {
 
     // .. convert data to lessons
     for ( let lesson of Folders ) {
-
+        
         let materials = NS.Folder.fromPath( lesson.path ).getEntitiesSync()
         let iDataFile = materials.filter( x => (<any>x).name === "iData.json" )[0]
 
@@ -645,9 +645,8 @@ function ultraDriver ( ins: string, type: "audio"|"video" ) {
             videoLessonCreator( newData, ins, lesson )
         }
         
-        // ! BIG BAD BUG -- No ADDING NEW LESSON FROM SCRATCH
         // .. register the lesson
-        store.state.massDB[ ins ].push( newData )
+        store.state.massDB[ ins ].push( { ...newData } )
     
     }
 
@@ -715,7 +714,7 @@ function OFF_MNT_Saver ( lesson: TS.Lesson ): Promise<void> {
             cPath.shift()
             address = cPath.join( "/" )
         }
-
+        
         let path = NS.path.join( baseFolder.path, address, "iData.json" )
         let file = NS.File.fromPath( path )
 

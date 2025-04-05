@@ -164,7 +164,6 @@ mounted () {
     Bus.$on( "Base_SwipeControl", this.swipeControl );
     Bus.$on( "Base_HeadToIPanel", this.headToIPanel );
     Bus.$on( "Base_HeadToInstitute", this.headToInstitute );
-    console.log("\n\n\n\nbbbbb\n\n");
 
     NS.Application.android.on(
         NS.AndroidApplication.activityResumedEvent,
@@ -174,36 +173,22 @@ mounted () {
 }
     
 onResume() {
-    console.log("\n\n\n\nsrstrstrcytcytrcytcrcrctrvtrctrctrc\n\n\n\n");
-
     const activity = NS.Application.android.foregroundActivity;
     if (activity) {
-        console.log("test");
+        
+        // Add key event listener in a correct way
+        activity.getWindow().getDecorView().setOnKeyListener(new android.view.View.OnKeyListener({
+            onKey: (v, event) => {
+                if (event.getAction() === android.view.KeyEvent.ACTION_DOWN) {
+                    const keyCode = event.getKeyCode();
+                    this.onKeyDown({ keyCode });
+                    return true;
+                }   
+                return false;
+            }
+        }));
 
-        try {
-            // Add key event listener in a correct way
-                activity.getWindow().getDecorView().setOnKeyListener(new android.view.View.OnKeyListener({
-                onKey: (v, event) => {
-                    if (event.getAction() === android.view.KeyEvent.ACTION_DOWN) {
-                        const keyCode = event.getKeyCode();
-                        this.onKeyDown({ keyCode });
-                        return true;
-                    }else{
-                        console.log("ugiugiugi");
-                        
-                    }
-                    return false;
-                }
-            }));
-
-            console.log("here");
-        } catch (e) {
-            console.log(e);
-        }
-
-    } else {
-        console.log("there");
-    }
+    } 
 }
 
 // -- =====================================================================================

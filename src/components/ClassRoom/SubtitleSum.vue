@@ -154,17 +154,21 @@ getLines () {
         else if ( dText.content[i][1].standoff == 'block' ) this.block_ids.push( Number(i) )
     }
 
-    for ( let i=0; i < this.depart_ids.length -1; i++ ) {
+    for ( let i=0; i < this.depart_ids.length; i++ ) {
         ids = []
         text = ""
         cls = "subtitleLine"
-        for ( let j = this.depart_ids[i]; j < this.depart_ids[ i+1 ]; j++ ) {
+
+        const myBlockID = typeof this.depart_ids[ i+1 ] === "undefined" ? 
+            dText.content.length : this.depart_ids[ i+1 ]
+        
+        for ( let j = this.depart_ids[i]; j < myBlockID; j++ ) {
             ids.push(j)
             if ( dText.content[j][0] ) text += dText.content[j][0] + " "
             if ( dText.content[j][1].phrased )
                 cls = "subtitleLine phrased " + dText.content[j][1].phrased
         }
-
+        
         this.wrappedLines.push( {
             i: this.wrappedLines.length,
             wrappedWords: null,
@@ -191,7 +195,8 @@ wrappingWords ( wrappedLines: WrappedLine[], dText: TS.Organelle ) {
             cls = "parole"
             let row = dText.content[ idx ]
             if ( row[1].phrased ) cls += " b"
-            if ( tools.wordStating( row[0], "en" ) === "M" ) cls += " g"
+            // ! remove this line
+            try { if ( tools.wordStating( row[0], "en" ) === "M" ) cls += " g" } catch {}
             if ( row[1].isBreakLine ) cls = "breakLine"
             // ! remove this line
             if ( !row[1].isBreakLine )
@@ -214,6 +219,9 @@ init () {
 
     this.subtitleChecker()
 
+    // ! remove it
+    this.trimmer()
+
     this.getLines()
 
 }
@@ -223,6 +231,16 @@ init () {
 subtitleChecker () {
     let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" )
     if ( !dText.content || !dText.content.length ) this.virtualStrGenerator()
+}
+
+// -- =====================================================================================
+
+trimmer () {
+    let dText = store.state.inHand.lesson.protoplasm.find( x => x.type === "dText" )
+    for( let t of dText.content ) {
+        if ( typeof t[0] === "string" )
+            t[0] = t[0].replace( '{\\an8}', '' )
+    }
 }
 
 // -- =====================================================================================

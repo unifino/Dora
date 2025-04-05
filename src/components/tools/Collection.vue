@@ -64,6 +64,7 @@
 // -- =====================================================================================
 
 import { Vue, Component, Prop }         from "vue-property-decorator"
+import * as TS                          from "@/../types/myTypes"
 import * as NS                          from "@nativescript/core"
 import store                            from "@/mixins/store"
 import * as genetics                    from "@/mixins/genetics"
@@ -120,7 +121,7 @@ get badge () {
 
 get inHand () {
 
-    let inHands = [],
+    let inHands: TS.Lesson[] = [],
         inLocal = 0;
 
     // .. reset counter
@@ -147,6 +148,7 @@ get inHand () {
     // .. OFFROAD and MNTBIKE is OFF
     if ( this.ribosome.code === "OFFROAD" ) this.allGOT = true;
     if ( this.ribosome.code === "MNTBIKE" ) this.allGOT = true;
+    
 
     return inHands;
 

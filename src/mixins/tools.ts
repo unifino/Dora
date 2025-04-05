@@ -1072,6 +1072,9 @@ export function subParser ( data: string ) {
 
 export function srtParser ( data: string ) {
 
+    // ! remove it
+    data = data.replace( /{\\an8}/g, '' )
+
     let lines = data.split(/\r\n|\n/),
         subtitle: TS.UniText[] = [];
 
