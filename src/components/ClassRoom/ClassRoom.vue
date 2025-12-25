@@ -1,6 +1,6 @@
 <template isPassThroughParentEnabled=false>
 <Page isPassThroughParentEnabled=false @tap="preventBeneathGetTapped">
-<GridLayout ref="mainBox" class="curtain" columns="32*,10*" rows="40,auto,*,185" visibility="hidden" >
+<GridLayout ref="mainBox" class="curtain" columns="30*,10*" rows="40,auto,*,185" visibility="hidden" >
 
 <!---------------------------------------------------------------------------------------->
     <VideoControl   ref="videoControl"  row=3   background="black"    col=1   />
@@ -169,7 +169,7 @@ seeking ( direction ) {
 
 // -- =====================================================================================
 
-beforeDestroy () {
+beforeDestroy (VideoPlayer) {
     this.doorControl( "close" )
 }
 

@@ -671,7 +671,7 @@ function FolderReader ( ins: string, type: "audio"|"video" ) {
             )
         )
     }
-
+    
     // .. check Folder has its mandatory data
     contents = contents.filter( folder => {
         let pass_code = 1
@@ -687,6 +687,9 @@ function FolderReader ( ins: string, type: "audio"|"video" ) {
         // .. accepts only folders with one video and|without one str file!
         return (pass_code === 771 || pass_code === 701) && junk_code === 0
     } )
+
+    // .. Sort Lessons by Title
+    contents = contents.sort( (a,b) => a.name > b.name ? 1 : -1 )
 
     return contents
 

@@ -340,7 +340,7 @@ destroyed () {
 
     #subtitleSumBox {
         background-color: #000000;
-        padding: 20 30 85 30;
+        padding: 40 10 85 10;
     }
 
     .subtitleLine {
@@ -377,7 +377,7 @@ destroyed () {
         text-align: center;
         color: #dddddd;
         padding: 1.9 18;
-        line-height: 12.7;
+        line-height: 5;
     }
 
 </style>

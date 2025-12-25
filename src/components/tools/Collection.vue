@@ -149,7 +149,6 @@ get inHand () {
     if ( this.ribosome.code === "OFFROAD" ) this.allGOT = true;
     if ( this.ribosome.code === "MNTBIKE" ) this.allGOT = true;
     
-
     return inHands;
 
 }

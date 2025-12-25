@@ -1100,7 +1100,7 @@ export function srtParser ( data: string ) {
                      Number( begin[0] ) *60*60;
             begin  = Number( begin.toFixed(1) );
 
-            end    = points[1].split( ':' );
+            end    = points[1].split( ':' );      
             end    = Number( end[2].replace( /,/g , '.' ) ) + 
                      Number( end[1] ) *60 + 
                      Number( end[0] ) *60*60;
